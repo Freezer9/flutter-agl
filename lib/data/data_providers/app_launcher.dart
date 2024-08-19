@@ -58,7 +58,7 @@ class AppLauncher {
         debugPrint("$info");
         // Existing icons are currently not usable, so leave blank for now
         apps.add(AppLauncherInfo(
-            id: info.id, name: info.name, icon: "", internal: false));
+            id: info.id, name: info.name, icon: info.iconPath, internal: false));
       }
       apps.sort((a, b) => a.name.compareTo(b.name));
 

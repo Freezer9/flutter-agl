@@ -57,6 +57,7 @@ dependencies:
   flutter_calendar_carousel: 
     path: ./packages/flutter_calendar_carousel
   dart_mpd: ^0.4.1
+  mime: ^2.0.0
 
 dev_dependencies:
   flutter_test:

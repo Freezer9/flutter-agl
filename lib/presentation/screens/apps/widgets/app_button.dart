@@ -1,5 +1,6 @@
 import 'package:flutter_ics_homescreen/core/utils/helpers.dart';
 import 'package:flutter_ics_homescreen/export.dart';
+import 'package:mime/mime.dart';
 
 class AppButton extends StatefulWidget {
   const AppButton(
@@ -38,8 +39,31 @@ class _AppButtonState extends State<AppButton> {
               Padding(
                 padding: const EdgeInsets.only(
                     left: 10, right: 10, top: 6, bottom: 6),
-                child: SvgPicture.asset(
-                  "assets/${widget.image}",
+                child: Builder(
+                  builder: (BuildContext context) {
+                    var filepath = widget.image;
+                    final file = File(filepath);
+                    if (file.existsSync()) {
+                      final String? mimeType = lookupMimeType(filepath);
+                      if (mimeType == 'image/png') {
+                        return Image.file(
+                          file,
+                          width: 160,
+                          height: 160,
+                          fit: BoxFit.contain,
+                        );
+                      } else if (mimeType == 'image/svg+xml') {
+                        return SvgPicture.file(
+                          file,
+                          width: 160,
+                          height: 160,
+                          fit: BoxFit.contain,
+                        );
+                      }
+                      filepath = "app-generic.svg";
+                    }
+                    return SvgPicture.asset("assets/${filepath}");
+                  },
                 ),
               ),
               Text(
