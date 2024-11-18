@@ -29,9 +29,9 @@ class _AppsState extends ConsumerState<Apps> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const CommonTitle(title: "Applications"),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 148),
+        Expanded(
           child: GridView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 148),
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             itemCount: apps.length,
