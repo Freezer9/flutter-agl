@@ -35,8 +35,7 @@ class _AppsState extends ConsumerState<Apps> {
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             itemCount: apps.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3),
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 300),
             itemBuilder: (context, index) {
               return GridTile(
                   child: Container(
