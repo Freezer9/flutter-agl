@@ -31,7 +31,7 @@ class _AppsState extends ConsumerState<Apps> {
         const CommonTitle(title: "Applications"),
         Expanded(
           child: GridView.builder(
-            padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 148),
+            padding: const EdgeInsets.fromLTRB(148, 50, 148, 150),
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             itemCount: apps.length,
