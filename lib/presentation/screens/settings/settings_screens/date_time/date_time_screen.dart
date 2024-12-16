@@ -19,7 +19,7 @@ class DateTimePage extends ConsumerWidget {
             title: 'Date & Time',
             hasBackButton: true,
             onPressed: () {
-              context.flow<AppState>().update((state) => AppState.settings);
+              ref.read(appProvider.notifier).back();
             },
           ),
           Expanded(

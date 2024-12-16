@@ -18,7 +18,7 @@ class UnitsPage extends ConsumerWidget {
             title: 'Units',
             hasBackButton: true,
             onPressed: () {
-              context.flow<AppState>().update((state) => AppState.settings);
+              ref.read(appProvider.notifier).back();
             },
           ),
           Expanded(

@@ -35,7 +35,7 @@ class ProfilesContentState extends ConsumerState<ProfilesContent> {
           title: "Profiles",
           hasBackButton: true,
           onPressed: () {
-            context.flow<AppState>().update((state) => AppState.settings);
+            ref.read(appProvider.notifier).back();
           },
         ),
         Expanded(

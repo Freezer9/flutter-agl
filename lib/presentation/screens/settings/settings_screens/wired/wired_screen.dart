@@ -9,12 +9,13 @@ class WiredPage extends ConsumerWidget {
   static Page<void> page() => const MaterialPage<void>(child: WiredPage());
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const Scaffold(body: WiredScreen());
+    return Scaffold(body: WiredScreen(ref: ref));
   }
 }
 
 class WiredScreen extends StatefulWidget {
-  const WiredScreen({super.key});
+  WidgetRef ref;
+  WiredScreen({super.key, required this.ref});
 
   @override
   State<WiredScreen> createState() => _WiredScreenState();
@@ -81,7 +82,7 @@ class _WiredScreenState extends State<WiredScreen> {
           title: 'Wired',
           hasBackButton: true,
           onPressed: () {
-            context.flow<AppState>().update((state) => AppState.settings);
+              widget.ref.read(appProvider.notifier).back();
           },
         ),
         Expanded(child: ListView.separated(
