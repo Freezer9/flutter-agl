@@ -1,4 +1,4 @@
-import 'package:flutter_ics_homescreen/export.dart';
+import 'package:flutter_ics_homescreen/export.dart' hide ConnectionState;
 import 'package:protos/val_api.dart';
 
 class ValClient {
@@ -7,6 +7,8 @@ class ValClient {
   late ClientChannel channel;
   late VALClient stub;
   late String authorization;
+  bool resubscribeOnSubscriptionError = false;
+  ResponseStream? responseStream;
 
   ValClient({required this.config, required this.ref}) {
     debugPrint("Connecting to KUKSA.val at ${config.hostname}:${config.port}");
@@ -26,21 +28,41 @@ class ValClient {
     channel = ClientChannel(config.hostname,
         port: config.port, options: ChannelOptions(credentials: creds));
     stub = VALClient(channel);
+
+    channel.onConnectionStateChanged.listen((ConnectionState state) {
+      debugPrint('Connection state changed: $state');
+      switch (state) {
+        case ConnectionState.ready:
+          debugPrint('Channel is connected and ready for RPCs.');
+          if (resubscribeOnSubscriptionError) {
+            debugPrint('Recovering from subscription error, attempting to resubscribe');
+            resubscribeOnSubscriptionError = false;
+            subscribe();
+          }
+          break;
+        default:
+          break;
+      }
+    });
   }
 
   void run() async {
-    List<String> signals = VSSPath().getSignalsList();
-    Map<String, String> metadata = {};
-    if (config.authorization.isNotEmpty) {
-      metadata = {'authorization': "Bearer ${config.authorization}"};
-    }
-
     // Push out persisted user preferences so databroker defaults
     // will not overwrite them.
     var units = ref.read(unitStateProvider);
     setDistanceUnit(units.distanceUnit);
     setTemperatureUnit(units.temperatureUnit);
     setPressureUnit(units.pressureUnit);
+
+    subscribe();
+  }
+
+  void subscribe() async {
+    List<String> signals = VSSPath().getSignalsList();
+    Map<String, String> metadata = {};
+    if (config.authorization.isNotEmpty) {
+      metadata = {'authorization': "Bearer ${config.authorization}"};
+    }
 
     // Initialize signal states
     for (int i = 0; i < signals.length; i++) {
@@ -56,15 +78,16 @@ class ValClient {
       request.entries.add(entry);
     }
     try {
-      var responseStream =
+      responseStream =
           stub.subscribe(request, options: CallOptions(metadata: metadata));
-      responseStream.listen((value) async {
+      responseStream!.listen((value) async {
         for (var update in value.updates) {
           if (!(update.hasEntry() && update.entry.hasPath())) continue;
           handleSignalUpdate(update.entry);
         }
       }, onError: (stacktrace, errorDescriptor) {
-        debugPrint(stacktrace.toString());
+        resubscribeOnSubscriptionError = true;
+        debugPrint("(ValClient.subscribe onError) stacktrace: ${stacktrace.toString()}");
       });
     } catch (e) {
       debugPrint(e.toString());
