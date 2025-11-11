@@ -169,10 +169,11 @@ packages:
   flutter_calendar_carousel:
     dependency: "direct main"
     description:
-      path: "packages/flutter_calendar_carousel"
-      relative: true
-    source: path
-    version: "2.4.3"
+      name: flutter_calendar_carousel
+      sha256: "9661d9079da4c93cbea935db141c79722260d676a2fee122da93740f1334bf0a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.5.4"
   flutter_lints:
     dependency: "direct dev"
     description:
