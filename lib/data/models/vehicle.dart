@@ -9,7 +9,7 @@ class Vehicle {
   final double insideTemperature;
   final double outsideTemperature;
   final int range;
-  final int fuelLevel;
+  final int batteryLevel; // Battery State of Charge (SOC) 0-100%
   final bool isChildLockActiveLeft;
   final bool isChildLockActiveRight;
   final int frontLeftTire;
@@ -31,7 +31,7 @@ class Vehicle {
     this.insideTemperature,
     this.outsideTemperature,
     this.range,
-    this.fuelLevel,
+    this.batteryLevel,
     this.isChildLockActiveLeft,
     this.isChildLockActiveRight,
     this.frontLeftTire,
@@ -54,7 +54,7 @@ class Vehicle {
         insideTemperature = 0,
         outsideTemperature = 0,
         range = 0,
-        fuelLevel = 0,
+        batteryLevel = 0,
         isChildLockActiveLeft = false,
         isChildLockActiveRight = true,
         frontLeftTire = 228,
@@ -76,7 +76,7 @@ class Vehicle {
         insideTemperature = 25,
         outsideTemperature = 32.0,
         range = 21,
-        fuelLevel = 49,
+        batteryLevel = 75,
         isChildLockActiveLeft = false,
         isChildLockActiveRight = true,
         frontLeftTire = 228,
@@ -98,7 +98,7 @@ class Vehicle {
     double? insideTemperature,
     double? outsideTemperature,
     int? range,
-    int? fuelLevel,
+    int? batteryLevel,
     bool? isChildLockActiveLeft,
     bool? isChildLockActiveRight,
     int? frontLeftTire,
@@ -120,7 +120,7 @@ class Vehicle {
       insideTemperature ?? this.insideTemperature,
       outsideTemperature ?? this.outsideTemperature,
       range ?? this.range,
-      fuelLevel ?? this.fuelLevel,
+      batteryLevel ?? this.batteryLevel,
       isChildLockActiveLeft ?? this.isChildLockActiveLeft,
       isChildLockActiveRight ?? this.isChildLockActiveRight,
       frontLeftTire ?? this.frontLeftTire,
@@ -145,7 +145,7 @@ class Vehicle {
       'insideTemperature': insideTemperature,
       'outsideTemperature': outsideTemperature,
       'range': range,
-      'fuelLevel': fuelLevel,
+      'batteryLevel': batteryLevel,
       'isChildLockActiveLeft': isChildLockActiveLeft,
       'isChildLockActiveRight': isChildLockActiveRight,
       'frontLeftTire': frontLeftTire,
@@ -170,7 +170,7 @@ class Vehicle {
       map['insideTemperature']?.toDouble() ?? 0.0,
       map['outsideTemperature']?.toDouble() ?? 0.0,
       map['range']?.toInt() ?? 0,
-      map['fuelLevel']?.toDouble() ?? 0.0,
+      map['batteryLevel']?.toInt() ?? 0,
       map['isChildLockActiveLeft'] ?? false,
       map['isChildLockActiveRight'] ?? false,
       map['frontLeftTire']?.toInt() ?? 0,
@@ -195,7 +195,7 @@ class Vehicle {
 
   @override
   String toString() {
-    return 'Vehicle(speed: $speed, insideTemperature: $insideTemperature, outsideTemperature: $outsideTemperature, range: $range, fuelLevel: $fuelLevel, isChildLockActiveLeft: $isChildLockActiveLeft, isChildLockActiveRight: $isChildLockActiveRight, engineSpeed: $engineSpeed, frontLeftTire: $frontLeftTire, frontRightTire: $frontRightTire, rearLeftTire: $rearLeftTire, rearRightTire: $rearRightTire, isAirConditioningActive: $isAirConditioningActive, isFrontDefrosterActive: $isFrontDefrosterActive, isRearDefrosterActive: $isRearDefrosterActive, isRecirculationActive: $isRecirculationActive,fanSpeed:$fanSpeed,driverTemperature:$driverTemperature, passengerTemperature:$passengerTemperature)';
+    return 'Vehicle(speed: $speed, insideTemperature: $insideTemperature, outsideTemperature: $outsideTemperature, range: $range, batteryLevel: $batteryLevel, isChildLockActiveLeft: $isChildLockActiveLeft, isChildLockActiveRight: $isChildLockActiveRight, engineSpeed: $engineSpeed, frontLeftTire: $frontLeftTire, frontRightTire: $frontRightTire, rearLeftTire: $rearLeftTire, rearRightTire: $rearRightTire, isAirConditioningActive: $isAirConditioningActive, isFrontDefrosterActive: $isFrontDefrosterActive, isRearDefrosterActive: $isRearDefrosterActive, isRecirculationActive: $isRecirculationActive,fanSpeed:$fanSpeed,driverTemperature:$driverTemperature, passengerTemperature:$passengerTemperature)';
   }
 
   @override
@@ -208,7 +208,7 @@ class Vehicle {
         other.insideTemperature == insideTemperature &&
         other.outsideTemperature == outsideTemperature &&
         other.range == range &&
-        other.fuelLevel == fuelLevel &&
+        other.batteryLevel == batteryLevel &&
         other.isChildLockActiveLeft == isChildLockActiveLeft &&
         other.isChildLockActiveRight == isChildLockActiveRight &&
         other.frontLeftTire == frontLeftTire &&
@@ -232,7 +232,7 @@ class Vehicle {
         insideTemperature.hashCode ^
         outsideTemperature.hashCode ^
         range.hashCode ^
-        fuelLevel.hashCode ^
+        batteryLevel.hashCode ^
         isChildLockActiveLeft.hashCode ^
         isChildLockActiveRight.hashCode ^
         frontLeftTire.hashCode ^

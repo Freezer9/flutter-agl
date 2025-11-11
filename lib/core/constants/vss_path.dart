@@ -7,6 +7,10 @@ class VSSPath {
   static const String vehicleOutsideTemperature =
       'Vehicle.Exterior.AirTemperature';
   static const String vehicleRange = 'Vehicle.Powertrain.FuelSystem.Range';
+  // EV Battery State of Charge (SOC) - Primary path for electric vehicles (0-100%)
+  static const String vehicleBatteryLevel =
+      'Vehicle.Powertrain.TractionBattery.StateOfCharge.Current';
+  // Deprecated: Legacy fuel level path (kept for backwards compatibility)
   static const String vehicleFuelLevel =
       'Vehicle.Powertrain.FuelSystem.RelativeLevel';
   static const String vehicleMediaVolume =
@@ -59,7 +63,7 @@ class VSSPath {
       vehicleInsideTemperature,
       vehicleOutsideTemperature,
       vehicleRange,
-      vehicleFuelLevel,
+      vehicleBatteryLevel, // Primary: EV battery SOC
       vehicleMediaVolume,
       vehicleMediaBalance,
       vehicleMediaFade,

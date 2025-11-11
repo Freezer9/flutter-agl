@@ -15,6 +15,12 @@ class VehicleNotifier extends Notifier<Vehicle> {
     state = state.copyWith(speed: newValue);
   }
 
+  void _checkBatteryWarning() {
+    // Trigger battery warning check whenever battery level changes
+    final batteryNotifier = ref.read(batteryNotifierProvider.notifier);
+    batteryNotifier.checkBatteryLevel(state.batteryLevel);
+  }
+
   bool handleSignalUpdate(DataEntry entry) {
     bool handled = true;
     switch (entry.path) {
@@ -38,9 +44,24 @@ class VehicleNotifier extends Notifier<Vehicle> {
           state = state.copyWith(range: entry.value.uint32);
         }
         break;
-      case VSSPath.vehicleFuelLevel:
+      case VSSPath.vehicleBatteryLevel:
         if (entry.value.hasUint32()) {
-          state = state.copyWith(fuelLevel: entry.value.uint32);
+          state = state.copyWith(batteryLevel: entry.value.uint32);
+          _checkBatteryWarning();
+        } else if (entry.value.hasFloat()) {
+          // Some implementations might send float (0.0-100.0)
+          state = state.copyWith(batteryLevel: entry.value.float.toInt());
+          _checkBatteryWarning();
+        }
+        break;
+      case VSSPath.vehicleFuelLevel:
+        // Backwards compatibility: treat fuel as battery
+        if (entry.value.hasUint32()) {
+          state = state.copyWith(batteryLevel: entry.value.uint32);
+          _checkBatteryWarning();
+        } else if (entry.value.hasFloat()) {
+          state = state.copyWith(batteryLevel: entry.value.float.toInt());
+          _checkBatteryWarning();
         }
         break;
       case VSSPath.vehicleIsChildLockActiveLeft:
@@ -105,11 +126,11 @@ class VehicleNotifier extends Notifier<Vehicle> {
           var fanSpeed = 0;
           if (value > 66) {
             fanSpeed = 3;
-          }
-          else if (value > 33) {
+          } else if (value > 33) {
             fanSpeed = 2;
+          } else if (value > 0) {
+            fanSpeed = 1;
           }
-          else if (value > 0) { fanSpeed = 1; }
           state = state.copyWith(fanSpeed: fanSpeed);
         }
         break;
@@ -140,7 +161,8 @@ class VehicleNotifier extends Notifier<Vehicle> {
             false,
           );
           state = state.copyWith(
-              isChildLockActiveLeft: !state.isChildLockActiveLeft);
+            isChildLockActiveLeft: !state.isChildLockActiveLeft,
+          );
           break;
         case 'right':
           valClient.setBool(
@@ -149,7 +171,8 @@ class VehicleNotifier extends Notifier<Vehicle> {
             false,
           );
           state = state.copyWith(
-              isChildLockActiveRight: !state.isChildLockActiveRight);
+            isChildLockActiveRight: !state.isChildLockActiveRight,
+          );
           break;
         default:
           debugPrint("ERROR: Unexpected side value ${side}");
@@ -180,9 +203,6 @@ class VehicleNotifier extends Notifier<Vehicle> {
           );
           state = state.copyWith(passengerTemperature: value);
           break;
-        default:
-          debugPrint("ERROR: Unexpected side value ${side}");
-          break;
       }
     } catch (e) {
       debugPrint(e.toString());
@@ -210,11 +230,7 @@ class VehicleNotifier extends Notifier<Vehicle> {
         break;
     }
     var valClient = ref.read(valClientProvider);
-    valClient.setUint32(
-      VSSPath.vehicleFanSpeed,
-      targetFanSpeed,
-      true,
-    );
+    valClient.setUint32(VSSPath.vehicleFanSpeed, targetFanSpeed, true);
     state = state.copyWith(fanSpeed: newValue);
   }
 
@@ -229,7 +245,8 @@ class VehicleNotifier extends Notifier<Vehicle> {
             true,
           );
           state = state.copyWith(
-              isAirConditioningActive: !state.isAirConditioningActive);
+            isAirConditioningActive: !state.isAirConditioningActive,
+          );
           break;
         case 'frontDefrost':
           valClient.setBool(
@@ -238,7 +255,8 @@ class VehicleNotifier extends Notifier<Vehicle> {
             true,
           );
           state = state.copyWith(
-              isFrontDefrosterActive: !state.isFrontDefrosterActive);
+            isFrontDefrosterActive: !state.isFrontDefrosterActive,
+          );
           break;
         case 'rearDefrost':
           valClient.setBool(
@@ -247,7 +265,8 @@ class VehicleNotifier extends Notifier<Vehicle> {
             true,
           );
           state = state.copyWith(
-              isRearDefrosterActive: !state.isRearDefrosterActive);
+            isRearDefrosterActive: !state.isRearDefrosterActive,
+          );
           break;
         case 'recirculation':
           valClient.setBool(
@@ -256,7 +275,8 @@ class VehicleNotifier extends Notifier<Vehicle> {
             true,
           );
           state = state.copyWith(
-              isRecirculationActive: !state.isRecirculationActive);
+            isRecirculationActive: !state.isRecirculationActive,
+          );
           break;
         default:
           debugPrint("ERROR: Unexpected mode value ${mode}");
@@ -270,22 +290,23 @@ class VehicleNotifier extends Notifier<Vehicle> {
   void setInitialState() {
     var speed = state.speed;
     var rpm = state.engineSpeed;
-    var fuelLevel = state.fuelLevel;
+    var batteryLevel = state.batteryLevel;
     var insideTemp = state.insideTemperature;
     var outsideTemp = state.outsideTemperature;
     var range = state.range;
     var psi = state.frontLeftTire;
     var actualSpeed = 0.0;
     var actualRpm = 0;
-    var actualFuelLevel = 0.0;
+    var actualBatteryLevel = 0.0;
     var actualInsideTemp = 0.0;
     var actualOutsideTemp = 0.0;
     var actualRange = 0;
     var actualPsi = 0;
 
     state = const Vehicle.initial();
-    Timer speedTimer =
-        Timer.periodic(const Duration(milliseconds: 600), (timer) {
+    Timer speedTimer = Timer.periodic(const Duration(milliseconds: 600), (
+      timer,
+    ) {
       actualSpeed = actualSpeed + 10;
 
       if (actualSpeed > speed) {
@@ -304,41 +325,49 @@ class VehicleNotifier extends Notifier<Vehicle> {
       }
       state = state.copyWith(engineSpeed: actualRpm);
     });
-    Timer fuelLevelTimer =
-        Timer.periodic(const Duration(milliseconds: 400), (timer) {
-      actualFuelLevel = actualFuelLevel + 1;
+    Timer batteryLevelTimer = Timer.periodic(
+      const Duration(milliseconds: 400),
+      (timer) {
+        actualBatteryLevel = actualBatteryLevel + 1;
 
-      if (actualFuelLevel > fuelLevel) {
-        actualFuelLevel = fuelLevel.toDouble();
+        if (actualBatteryLevel > batteryLevel) {
+          actualBatteryLevel = batteryLevel.toDouble();
 
-        timer.cancel();
-      }
-      state = state.copyWith(fuelLevel: actualFuelLevel.toInt());
-    });
-    Timer outsideTemperatureTimer =
-        Timer.periodic(const Duration(milliseconds: 300), (timer) {
-      actualOutsideTemp = actualOutsideTemp + 0.5;
+          timer.cancel();
+        }
+        state = state.copyWith(batteryLevel: actualBatteryLevel.toInt());
+        _checkBatteryWarning();
+      },
+    );
+    Timer outsideTemperatureTimer = Timer.periodic(
+      const Duration(milliseconds: 300),
+      (timer) {
+        actualOutsideTemp = actualOutsideTemp + 0.5;
 
-      if (actualOutsideTemp > outsideTemp) {
-        actualOutsideTemp = outsideTemp;
+        if (actualOutsideTemp > outsideTemp) {
+          actualOutsideTemp = outsideTemp;
 
-        timer.cancel();
-      }
-      state = state.copyWith(outsideTemperature: actualOutsideTemp);
-    });
-    Timer insideTemperatureTimer =
-        Timer.periodic(const Duration(milliseconds: 300), (timer) {
-      actualInsideTemp = actualInsideTemp + 0.5;
+          timer.cancel();
+        }
+        state = state.copyWith(outsideTemperature: actualOutsideTemp);
+      },
+    );
+    Timer insideTemperatureTimer = Timer.periodic(
+      const Duration(milliseconds: 300),
+      (timer) {
+        actualInsideTemp = actualInsideTemp + 0.5;
 
-      if (actualInsideTemp > insideTemp) {
-        actualInsideTemp = insideTemp;
+        if (actualInsideTemp > insideTemp) {
+          actualInsideTemp = insideTemp;
 
-        timer.cancel();
-      }
-      state = state.copyWith(insideTemperature: actualInsideTemp);
-    });
-    Timer rangeTimer =
-        Timer.periodic(const Duration(milliseconds: 300), (timer) {
+          timer.cancel();
+        }
+        state = state.copyWith(insideTemperature: actualInsideTemp);
+      },
+    );
+    Timer rangeTimer = Timer.periodic(const Duration(milliseconds: 300), (
+      timer,
+    ) {
       actualRange = actualRange + 5;
 
       if (actualRange > range) {
@@ -348,8 +377,9 @@ class VehicleNotifier extends Notifier<Vehicle> {
       }
       state = state.copyWith(range: actualRange);
     });
-    Timer psiTimer =
-        Timer.periodic(const Duration(milliseconds: 1200), (timer) {
+    Timer psiTimer = Timer.periodic(const Duration(milliseconds: 1200), (
+      timer,
+    ) {
       actualPsi = actualPsi + 5;
 
       if (actualPsi > psi) {

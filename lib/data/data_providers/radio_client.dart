@@ -22,7 +22,8 @@ class RadioClient {
         case api.ConnectionState.ready:
           debugPrint('Radio API channel connected');
           if (resubscribeOnSubscriptionError) {
-            debugPrint('Recovering from subscription error, attempting to resubscribe');
+            debugPrint(
+                'Recovering from subscription error, attempting to resubscribe');
             resubscribeOnSubscriptionError = false;
             getStatusEvents();
           }
@@ -40,12 +41,14 @@ class RadioClient {
 
   void getStatusEvents() async {
     try {
-      api.ResponseStream responseStream = stub.getStatusEvents(api.StatusRequest());
+      api.ResponseStream responseStream =
+          stub.getStatusEvents(api.StatusRequest());
       responseStream.listen((event) async {
         handleStatusEvent(event);
       }, onError: (stacktrace, errorDescriptor) {
         resubscribeOnSubscriptionError = true;
-        debugPrint("(RadioClient.subscribe onError) stacktrace: ${stacktrace.toString()}");
+        debugPrint(
+            "(RadioClient.subscribe onError) stacktrace: ${stacktrace.toString()}");
       });
     } catch (e) {
       debugPrint(e.toString());
@@ -117,8 +120,7 @@ class RadioClient {
       return;
     }
     try {
-      await stub
-          .setFrequency(api.SetFrequencyRequest(frequency: frequency));
+      await stub.setFrequency(api.SetFrequencyRequest(frequency: frequency));
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -132,8 +134,7 @@ class RadioClient {
         frequency = radioState.freqMax;
       }
       try {
-        await stub
-            .setFrequency(api.SetFrequencyRequest(frequency: frequency));
+        await stub.setFrequency(api.SetFrequencyRequest(frequency: frequency));
       } catch (e) {
         debugPrint(e.toString());
       }
@@ -148,8 +149,7 @@ class RadioClient {
         frequency = radioState.freqMin;
       }
       try {
-        await stub
-            .setFrequency(api.SetFrequencyRequest(frequency: frequency));
+        await stub.setFrequency(api.SetFrequencyRequest(frequency: frequency));
       } catch (e) {
         debugPrint(e.toString());
       }

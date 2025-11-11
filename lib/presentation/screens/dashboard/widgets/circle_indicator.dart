@@ -200,14 +200,16 @@ class SpeedProgressIndicatorState extends ConsumerState<SpeedProgressIndicator>
   }
 }
 
-class FuelProgressIndicator extends ConsumerStatefulWidget {
-  const FuelProgressIndicator({super.key});
+class BatteryProgressIndicator extends ConsumerStatefulWidget {
+  const BatteryProgressIndicator({super.key});
 
   @override
-  FuelProgressIndicatorState createState() => FuelProgressIndicatorState();
+  BatteryProgressIndicatorState createState() =>
+      BatteryProgressIndicatorState();
 }
 
-class FuelProgressIndicatorState extends ConsumerState<FuelProgressIndicator>
+class BatteryProgressIndicatorState
+    extends ConsumerState<BatteryProgressIndicator>
     with TickerProviderStateMixin {
   late AnimationController controller;
 
@@ -233,8 +235,10 @@ class FuelProgressIndicatorState extends ConsumerState<FuelProgressIndicator>
 
   @override
   Widget build(BuildContext context) {
-    final fuelLevel =
-        ref.watch(vehicleProvider.select((vehicle) => vehicle.fuelLevel));
+    final batteryLevel =
+        ref.watch(vehicleProvider.select((vehicle) => vehicle.batteryLevel));
+    final isLowBattery = batteryLevel <= lowBatteryThreshold;
+
     return Column(
       children: [
         SizedBox(
@@ -243,14 +247,24 @@ class FuelProgressIndicatorState extends ConsumerState<FuelProgressIndicator>
             alignment: Alignment.center,
             children: [
               Text(
-                '${(fuelLevel * (1 / maxFuelLevel) * 100).toStringAsFixed(0)}%',
+                '$batteryLevel%',
                 style: GoogleFonts.brunoAce(
-                  textStyle: const TextStyle(
-                    color: Colors.white,
+                  textStyle: TextStyle(
+                    color: isLowBattery ? Colors.red : Colors.white,
                     fontSize: 44,
                   ),
                 ),
               ),
+              // Low battery warning indicator
+              if (isLowBattery)
+                const Positioned(
+                  top: 10,
+                  child: Icon(
+                    Icons.warning_amber_rounded,
+                    color: Colors.red,
+                    size: 30,
+                  ),
+                ),
               Transform.rotate(
                   angle: pi,
                   child: Stack(
@@ -261,24 +275,26 @@ class FuelProgressIndicatorState extends ConsumerState<FuelProgressIndicator>
                         child: CircularProgressIndicator(
                           strokeWidth: 12,
                           backgroundColor: Colors.transparent,
-                          value: fuelLevel >= 12
-                              ? 12 * (1 / maxFuelLevel)
-                              : fuelLevel * (1 / maxFuelLevel),
-                          valueColor: const AlwaysStoppedAnimation<Color>(
-                              AGLDemoColors.redProgressStrokeColor),
+                          value: batteryLevel >= 12
+                              ? 12 * (1 / maxBatteryLevel)
+                              : batteryLevel * (1 / maxBatteryLevel),
+                          valueColor: AlwaysStoppedAnimation<Color>(isLowBattery
+                              ? Colors.red
+                              : AGLDemoColors.redProgressStrokeColor),
                         ),
                       ),
-                      if (fuelLevel > 12)
+                      if (batteryLevel > 12)
                         SizedBox(
                           height: 200,
                           width: 200,
                           child: CircularProgressIndicator(
                             strokeWidth: 12,
                             backgroundColor: Colors.transparent,
-                            //value: controller.value,
-                            valueColor: const AlwaysStoppedAnimation<Color>(
-                                AGLDemoColors.jordyBlueColor),
-                            value: fuelLevel * (1 / maxFuelLevel),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                isLowBattery
+                                    ? Colors.orange
+                                    : AGLDemoColors.jordyBlueColor),
+                            value: batteryLevel * (1 / maxBatteryLevel),
                           ),
                         ),
                     ],
@@ -290,8 +306,8 @@ class FuelProgressIndicatorState extends ConsumerState<FuelProgressIndicator>
                     width: 220,
                     child: CustomPaint(
                       foregroundPainter: CirclePainter(
-                          value: fuelLevel.toDouble(),
-                          maxValue: maxFuelLevel,
+                          value: batteryLevel.toDouble(),
+                          maxValue: maxBatteryLevel,
                           isFuel: true,
                           isRPM: false),
                     ),
@@ -299,9 +315,22 @@ class FuelProgressIndicatorState extends ConsumerState<FuelProgressIndicator>
             ],
           ),
         ),
-        const Text(
-          'Fuel',
-          style: TextStyle(color: Colors.white, fontSize: 40),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              'Battery',
+              style: TextStyle(color: Colors.white, fontSize: 40),
+            ),
+            if (isLowBattery) ...[
+              const SizedBox(width: 8),
+              const Icon(
+                Icons.battery_alert,
+                color: Colors.red,
+                size: 36,
+              ),
+            ],
+          ],
         ),
       ],
     );

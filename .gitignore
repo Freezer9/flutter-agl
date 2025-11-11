@@ -9,6 +9,10 @@
 .history
 .svn/
 migrate_working_dir/
+oe-logs/
+oe-workdir/
+packages/
+engine_sdk/
 
 # IntelliJ related
 *.iml

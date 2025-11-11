@@ -1,0 +1,25 @@
+[Unit]
+Description=Flutter ICS Homescreen
+After=agl-compositor.service
+Requires=agl-compositor.service
+PartOf=agl-compositor.service
+
+[Service]
+Type=simple
+ExecStart=/opt/flutter-ics-homescreen/flutter-ics-homescreen
+Environment=XDG_RUNTIME_DIR=/run/user/1001
+Environment=WAYLAND_DISPLAY=wayland-0
+# Limit memory to prevent OOM killer
+MemoryMax=1500M
+MemoryHigh=1200M
+Restart=on-failure
+RestartSec=5
+StartLimitBurst=3
+RestartSec=2
+StandardOutput=journal
+StandardError=journal
+User=agl-driver
+Group=agl-driver
+
+[Install]
+WantedBy=agl-compositor.service

@@ -54,6 +54,7 @@ dependencies:
   new_virtual_keyboard: ^0.1.4
   auto_size_text: ^3.0.0
   get_ip_address: ^0.0.7
+  fluttertoast: ^8.2.8
   flutter_calendar_carousel: 
     path: ./packages/flutter_calendar_carousel
   dart_mpd: ^0.4.1

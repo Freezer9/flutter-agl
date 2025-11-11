@@ -14,6 +14,7 @@ class UsersNotifier extends Notifier<Users> {
     const User(id: '3', name: 'Riley'),
   ];
 
+  @override
   Users build() {
     // Initialize default state.
     state = Users.initial();
@@ -30,7 +31,7 @@ class UsersNotifier extends Notifier<Users> {
         // Add default users if no users are inside the storage API.
         debugPrint("Adding default demo user profiles");
         state = state.copyWith(users: _users);
-        for (int i = 0; i < _users.length; i++ ) {
+        for (int i = 0; i < _users.length; i++) {
           await storageClient.write(storage_api.KeyValue(
               key: '${UsersPath.InfotainmentUsers}.${_users[i].id}.id',
               value: _users[i].id));
@@ -83,9 +84,9 @@ class UsersNotifier extends Notifier<Users> {
     if (ref.read(storageClientConnectedProvider)) {
       try {
         await ref.read(storageClientProvider).write(storage_api.KeyValue(
-          key: UsersPath.InfotainmentCurrentUser,
-          value: userId,
-        ));
+              key: UsersPath.InfotainmentCurrentUser,
+              value: userId,
+            ));
       } catch (e) {
         debugPrint('Error selecting user: $e');
       }
@@ -108,7 +109,8 @@ class UsersNotifier extends Notifier<Users> {
       // Write to API to change selected user.
       if (ref.read(storageClientConnectedProvider)) {
         await storageClient.write(storage_api.KeyValue(
-            key: UsersPath.InfotainmentCurrentUser, value: state.users.first.id));
+            key: UsersPath.InfotainmentCurrentUser,
+            value: state.users.first.id));
       }
     }
     if (state.users.isEmpty) {
@@ -131,7 +133,7 @@ class UsersNotifier extends Notifier<Users> {
         }
         // Delete all VSS keys from the user namespace.
         await storageClient
-          .deleteNodes(storage_api.Key(key: "Vehicle", namespace: userId));
+            .deleteNodes(storage_api.Key(key: "Vehicle", namespace: userId));
       } catch (e) {
         debugPrint('Error removing user with id $userId: $e');
       }
