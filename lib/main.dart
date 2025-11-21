@@ -1,5 +1,3 @@
-import 'package:device_preview/device_preview.dart';
-
 import 'export.dart';
 
 void main() async {
@@ -13,16 +11,5 @@ void main() async {
   container.read(mpdClientProvider).connect();
 
   // Pass the container to ProviderScope and then run the app.
-  runApp(
-    ProviderScope(
-      parent: container,
-      child: DevicePreview(
-        enabled: debugDisplay,
-        tools: const [
-          ...DevicePreview.defaultTools,
-        ],
-        builder: (context) => const App(),
-      ),
-    ),
-  );
+  runApp(ProviderScope(parent: container, child: const App()));
 }
