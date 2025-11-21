@@ -54,22 +54,22 @@ class VehicleNotifier extends Notifier<Vehicle> {
           _checkBatteryWarning();
         }
         break;
-      case VSSPath.vehicleFuelLevel:
-        // Backwards compatibility: treat fuel as battery
-        if (entry.value.hasUint32()) {
-          state = state.copyWith(batteryLevel: entry.value.uint32);
-          _checkBatteryWarning();
-        } else if (entry.value.hasFloat()) {
-          state = state.copyWith(batteryLevel: entry.value.float.toInt());
-          _checkBatteryWarning();
-        }
-        break;
-      case VSSPath.vehicleIsChildLockActiveLeft:
+      // case VSSPath.vehicleFuelLevel:
+      //   // Backwards compatibility: treat fuel as battery
+      //   if (entry.value.hasUint32()) {
+      //     state = state.copyWith(batteryLevel: entry.value.uint32);
+      //     _checkBatteryWarning();
+      //   } else if (entry.value.hasFloat()) {
+      //     state = state.copyWith(batteryLevel: entry.value.float.toInt());
+      //     _checkBatteryWarning();
+      //   }
+      //   break;
+      case VSSPath.vehicleIsLockActiveLeft:
         if (entry.value.hasBool_12()) {
           state = state.copyWith(isChildLockActiveLeft: entry.value.bool_12);
         }
         break;
-      case VSSPath.vehicleIsChildLockActiveRight:
+      case VSSPath.vehicleIsLockActiveRight:
         if (entry.value.hasBool_12()) {
           state = state.copyWith(isChildLockActiveRight: entry.value.bool_12);
         }
@@ -156,7 +156,7 @@ class VehicleNotifier extends Notifier<Vehicle> {
       switch (side) {
         case 'left':
           valClient.setBool(
-            VSSPath.vehicleIsChildLockActiveLeft,
+            VSSPath.vehicleIsLockActiveLeft,
             !state.isChildLockActiveLeft,
             false,
           );
@@ -166,7 +166,7 @@ class VehicleNotifier extends Notifier<Vehicle> {
           break;
         case 'right':
           valClient.setBool(
-            VSSPath.vehicleIsChildLockActiveRight,
+            VSSPath.vehicleIsLockActiveRight,
             !state.isChildLockActiveRight,
             false,
           );

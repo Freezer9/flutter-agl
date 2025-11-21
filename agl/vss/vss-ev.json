@@ -1,0 +1,296 @@
+{
+  "Vehicle": {
+    "type": "branch",
+    "children": {
+      "Speed": {
+        "datatype": "float",
+        "description": "Vehicle speed.",
+        "type": "sensor",
+        "unit": "km/h",
+        "dbc2vss": {
+          "interval_ms": 100,
+          "signal": "ENV_Speed"
+        },
+        "vss2dbc": {
+          "signal": "ENV_Speed"
+        }
+      },
+      "Powertrain": {
+        "datatype": "branch",
+        "children": {
+          "CombustionEngine": {
+            "datatype": "branch",
+            "children": {
+              "Speed": {
+                "datatype": "float",
+                "description": "Engine speed in RPM.",
+                "type": "sensor",
+                "unit": "RPM",
+                "dbc2vss": {
+                  "interval_ms": 100,
+                  "signal": "VESC_StatusERPM1"
+                },
+                "vss2dbc": {
+                  "signal": "VESC_StatusERPM1"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Cabin": {
+        "datatype": "branch",
+        "children": {
+          "HVAC": {
+            "datatype": "branch",
+            "children": {
+              "AmbientAirTemperature": {
+                "datatype": "float",
+                "description": "Inside cabin temperature.",
+                "type": "sensor",
+                "unit": "C",
+                "dbc2vss": {
+                  "interval_ms": 100,
+                  "signal": "ENV_InsideTemp"
+                },
+                "vss2dbc": {
+                  "signal": "ENV_InsideTemp"
+                }
+              },
+              "IsAirConditioningActive": {},
+              "IsFrontDefrosterActive": {},
+              "IsRearDefrosterActive": {},
+              "IsRecirculationActive": {},
+              "Front": {
+                "datatype": "branch",
+                "children": {
+                  "Driver": {
+                    "datatype": "branch",
+                    "children": {
+                      "FanSpeed": {},
+                      "Temperature": {}
+                    }
+                  },
+                  "Passenger": {
+                    "datatype": "branch",
+                    "children": {
+                      "Temperature": {}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "Infotainment": {
+            "datatype": "branch",
+            "children": {
+              "Media": {
+                "datatype": "branch",
+                "children": {
+                  "Volume": {
+                    "datatype": "int",
+                    "description": "Media volume level.",
+                    "type": "actuator",
+                    "unit": "level"
+                  },
+                  "Audio": {
+                    "datatype": "branch",
+                    "children": {
+                      "Balance": {
+                        "datatype": "int",
+                        "description": "Media audio balance.",
+                        "type": "actuator",
+                        "unit": "level"
+                      },
+                      "Fade": {
+                        "datatype": "int",
+                        "description": "Media audio fader.",
+                        "type": "actuator",
+                        "unit": "level"
+                      },
+                      "Bass": {
+                        "datatype": "int",
+                        "description": "Media audio bass level.",
+                        "type": "actuator",
+                        "unit": "level"
+                      },
+                      "Treble": {
+                        "datatype": "int",
+                        "description": "Media audio treble level.",
+                        "type": "actuator",
+                        "unit": "level"
+                      }
+                    }
+                  }
+                }
+              },
+              "HMI": {
+                "datatype": "branch",
+                "children": {
+                  "DistanceUnit": {},
+                  "TemperatureUnit": {},
+                  "TirePressureUnit": {}
+                }
+              }
+            }
+          },
+          "Door": {
+            "datatype": "branch",
+            "children": {
+              "DriverSide": {
+                "datatype": "branch",
+                "children": {
+                  "LockStatus": {
+                    "datatype": "boolean",
+                    "description": "Lock status of the driver's side rear door.",
+                    "type": "sensor",
+                    "unit": "locked/unlocked"
+                  }
+                }
+              },
+              "PassengerSide": {
+                "datatype": "branch",
+                "children": {
+                  "LockStatus": {
+                    "datatype": "boolean",
+                    "description": "Lock status of the passenger's side rear door",
+                    "type": "sensor",
+                    "unit": "locked/unlocked"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "Chassis": {
+        "datatype": "branch",
+        "children": {
+          "Axle": {
+            "datatype": "branch",
+            "children": {
+              "Front": {
+                "datatype": "branch",
+                "children": {
+                  "Wheel": {
+                    "datatype": "branch",
+                    "children": {
+                      "Left": {
+                        "datatype": "branch",
+                        "children": {
+                          "Tire": {
+                            "datatype": "branch",
+                            "children": {
+                              "Pressure": {}
+                            }
+                          }
+                        }
+                      },
+                      "Right": {
+                        "datatype": "branch",
+                        "children": {
+                          "Tire": {
+                            "datatype": "branch",
+                            "children": {
+                              "Pressure": {}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "Rear": {
+                "datatype": "branch",
+                "children": {
+                  "Wheel": {
+                    "datatype": "branch",
+                    "children": {
+                      "Left": {
+                        "datatype": "branch",
+                        "children": {
+                          "Tire": {
+                            "datatype": "branch",
+                            "children": {
+                              "Pressure": {}
+                            }
+                          }
+                        }
+                      },
+                      "Right": {
+                        "datatype": "branch",
+                        "children": {
+                          "Tire": {
+                            "datatype": "branch",
+                            "children": {
+                              "Pressure": {}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "Exterior": {
+        "datatype": "branch",
+        "children": {
+          "AirTemperature": {
+            "datatype": "float",
+            "description": "Outside air temperature.",
+            "type": "sensor",
+            "unit": "C",
+            "dbc2vss": {
+              "interval_ms": 100,
+              "signal": "ENV_OutsideTemp"
+            },
+            "vss2dbc": {
+              "signal": "ENV_OutsideTemp"
+            }
+          }
+        }
+      },
+      "Battery": {
+        "datatype": "branch",
+        "children": {
+          "StateOfCharge": {
+            "datatype": "branch",
+            "children": {
+              "Current": {
+                "datatype": "float",
+                "description": "Battery state of charge.",
+                "type": "sensor",
+                "unit": "%",
+                "dbc2vss": {
+                  "interval_ms": 100,
+                  "signal": "DALY_BatterySoC"
+                },
+                "vss2dbc": {
+                  "signal": "DALY_BatterySoC"
+                }
+              }
+            }
+          },
+          "Range": {
+            "datatype": "float",
+            "description": "Estimated driving range.",
+            "type": "sensor",
+            "unit": "km",
+            "dbc2vss": {
+              "interval_ms": 100,
+              "signal": "EV_RangeEfficiency"
+            },
+            "vss2dbc": {
+              "signal": "EV_RangeEfficiency"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+# Override to use local source instead of their Git repo
+
+FILESEXTRAPATHS:prepend := "${THISDIR}:"
+
+# Use externalsrc to point to your local Flutter app
+inherit externalsrc
+EXTERNALSRC = "/home/freeze/agl/flutter-ics-homescreen"
+EXTERNALSRC_BUILD = "/home/freeze/agl/flutter-ics-homescreen"
+
+# This makes it use your local code instead of downloading from their repo
+SRC_URI = ""
