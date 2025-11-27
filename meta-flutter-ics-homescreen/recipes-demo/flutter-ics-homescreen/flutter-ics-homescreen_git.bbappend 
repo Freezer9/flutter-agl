@@ -1,6 +1,10 @@
-# Override to use your local Flutter app
+# Use custom Flutter app
+# inherit externalsrc
+# EXTERNALSRC = "/home/freeze/AGL/trout/my-flutter-app"
+# EXTERNALSRC_BUILD = "${WORKDIR}/build"
 
-inherit externalsrc
-EXTERNALSRC = "/home/freeze/AGL/salmon/my-flutter-app"
-EXTERNALSRC_BUILD = "/home/freeze/AGL/salmon/my-flutter-app"
-SRC_URI = ""
+# Remove ONLY the git source, keep all file:// entries
+# SRC_URI:remove = "git://gerrit.automotivelinux.org/gerrit/apps/flutter-ics-homescreen;protocol=https;branch=${AGL_BRANCH}"
+
+# Make sure config files are still installed
+# The do_install from the base recipe will handle config file installation
