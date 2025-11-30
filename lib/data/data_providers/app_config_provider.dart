@@ -63,8 +63,7 @@ class StorageConfig {
   static String defaultHostname = 'localhost';
   static int defaultPort = 50054;
 
-  StorageConfig(
-      {required this.hostname, required this.port});
+  StorageConfig({required this.hostname, required this.port});
 
   static StorageConfig defaultConfig() {
     return StorageConfig(
@@ -95,11 +94,12 @@ class VoiceAgentConfig {
   static String defaultHostname = 'localhost';
   static int defaultPort = 51053;
 
-  VoiceAgentConfig({required this.hostname,required this.port});
+  VoiceAgentConfig({required this.hostname, required this.port});
 
   static VoiceAgentConfig defaultConfig() {
     return VoiceAgentConfig(
-        hostname: VoiceAgentConfig.defaultHostname, port: VoiceAgentConfig.defaultPort);
+        hostname: VoiceAgentConfig.defaultHostname,
+        port: VoiceAgentConfig.defaultPort);
   }
 }
 
@@ -220,7 +220,7 @@ class AppConfig {
     }
   }
 
-    static StorageConfig parseStorageConfig(YamlMap storageMap) {
+  static StorageConfig parseStorageConfig(YamlMap storageMap) {
     try {
       String hostname = StorageConfig.defaultHostname;
       if (storageMap.containsKey('hostname')) {
@@ -320,7 +320,7 @@ final appConfigProvider = Provider((ref) {
     }
 
     VoiceAgentConfig voiceAgentConfig;
-    if(yamlMap.containsKey('voiceAgent')){
+    if (yamlMap.containsKey('voiceAgent')) {
       voiceAgentConfig = AppConfig.parseVoiceAgentConfig(yamlMap['voiceAgent']);
     } else {
       voiceAgentConfig = VoiceAgentConfig.defaultConfig();

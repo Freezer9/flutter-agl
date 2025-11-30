@@ -1,0 +1,7 @@
+# Use custom Flutter app
+inherit externalsrc
+EXTERNALSRC = "/home/freeze/AGL/trout/my-flutter-app"
+EXTERNALSRC_BUILD = "${WORKDIR}/build"
+
+# Remove ONLY the git source, keep all file:// entries
+SRC_URI:remove = "git://gerrit.automotivelinux.org/gerrit/apps/flutter-ics-homescreen;protocol=https;branch=${AGL_BRANCH}"

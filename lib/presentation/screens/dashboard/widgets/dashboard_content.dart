@@ -39,7 +39,8 @@ class DashBoardState extends ConsumerState<DashBoard>
       });
     }
 
-    bool randomHybridAnimation = ref.read(appConfigProvider).randomHybridAnimation;
+    bool randomHybridAnimation =
+        ref.read(appConfigProvider).randomHybridAnimation;
     if (randomHybridAnimation) {
       timer = Timer.periodic(const Duration(seconds: 5), (timer) {
         Random random = Random();
@@ -83,7 +84,7 @@ class DashBoardState extends ConsumerState<DashBoard>
               children: [
                 RPMProgressIndicator(),
                 SpeedProgressIndicator(),
-                FuelProgressIndicator(),
+                BatteryProgressIndicator(),
               ],
             ),
             HybridModel(),

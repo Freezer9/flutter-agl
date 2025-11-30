@@ -15,6 +15,12 @@ class VehicleNotifier extends Notifier<Vehicle> {
     state = state.copyWith(speed: newValue);
   }
 
+  void _checkBatteryWarning() {
+    // Trigger battery warning check whenever battery level changes
+    final batteryNotifier = ref.read(batteryNotifierProvider.notifier);
+    batteryNotifier.checkBatteryLevel(state.batteryLevel);
+  }
+
   bool handleSignalUpdate(DataEntry entry) {
     bool handled = true;
     switch (entry.path) {
@@ -38,11 +44,15 @@ class VehicleNotifier extends Notifier<Vehicle> {
           state = state.copyWith(range: entry.value.uint32);
         }
         break;
-      case VSSPath.vehicleFuelLevel:
+      case VSSPath.vehicleBatteryLevel:
         if (entry.value.hasUint32()) {
-          state = state.copyWith(fuelLevel: entry.value.uint32);
+          state = state.copyWith(batteryLevel: entry.value.uint32);
+          _checkBatteryWarning();
+        } else if (entry.value.hasFloat()) {
+          // Some implementations might send float (0.0-100.0)
+          state = state.copyWith(batteryLevel: entry.value.float.toInt());
+          _checkBatteryWarning();
         }
-        break;
       case VSSPath.vehicleIsChildLockActiveLeft:
         if (entry.value.hasBool_12()) {
           state = state.copyWith(isChildLockActiveLeft: entry.value.bool_12);
@@ -105,11 +115,11 @@ class VehicleNotifier extends Notifier<Vehicle> {
           var fanSpeed = 0;
           if (value > 66) {
             fanSpeed = 3;
-          }
-          else if (value > 33) {
+          } else if (value > 33) {
             fanSpeed = 2;
+          } else if (value > 0) {
+            fanSpeed = 1;
           }
-          else if (value > 0) { fanSpeed = 1; }
           state = state.copyWith(fanSpeed: fanSpeed);
         }
         break;
@@ -270,14 +280,14 @@ class VehicleNotifier extends Notifier<Vehicle> {
   void setInitialState() {
     var speed = state.speed;
     var rpm = state.engineSpeed;
-    var fuelLevel = state.fuelLevel;
+    var batteryLevel = state.batteryLevel;
     var insideTemp = state.insideTemperature;
     var outsideTemp = state.outsideTemperature;
     var range = state.range;
     var psi = state.frontLeftTire;
     var actualSpeed = 0.0;
     var actualRpm = 0;
-    var actualFuelLevel = 0.0;
+    var actualBatteryLevel = 0.0;
     var actualInsideTemp = 0.0;
     var actualOutsideTemp = 0.0;
     var actualRange = 0;
@@ -304,17 +314,20 @@ class VehicleNotifier extends Notifier<Vehicle> {
       }
       state = state.copyWith(engineSpeed: actualRpm);
     });
-    Timer fuelLevelTimer =
-        Timer.periodic(const Duration(milliseconds: 400), (timer) {
-      actualFuelLevel = actualFuelLevel + 1;
+    Timer batteryLevelTimer = Timer.periodic(
+      const Duration(milliseconds: 400),
+      (timer) {
+        actualBatteryLevel = actualBatteryLevel + 1;
 
-      if (actualFuelLevel > fuelLevel) {
-        actualFuelLevel = fuelLevel.toDouble();
+        if (actualBatteryLevel > batteryLevel) {
+          actualBatteryLevel = batteryLevel.toDouble();
 
-        timer.cancel();
-      }
-      state = state.copyWith(fuelLevel: actualFuelLevel.toInt());
-    });
+          timer.cancel();
+        }
+        state = state.copyWith(batteryLevel: actualBatteryLevel.toInt());
+        _checkBatteryWarning();
+      },
+    );
     Timer outsideTemperatureTimer =
         Timer.periodic(const Duration(milliseconds: 300), (timer) {
       actualOutsideTemp = actualOutsideTemp + 0.5;

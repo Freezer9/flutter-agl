@@ -4,6 +4,7 @@ import 'package:flutter_ics_homescreen/data/data_providers/time_notifier.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/units_notifier.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/users_notifier.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/vehicle_notifier.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/battery_notifier.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/audio_notifier.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/radio_notifier.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/mediaplayer_notifier.dart';
@@ -12,7 +13,8 @@ import 'package:flutter_ics_homescreen/data/data_providers/playlist_notifier.dar
 import 'package:flutter_ics_homescreen/data/data_providers/playlist_art_notifier.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/val_client.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/app_launcher.dart';
-import 'package:flutter_ics_homescreen/data/data_providers/radio_client.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/radio_client.dart'
+    as radioAPI;
 import 'package:flutter_ics_homescreen/data/data_providers/storage_client.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/mpd_client.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/play_controller.dart';
@@ -79,7 +81,7 @@ final valClientProvider = Provider((ref) {
   return ValClient(config: config, ref: ref);
 });
 
-final voiceAgentClientProvider = Provider((ref){
+final voiceAgentClientProvider = Provider((ref) {
   VoiceAgentConfig config = ref.watch(appConfigProvider).voiceAgentConfig;
   return VoiceAgentClient(config: config, ref: ref);
 });
@@ -94,15 +96,13 @@ final appLauncherListProvider =
 
 final radioClientProvider = Provider((ref) {
   RadioConfig config = ref.watch(appConfigProvider).radioConfig;
-  return RadioClient(config: config, ref: ref);
+  return radioAPI.RadioClient(config: config, ref: ref);
 });
-
 
 final storageClientProvider = Provider((ref) {
   StorageConfig config = ref.watch(appConfigProvider).storageConfig;
   return StorageClient(config: config, ref: ref);
 });
-
 
 final mpdClientProvider = Provider((ref) {
   MpdConfig config = ref.watch(appConfigProvider).mpdConfig;
@@ -111,6 +111,10 @@ final mpdClientProvider = Provider((ref) {
 
 final vehicleProvider =
     NotifierProvider<VehicleNotifier, Vehicle>(VehicleNotifier.new);
+
+final batteryNotifierProvider = NotifierProvider<BatteryNotifier, bool>(
+  BatteryNotifier.new,
+);
 
 final signalsProvider = StateNotifierProvider<SignalNotifier, Signals>((ref) {
   return SignalNotifier(const Signals.initial());
@@ -153,8 +157,7 @@ final playControllerProvider = Provider((ref) {
   return PlayController(ref: ref);
 });
 
-final usersProvider =
-    NotifierProvider<UsersNotifier, Users>(UsersNotifier.new);
+final usersProvider = NotifierProvider<UsersNotifier, Users>(UsersNotifier.new);
 
 final hybridStateProvider =
     StateNotifierProvider<HybridNotifier, Hybrid>((ref) {
@@ -166,6 +169,6 @@ final currentTimeProvider =
   return CurrentTimeNotifier();
 });
 
-
 final voiceAssistantStateProvider =
-    NotifierProvider<VoiceAssistantStateNotifier, VoiceAssistantState>(VoiceAssistantStateNotifier.new);
+    NotifierProvider<VoiceAssistantStateNotifier, VoiceAssistantState>(
+        VoiceAssistantStateNotifier.new);

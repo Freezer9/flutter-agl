@@ -6,9 +6,9 @@ class VSSPath {
       'Vehicle.Cabin.HVAC.AmbientAirTemperature';
   static const String vehicleOutsideTemperature =
       'Vehicle.Exterior.AirTemperature';
-  static const String vehicleRange = 'Vehicle.Powertrain.FuelSystem.Range';
-  static const String vehicleFuelLevel =
-      'Vehicle.Powertrain.FuelSystem.RelativeLevel';
+  static const String vehicleRange = 'Vehicle.Powertrain.TractionBattery.Range';
+  static const String vehicleBatteryLevel =
+      'Vehicle.Powertrain.TractionBattery.StateOfCharge.Current';
   static const String vehicleMediaVolume =
       'Vehicle.Cabin.Infotainment.Media.Volume';
   static const String vehicleMediaBalance =
@@ -59,7 +59,7 @@ class VSSPath {
       vehicleInsideTemperature,
       vehicleOutsideTemperature,
       vehicleRange,
-      vehicleFuelLevel,
+      vehicleBatteryLevel,
       vehicleMediaVolume,
       vehicleMediaBalance,
       vehicleMediaFade,
