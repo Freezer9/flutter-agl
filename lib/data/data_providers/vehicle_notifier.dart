@@ -16,7 +16,6 @@ class VehicleNotifier extends Notifier<Vehicle> {
   }
 
   void _checkBatteryWarning() {
-    // Trigger battery warning check whenever battery level changes
     final batteryNotifier = ref.read(batteryNotifierProvider.notifier);
     batteryNotifier.checkBatteryLevel(state.batteryLevel);
   }
@@ -49,7 +48,6 @@ class VehicleNotifier extends Notifier<Vehicle> {
           state = state.copyWith(batteryLevel: entry.value.uint32);
           _checkBatteryWarning();
         } else if (entry.value.hasFloat()) {
-          // Some implementations might send float (0.0-100.0)
           state = state.copyWith(batteryLevel: entry.value.float.toInt());
           _checkBatteryWarning();
         }

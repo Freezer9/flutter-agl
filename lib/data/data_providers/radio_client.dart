@@ -9,10 +9,14 @@ class RadioClient {
 
   RadioClient({required this.config, required this.ref}) {
     debugPrint(
-        "Connecting to radio service at ${config.hostname}:${config.port}");
+      "Connecting to radio service at ${config.hostname}:${config.port}",
+    );
     api.ChannelCredentials creds = const api.ChannelCredentials.insecure();
-    channel = api.ClientChannel(config.hostname,
-        port: config.port, options: api.ChannelOptions(credentials: creds));
+    channel = api.ClientChannel(
+      config.hostname,
+      port: config.port,
+      options: api.ChannelOptions(credentials: creds),
+    );
     stub = api.RadioClient(channel);
   }
 
@@ -32,11 +36,15 @@ class RadioClient {
   void getBandParameters() async {
     try {
       var response = await stub.getBandParameters(
-          api.GetBandParametersRequest(band: api.Band.BAND_FM));
-      ref.read(radioStateProvider.notifier).updateBandParameters(
-          freqMin: response.min,
-          freqMax: response.max,
-          freqStep: response.step);
+        api.GetBandParametersRequest(band: api.Band.BAND_FM),
+      );
+      ref
+          .read(radioStateProvider.notifier)
+          .updateBandParameters(
+            freqMin: response.min,
+            freqMax: response.max,
+            freqStep: response.step,
+          );
 
       // Get initial frequency
       var freqResponse = await stub.getFrequency(api.GetFrequencyRequest());
@@ -94,8 +102,7 @@ class RadioClient {
       return;
     }
     try {
-      await stub
-          .setFrequency(api.SetFrequencyRequest(frequency: frequency));
+      await stub.setFrequency(api.SetFrequencyRequest(frequency: frequency));
     } catch (e) {
       print(e);
     }
@@ -109,8 +116,7 @@ class RadioClient {
         frequency = radioState.freqMax;
       }
       try {
-        await stub
-            .setFrequency(api.SetFrequencyRequest(frequency: frequency));
+        await stub.setFrequency(api.SetFrequencyRequest(frequency: frequency));
       } catch (e) {
         print(e);
       }
@@ -125,8 +131,7 @@ class RadioClient {
         frequency = radioState.freqMin;
       }
       try {
-        await stub
-            .setFrequency(api.SetFrequencyRequest(frequency: frequency));
+        await stub.setFrequency(api.SetFrequencyRequest(frequency: frequency));
       } catch (e) {
         print(e);
       }
@@ -135,8 +140,11 @@ class RadioClient {
 
   void scanForward() async {
     try {
-      await stub.scanStart(api.ScanStartRequest(
-          direction: api.ScanDirection.SCAN_DIRECTION_FORWARD));
+      await stub.scanStart(
+        api.ScanStartRequest(
+          direction: api.ScanDirection.SCAN_DIRECTION_FORWARD,
+        ),
+      );
     } catch (e) {
       print(e);
     }
@@ -144,8 +152,11 @@ class RadioClient {
 
   void scanBackward() async {
     try {
-      await stub.scanStart(api.ScanStartRequest(
-          direction: api.ScanDirection.SCAN_DIRECTION_BACKWARD));
+      await stub.scanStart(
+        api.ScanStartRequest(
+          direction: api.ScanDirection.SCAN_DIRECTION_BACKWARD,
+        ),
+      );
     } catch (e) {
       print(e);
     }
