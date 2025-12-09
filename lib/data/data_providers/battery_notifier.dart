@@ -1,20 +1,24 @@
 import 'package:flutter_ics_homescreen/export.dart';
 import 'package:flutter_ics_homescreen/presentation/common_widget/battery_notification.dart';
 
-enum BatteryWarningLevel { none, low, critical }
+enum BatteryWarningLevel { none, low, critical, full }
 
 class BatteryNotifier extends Notifier<BatteryWarningLevel> {
   @override
   BatteryWarningLevel build() => BatteryWarningLevel.none;
 
   void checkBatteryLevel(int batteryLevel) {
-    if (batteryLevel == criticalBatteryThreshold) {
+    if (batteryLevel <= criticalBatteryThreshold) {
       if (state != BatteryWarningLevel.critical) {
         state = BatteryWarningLevel.critical;
       }
-    } else if (batteryLevel == lowBatteryThreshold) {
+    } else if (batteryLevel <= lowBatteryThreshold) {
       if (state != BatteryWarningLevel.low) {
         state = BatteryWarningLevel.low;
+      }
+    } else if (batteryLevel == 100) {
+      if (state != BatteryWarningLevel.full) {
+        state = BatteryWarningLevel.full;
       }
     } else {
       if (state != BatteryWarningLevel.none) {
@@ -41,21 +45,30 @@ class BatteryNotifier extends Notifier<BatteryWarningLevel> {
     });
   }
 
-  void showLowBatteryNotification(BuildContext context, int batteryLevel) {
+  void showLowBatteryNotification(BuildContext context) {
     showBatteryNotification(
       context,
-      "⚠️ Low Battery: $batteryLevel%",
-      "Please consider charging soon.",
+      "Battery is Medium",
+      "Watch out and take care!",
       color: Colors.orange,
     );
   }
 
-  void showCriticalBatteryNotification(BuildContext context, int batteryLevel) {
+  void showCriticalBatteryNotification(BuildContext context) {
     showBatteryNotification(
       context,
-      "⚠️ CRITICAL BATTERY: $batteryLevel%",
-      "Please charge immediately!",
+      "Battery is Very Low",
+      "Please recharge immediately",
       color: Colors.red,
+    );
+  }
+
+  void showFullBatteryNotification(BuildContext context) {
+    showBatteryNotification(
+      context,
+      "Battery is Full",
+      "Car is ready to use!",
+      color: Colors.green,
     );
   }
 }

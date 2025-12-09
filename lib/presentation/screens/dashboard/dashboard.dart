@@ -10,14 +10,14 @@ class DasboardPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen<BatteryWarningLevel>(batteryNotifierProvider, (prev, next) {
-      final batteryLevel =
-          ref.read(vehicleProvider.select((v) => v.batteryLevel));
       final notifier = ref.read(batteryNotifierProvider.notifier);
 
       if (next == BatteryWarningLevel.critical) {
-        notifier.showCriticalBatteryNotification(context, batteryLevel);
+        notifier.showCriticalBatteryNotification(context);
       } else if (next == BatteryWarningLevel.low) {
-        notifier.showLowBatteryNotification(context, batteryLevel);
+        notifier.showLowBatteryNotification(context);
+      } else if (next == BatteryWarningLevel.full) {
+        notifier.showFullBatteryNotification(context);
       }
     });
 

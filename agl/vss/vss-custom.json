@@ -1376,7 +1376,14 @@
                       "IsChildLockActive": {
                         "datatype": "boolean",
                         "description": "Is door child lock active. True = Door cannot be opened from inside. False = Door can be opened from inside.",
-                        "type": "sensor"
+                        "type": "sensor",
+                        "dbc2vss": {
+                          "interval_ms": 100,
+                          "signal": "OBC_ElectronicLockState"
+                        },
+                        "vss2dbc": {
+                          "signal": "OBC_ElectronicLockState"
+                        }
                       },
                       "IsLocked": {
                         "datatype": "boolean",
@@ -1614,7 +1621,14 @@
                 "datatype": "float",
                 "description": "Ambient air temperature inside the vehicle.",
                 "type": "sensor",
-                "unit": "celsius"
+                "unit": "celsius",
+                "dbc2vss": {
+                  "interval_ms": 100,
+                  "signal": "ENV_InsideTemp"
+                },
+                "vss2dbc": {
+                  "signal": "ENV_InsideTemp"
+                }
               },
               "IsAirConditioningActive": {
                 "datatype": "boolean",
@@ -5228,7 +5242,14 @@
                                 "datatype": "uint16",
                                 "description": "Tire pressure in kilo-Pascal.",
                                 "type": "sensor",
-                                "unit": "kPa"
+                                "unit": "kPa",
+                                "dbc2vss": {
+                                  "interval_ms": 100,
+                                  "signal": "VESC_StatusERPM1"
+                                },
+                                "vss2dbc": {
+                                  "signal": "VESC_StatusERPM1"
+                                }
                               },
                               "Temperature": {
                                 "datatype": "float",
@@ -5300,7 +5321,14 @@
                                 "datatype": "uint16",
                                 "description": "Tire pressure in kilo-Pascal.",
                                 "type": "sensor",
-                                "unit": "kPa"
+                                "unit": "kPa",
+                                "dbc2vss": {
+                                  "interval_ms": 100,
+                                  "signal": "VESC_StatusERPM2"
+                                },
+                                "vss2dbc": {
+                                  "signal": "VESC_StatusERPM2"
+                                }
                               },
                               "Temperature": {
                                 "datatype": "float",
@@ -5447,7 +5475,14 @@
                                 "datatype": "uint16",
                                 "description": "Tire pressure in kilo-Pascal.",
                                 "type": "sensor",
-                                "unit": "kPa"
+                                "unit": "kPa",
+                                "dbc2vss": {
+                                  "interval_ms": 100,
+                                  "signal": "VESC_StatusERPM3"
+                                },
+                                "vss2dbc": {
+                                  "signal": "VESC_StatusERPM3"
+                                }
                               },
                               "Temperature": {
                                 "datatype": "float",
@@ -5519,7 +5554,14 @@
                                 "datatype": "uint16",
                                 "description": "Tire pressure in kilo-Pascal.",
                                 "type": "sensor",
-                                "unit": "kPa"
+                                "unit": "kPa",
+                                "dbc2vss": {
+                                  "interval_ms": 100,
+                                  "signal": "VESC_StatusERPM4"
+                                },
+                                "vss2dbc": {
+                                  "signal": "VESC_StatusERPM4"
+                                }
                               },
                               "Temperature": {
                                 "datatype": "float",
@@ -5871,7 +5913,14 @@
             "datatype": "float",
             "description": "Air temperature outside the vehicle.",
             "type": "sensor",
-            "unit": "celsius"
+            "unit": "celsius",
+            "dbc2vss": {
+              "interval_ms": 100,
+              "signal": "ENV_OutsideTemp"
+            },
+            "vss2dbc": {
+              "signal": "ENV_OutsideTemp"
+            }
           },
           "Humidity": {
             "datatype": "float",

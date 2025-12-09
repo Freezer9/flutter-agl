@@ -37,31 +37,38 @@ cd ~/agl/build
 bitbake agl-ivi-demo-flutter
 ```
 
-### Step 4: Check agl-ivi-demo-flutter Image for Flutter ICS Homescreen
+
+### Step 4: Make flutter-ics-homescreen_git.bbappend for Building your Own Modifications
 ```bash
-cat ~/agl/meta-agl-demo/recipes-demo/flutter-ics-homescreen/flutter-ics-homescreen_git.bb
+cd  ~/agl/meta-agl-demo/recipes-demo/flutter-ics-homescreen
+
+nano flutter-ics-homescreen_git.bbappend
 ```
 
+### Bitbake recipe file content:
+```
+# Use custom Flutter app
+inherit externalsrc
+EXTERNALSRC = "/home/freeze/AGL/trout/my-flutter-app"
+EXTERNALSRC_BUILD = "${WORKDIR}/build"
 
-### Step 5: Add Your Own Modifications
-```bash
-cd ~/agl/build
-
-# Add your layer back if removed
-bitbake-layers add-layer ../meta-flutter-ics-homescreen/
-
-# Check layer priorities - your layer should be listed
-bitbake-layers show-layers
+# Remove git source, keep config files
+SRC_URI:remove = "git://gerrit.automotivelinux.org/gerrit/apps/flutter-ics-homescreen;protocol=https;branch=${AGL_BRANCH}"
 ```
 
-### Step 6: Rebuild agl-ivi-demo-flutter Image with Your Own Modifications
+### Step 5: Rebuild agl-ivi-demo-flutter Image with Your Own Modifications
 
 ```bash
 cd ~/agl/build
+# Clean and rebuild flutter-ics-homescreen
+bitbake -c cleansstate flutter-ics-homescreen
+bitbake flutter-ics-homescreen
+
+# Rebuild the image
 bitbake agl-ivi-demo-flutter
 ```
 
-### Step 7: For faster rebuilds during development, use the following command:
+### Step 6: For faster rebuilds during development, use the following command:
 
 ```bash
 # 1. Make changes to your Flutter app code or bbappend
@@ -74,7 +81,7 @@ bitbake flutter-ics-homescreen
 bitbake agl-ivi-demo-flutter
 ```
 
-### Step 8: Make Sure flutter-ics-homescreen is reading KUKSA Configurations
+### Step 7: Make Sure flutter-ics-homescreen is reading KUKSA Configurations
 
 
 ```bash
@@ -82,7 +89,7 @@ bitbake agl-ivi-demo-flutter
 journalctl -u ics-homescreen.service 
 ```
 
-### Step 9: Change the VSS and DBC Files as Needed
+### Step 8: Change the VSS and DBC Files as Needed
 
 ```bash
 # VSS File Path
@@ -91,7 +98,6 @@ journalctl -u ics-homescreen.service
 # DBC File Path
 /usr/share/dbc/agl-vcar.dbc -> Rename to agl-vcar.dbc.bak and add your own agl-vcar.dbc
 ```
-
 
 
 ### Note for ME: Check can0 send data
