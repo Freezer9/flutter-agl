@@ -1,0 +1,86 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: CReATE_ECU
+
+
+BO_ 2566521605 IOV_FrontRightCornerTire: 8 Vector__XXX
+ SG_ IOV_TireUsage2 : 39|8@0- (1,0) [0|0] "%" Vector__XXX
+ SG_ IOV_TirePressure2 : 23|16@0- (1,0) [0|0] "kPa" Vector__XXX
+ SG_ IOV_AngleFrontRight : 7|16@0- (1,0) [0|0] "Degree" Vector__XXX
+
+BO_ 2566521604 IOV_FrontLeftCornerTire: 8 Vector__XXX
+ SG_ IOV_TireUsage1 : 39|8@0- (1,0) [0|0] "%" Vector__XXX
+ SG_ IOV_TirePressure1 : 23|16@0- (1,0) [0|0] "kPa" Vector__XXX
+ SG_ IOV_AngleFrontLeft : 7|16@0- (1,0) [0|0] "Degree" Vector__XXX
+
+BO_ 2566521607 IOV_RearRightCornerTire: 8 Vector__XXX
+ SG_ IOV_TireUsage4 : 39|8@0- (1,0) [0|0] "%" Vector__XXX
+ SG_ IOV_TirePressure4 : 23|16@0- (1,0) [0|0] "kPa" Vector__XXX
+ SG_ IOV_AngleRearRight : 7|16@0- (1,0) [0|0] "Degree" Vector__XXX
+
+BO_ 2566521606 IOV_RearLeftCornerTire: 8 Vector__XXX
+ SG_ IOV_TireUsage3 : 39|8@0- (1,0) [0|0] "%" Vector__XXX
+ SG_ IOV_TirePressure3 : 23|16@0- (1,0) [0|0] "kPa" Vector__XXX
+ SG_ IOV_AngleRearLeft : 7|16@0- (1,0) [0|0] "Degree" Vector__XXX
+
+BO_ 2566521603 EV_Status: 5 Vector__XXX
+ SG_ EV_RangeEfficiency : 15|32@0+ (0.1,0) [0|0] "km/kWh" Vector__XXX
+ SG_ EV_ChargeStatus : 7|8@0+ (1,0) [0|0] "enum" Vector__XXX
+
+BO_ 2566521602 ENV_Status: 8 Vector__XXX
+ SG_ ENV_EngineRPM : 39|16@0- (1,0) [0|0] "RPM" Vector__XXX
+ SG_ ENV_Speed : 23|16@0+ (0.1,0) [0|0] "km/h" Vector__XXX
+ SG_ ENV_OutsideTemp : 7|16@0- (0.1,0) [0|0] "�C" Vector__XXX
+ SG_ ENV_InsideTemp : 55|16@0- (0.1,0) [0|0] "�C" Vector__XXX
+
+BO_ 2566521601 HVAC_Status: 6 Vector__XXX
+ SG_ HVAC_AirDirection : 46|3@0+ (1,0) [0|0] "enum" Vector__XXX
+ SG_ HVAC_ACStatus : 47|1@0+ (1,0) [0|0] "bool" Vector__XXX
+ SG_ HVAC_FanSpeed : 39|8@0+ (1,0) [0|0] "lvl" Vector__XXX
+ SG_ HVAC_ACLeftTemp : 23|16@0- (0.1,0) [0|0] "�C" Vector__XXX
+ SG_ HVAC_ACRightTemp : 7|16@0- (0.1,0) [0|0] "	�C" Vector__XXX
+
+BO_ 2559590401 BMS_DALY_SoCStatus: 8 Vector__XXX
+ SG_ DALY_BatterySoC : 55|16@0+ (0.1,0) [0|6553.5] "%" Vector__XXX
+ SG_ DALY_BatteryCurrent : 39|16@0+ (0.1,30000) [30000|36553.5] "A" Vector__XXX
+ SG_ DALY_CollectedTotalVoltage : 23|16@0+ (0.1,0) [0|6553.5] "V" Vector__XXX
+ SG_ DALY_AccumulatedPressure : 7|16@0+ (0.1,0) [0|6553.5] "V" Vector__XXX
+
+
+
+BA_DEF_  "BusType" STRING ;
+BA_DEF_DEF_  "BusType" "CAN";
+

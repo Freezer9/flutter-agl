@@ -1376,14 +1376,7 @@
                       "IsChildLockActive": {
                         "datatype": "boolean",
                         "description": "Is door child lock active. True = Door cannot be opened from inside. False = Door can be opened from inside.",
-                        "type": "sensor",
-                        "dbc2vss": {
-                          "interval_ms": 100,
-                          "signal": "OBC_ElectronicLockState"
-                        },
-                        "vss2dbc": {
-                          "signal": "OBC_ElectronicLockState"
-                        }
+                        "type": "sensor"
                       },
                       "IsLocked": {
                         "datatype": "boolean",
@@ -5245,10 +5238,10 @@
                                 "unit": "kPa",
                                 "dbc2vss": {
                                   "interval_ms": 100,
-                                  "signal": "VESC_StatusERPM1"
+                                  "signal": "IOV_TirePressure1"
                                 },
                                 "vss2dbc": {
-                                  "signal": "VESC_StatusERPM1"
+                                  "signal": "IOV_TirePressure1"
                                 }
                               },
                               "Temperature": {
@@ -5324,10 +5317,10 @@
                                 "unit": "kPa",
                                 "dbc2vss": {
                                   "interval_ms": 100,
-                                  "signal": "VESC_StatusERPM2"
+                                  "signal": "IOV_TirePressure2"
                                 },
                                 "vss2dbc": {
-                                  "signal": "VESC_StatusERPM2"
+                                  "signal": "IOV_TirePressure2"
                                 }
                               },
                               "Temperature": {
@@ -5478,10 +5471,10 @@
                                 "unit": "kPa",
                                 "dbc2vss": {
                                   "interval_ms": 100,
-                                  "signal": "VESC_StatusERPM3"
+                                  "signal": "IOV_TirePressure3"
                                 },
                                 "vss2dbc": {
-                                  "signal": "VESC_StatusERPM3"
+                                  "signal": "IOV_TirePressure3"
                                 }
                               },
                               "Temperature": {
@@ -5557,10 +5550,10 @@
                                 "unit": "kPa",
                                 "dbc2vss": {
                                   "interval_ms": 100,
-                                  "signal": "VESC_StatusERPM4"
+                                  "signal": "IOV_TirePressure4"
                                 },
                                 "vss2dbc": {
-                                  "signal": "VESC_StatusERPM4"
+                                  "signal": "IOV_TirePressure4"
                                 }
                               },
                               "Temperature": {
