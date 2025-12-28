@@ -51,16 +51,6 @@ class VehicleNotifier extends Notifier<Vehicle> {
           state = state.copyWith(batteryLevel: entry.value.float.toInt());
           _checkBatteryWarning();
         }
-      case VSSPath.vehicleIsChildLockActiveLeft:
-        if (entry.value.hasBool_12()) {
-          state = state.copyWith(isChildLockActiveLeft: entry.value.bool_12);
-        }
-        break;
-      case VSSPath.vehicleIsChildLockActiveRight:
-        if (entry.value.hasBool_12()) {
-          state = state.copyWith(isChildLockActiveRight: entry.value.bool_12);
-        }
-        break;
       case VSSPath.vehicleEngineSpeed:
         if (entry.value.hasUint32()) {
           state = state.copyWith(engineSpeed: entry.value.uint32);
@@ -137,37 +127,6 @@ class VehicleNotifier extends Notifier<Vehicle> {
     return handled;
   }
 
-  void setChildLock({required String side}) async {
-    var valClient = ref.read(valClientProvider);
-    try {
-      switch (side) {
-        case 'left':
-          valClient.setBool(
-            VSSPath.vehicleIsChildLockActiveLeft,
-            !state.isChildLockActiveLeft,
-            false,
-          );
-          state = state.copyWith(
-              isChildLockActiveLeft: !state.isChildLockActiveLeft);
-          break;
-        case 'right':
-          valClient.setBool(
-            VSSPath.vehicleIsChildLockActiveRight,
-            !state.isChildLockActiveRight,
-            false,
-          );
-          state = state.copyWith(
-              isChildLockActiveRight: !state.isChildLockActiveRight);
-          break;
-        default:
-          debugPrint("ERROR: Unexpected side value ${side}");
-          break;
-      }
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
-
   void setTemperature({required Side side, required int value}) {
     var valClient = ref.read(valClientProvider);
     try {
@@ -187,9 +146,6 @@ class VehicleNotifier extends Notifier<Vehicle> {
             true,
           );
           state = state.copyWith(passengerTemperature: value);
-          break;
-        default:
-          debugPrint("ERROR: Unexpected side value ${side}");
           break;
       }
     } catch (e) {

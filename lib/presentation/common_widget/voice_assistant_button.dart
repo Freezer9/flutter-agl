@@ -4,10 +4,12 @@ class VoiceAssistantButton extends ConsumerStatefulWidget {
   const VoiceAssistantButton({super.key});
 
   @override
-  ConsumerState<VoiceAssistantButton> createState() => _VoiceAssistantButtonState();
+  ConsumerState<VoiceAssistantButton> createState() =>
+      _VoiceAssistantButtonState();
 }
 
-class _VoiceAssistantButtonState extends ConsumerState<VoiceAssistantButton> with SingleTickerProviderStateMixin {
+class _VoiceAssistantButtonState extends ConsumerState<VoiceAssistantButton>
+    with SingleTickerProviderStateMixin {
   bool _showOverlay = false;
   late AnimationController _animationController;
   late Animation<double> _pulseAnimation;
@@ -35,8 +37,9 @@ class _VoiceAssistantButtonState extends ConsumerState<VoiceAssistantButton> wit
   void _onTap() {
     ref.read(voiceAssistantStateProvider.notifier).updateCommandResponse("");
     ref.read(voiceAssistantStateProvider.notifier).updateCommand("");
-    bool state = ref.read(voiceAssistantStateProvider.notifier).toggleButtonPressed();
-    if(state){
+    bool state =
+        ref.read(voiceAssistantStateProvider.notifier).toggleButtonPressed();
+    if (state) {
       var voiceAgentClient = ref.read(voiceAgentClientProvider);
       voiceAgentClient.startVoiceAssistant();
     }
@@ -50,10 +53,15 @@ class _VoiceAssistantButtonState extends ConsumerState<VoiceAssistantButton> wit
       builder: (context) {
         return Consumer(
           builder: (context, ref, child) {
-            final String? command = ref.watch(voiceAssistantStateProvider.select((value) => value.command));
-            final String? commandResponse = ref.watch(voiceAssistantStateProvider.select((value) => value.commandResponse));
-            final bool isRecording = ref.watch(voiceAssistantStateProvider.select((value)=>value.isRecording));
-            final bool isProcessing = ref.watch(voiceAssistantStateProvider.select((value)=>value.isCommandProcessing));
+            final String? command = ref.watch(
+                voiceAssistantStateProvider.select((value) => value.command));
+            final String? commandResponse = ref.watch(
+                voiceAssistantStateProvider
+                    .select((value) => value.commandResponse));
+            final bool isRecording = ref.watch(voiceAssistantStateProvider
+                .select((value) => value.isRecording));
+            final bool isProcessing = ref.watch(voiceAssistantStateProvider
+                .select((value) => value.isCommandProcessing));
 
             if (isRecording) {
               _animationController.repeat(reverse: true);
@@ -75,12 +83,13 @@ class _VoiceAssistantButtonState extends ConsumerState<VoiceAssistantButton> wit
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    if(!isRecording && !isProcessing)
+                    if (!isRecording && !isProcessing)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Text(
                               command ?? "No Command Detected",
                               textAlign: TextAlign.center,
@@ -92,10 +101,11 @@ class _VoiceAssistantButtonState extends ConsumerState<VoiceAssistantButton> wit
                             ),
                           ),
                           SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.03
-                          ),
+                              height:
+                                  MediaQuery.of(context).size.height * 0.03),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Text(
                               commandResponse ?? "No Response",
                               textAlign: TextAlign.center,
@@ -106,17 +116,16 @@ class _VoiceAssistantButtonState extends ConsumerState<VoiceAssistantButton> wit
                               ),
                             ),
                           ),
-
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.02,
                           ),
                         ],
                       ),
-
-                    if(isRecording)
+                    if (isRecording)
                       Column(
                         children: [
-                          const Text("Listening...",
+                          const Text(
+                            "Listening...",
                             style: TextStyle(
                               color: Colors.white70,
                               fontSize: 43,
@@ -124,10 +133,11 @@ class _VoiceAssistantButtonState extends ConsumerState<VoiceAssistantButton> wit
                             ),
                           ),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height*0.02,
+                            height: MediaQuery.of(context).size.height * 0.02,
                           ),
                           ScaleTransition(
-                            scale: _pulseAnimation,  // Apply the pulse animation here
+                            scale:
+                                _pulseAnimation, // Apply the pulse animation here
                             child: SvgPicture.asset(
                               'assets/VoiceControlButton.svg',
                               fit: BoxFit.cover,
@@ -136,11 +146,11 @@ class _VoiceAssistantButtonState extends ConsumerState<VoiceAssistantButton> wit
                           ),
                         ],
                       ),
-
-                    if(!isRecording && isProcessing)
+                    if (!isRecording && isProcessing)
                       Column(
                         children: [
-                          const Text("Processing...",
+                          const Text(
+                            "Processing...",
                             style: TextStyle(
                               color: Colors.white70,
                               fontSize: 43,
@@ -148,7 +158,7 @@ class _VoiceAssistantButtonState extends ConsumerState<VoiceAssistantButton> wit
                             ),
                           ),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height*0.05,
+                            height: MediaQuery.of(context).size.height * 0.05,
                           ),
                           Lottie.asset(
                             'animations/LoadingAnimation.json',
@@ -168,7 +178,9 @@ class _VoiceAssistantButtonState extends ConsumerState<VoiceAssistantButton> wit
         );
       },
     ).whenComplete(() {
-      ref.read(voiceAssistantStateProvider.notifier).updateCommandResponse(null);
+      ref
+          .read(voiceAssistantStateProvider.notifier)
+          .updateCommandResponse(null);
       ref.read(voiceAssistantStateProvider.notifier).updateCommand(null);
       ref.read(voiceAssistantStateProvider.notifier).toggleShowOverlay(false);
       overlayLock = 0;
@@ -177,22 +189,23 @@ class _VoiceAssistantButtonState extends ConsumerState<VoiceAssistantButton> wit
 
   @override
   Widget build(BuildContext context) {
-    _showOverlay = ref.watch(voiceAssistantStateProvider.select((value) => value.showOverLay));
+    _showOverlay = ref.watch(
+        voiceAssistantStateProvider.select((value) => value.showOverLay));
 
-    if(_showOverlay){
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
-        if(overlayLock == 0){
+    if (_showOverlay) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (overlayLock == 0) {
           overlayLock = 1;
           _showAssistantPopup(context);
         }
       });
-    }
-    else if(overlayLock == 1){
+    } else if (overlayLock == 1) {
       overlayLock = 0;
       Navigator.of(context).pop();
     }
 
-    String svgPath = ref.watch(voiceAssistantStateProvider.select((value) => value.buttonPressed))
+    String svgPath = ref.watch(
+            voiceAssistantStateProvider.select((value) => value.buttonPressed))
         ? 'assets/VoiceAssistantActive.svg'
         : 'assets/VoiceAssistantEnabled.svg';
 

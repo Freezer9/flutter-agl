@@ -56,6 +56,7 @@ dependencies:
   flutter_calendar_carousel: ^2.4.3
   dart_mpd: ^0.4.1
   mime: ^2.0.0
+  window_manager: ^0.5.1
 
 dev_dependencies:
   flutter_test:
@@ -83,7 +84,6 @@ flutter:
   assets:
     - assets/
     - animations/
-    - animations/hybrid_model/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -20,7 +20,7 @@ class Units {
   const Units.initial()
       : distanceUnit = DistanceUnit.kilometers,
         temperatureUnit = TemperatureUnit.celsius,
-        pressureUnit = PressureUnit.kilopascals;
+        pressureUnit = PressureUnit.psi;
 
   Units copyWith({
     DistanceUnit? distanceUnit,

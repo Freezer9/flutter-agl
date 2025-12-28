@@ -19,10 +19,6 @@ class VSSPath {
       'Vehicle.Cabin.Infotainment.Media.Audio.Bass';
   static const String vehicleMediaTreble =
       'Vehicle.Cabin.Infotainment.Media.Audio.Treble';
-  static const String vehicleIsChildLockActiveLeft =
-      'Vehicle.Cabin.Door.Row2.DriverSide.IsChildLockActive';
-  static const String vehicleIsChildLockActiveRight =
-      'Vehicle.Cabin.Door.Row2.PassengerSide.IsChildLockActive';
   static const String vehicleFrontLeftTire =
       'Vehicle.Chassis.Axle.Row1.Wheel.Left.Tire.Pressure';
   static const String vehicleFrontRightTire =
@@ -52,6 +48,11 @@ class VSSPath {
   static const String vehicleHmiPressureUnit =
       'Vehicle.Cabin.Infotainment.HMI.TirePressureUnit';
 
+  static const String vehicleSteeringAngleFront =
+      'Vehicle.Chassis.Axle.Row1.SteeringAngle';
+  static const String vehicleSteeringAngleRear =
+      'Vehicle.Chassis.Axle.Row2.SteeringAngle';
+
   List<String> getSignalsList() {
     return const [
       vehicleSpeed,
@@ -65,8 +66,6 @@ class VSSPath {
       vehicleMediaFade,
       vehicleMediaBass,
       vehicleMediaTreble,
-      vehicleIsChildLockActiveLeft,
-      vehicleIsChildLockActiveRight,
       vehicleFrontLeftTire,
       vehicleFrontRightTire,
       vehicleRearLeftTire,
@@ -81,6 +80,8 @@ class VSSPath {
       vehicleHmiDistanceUnit,
       vehicleHmiTemperatureUnit,
       vehicleHmiPressureUnit,
+      vehicleSteeringAngleFront,
+      vehicleSteeringAngleRear,
     ];
   }
 }

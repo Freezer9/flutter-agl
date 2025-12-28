@@ -8,10 +8,9 @@ class Vehicle {
   final int engineSpeed;
   final double insideTemperature;
   final double outsideTemperature;
+  final double engineTemperature;
   final int range;
   final int batteryLevel;
-  final bool isChildLockActiveLeft;
-  final bool isChildLockActiveRight;
   final int frontLeftTire;
   final int frontRightTire;
   final int rearLeftTire;
@@ -24,16 +23,23 @@ class Vehicle {
   final int driverTemperature;
   final int passengerTemperature;
   final bool temperatureSynced;
+  final double frontLeftAngle;
+  final double frontRightAngle;
+  final double rearLeftAngle;
+  final double rearRightAngle;
+  final int gear;
+  final double brake;
+  final double throttle;
+  final int revLights;
 
   const Vehicle(
     this.speed,
     this.engineSpeed,
     this.insideTemperature,
     this.outsideTemperature,
+    this.engineTemperature,
     this.range,
     this.batteryLevel,
-    this.isChildLockActiveLeft,
-    this.isChildLockActiveRight,
     this.frontLeftTire,
     this.frontRightTire,
     this.rearLeftTire,
@@ -46,6 +52,14 @@ class Vehicle {
     this.driverTemperature,
     this.passengerTemperature,
     this.temperatureSynced,
+    this.frontLeftAngle,
+    this.frontRightAngle,
+    this.rearLeftAngle,
+    this.rearRightAngle,
+    this.gear,
+    this.brake,
+    this.throttle,
+    this.revLights,
   );
 
   const Vehicle.initial()
@@ -53,10 +67,9 @@ class Vehicle {
         engineSpeed = 0,
         insideTemperature = 0,
         outsideTemperature = 0,
+        engineTemperature = 0,
         range = 0,
         batteryLevel = 0,
-        isChildLockActiveLeft = false,
-        isChildLockActiveRight = true,
         frontLeftTire = 228,
         frontRightTire = 214,
         rearLeftTire = 214,
@@ -68,17 +81,24 @@ class Vehicle {
         fanSpeed = 0,
         driverTemperature = 26,
         passengerTemperature = 26,
-        temperatureSynced = true;
+        temperatureSynced = true,
+        frontLeftAngle = 0.0,
+        frontRightAngle = 0.0,
+        rearLeftAngle = 0.0,
+        rearRightAngle = 0.0,
+        gear = 0,
+        brake = 0.0,
+        throttle = 0.0,
+        revLights = 0;
 
   const Vehicle.initialForDebug()
       : speed = 60,
         engineSpeed = 6500,
         insideTemperature = 25,
         outsideTemperature = 32.0,
+        engineTemperature = 90.0,
         range = 21,
         batteryLevel = 49,
-        isChildLockActiveLeft = false,
-        isChildLockActiveRight = true,
         frontLeftTire = 228,
         frontRightTire = 214,
         rearLeftTire = 214,
@@ -90,17 +110,24 @@ class Vehicle {
         fanSpeed = 0,
         driverTemperature = 26,
         passengerTemperature = 26,
-        temperatureSynced = true;
+        temperatureSynced = true,
+        frontLeftAngle = 10.0,
+        frontRightAngle = 10.0,
+        rearLeftAngle = -10.0,
+        rearRightAngle = -10.0,
+        gear = 3,
+        brake = 0.5,
+        throttle = 0.7,
+        revLights = 8191;
 
   Vehicle copyWith({
     double? speed,
     int? engineSpeed,
     double? insideTemperature,
     double? outsideTemperature,
+    double? engineTemperature,
     int? range,
     int? batteryLevel,
-    bool? isChildLockActiveLeft,
-    bool? isChildLockActiveRight,
     int? frontLeftTire,
     int? frontRightTire,
     int? rearLeftTire,
@@ -113,16 +140,23 @@ class Vehicle {
     int? driverTemperature,
     int? passengerTemperature,
     bool? temperatureSynced,
+    double? frontLeftAngle,
+    double? frontRightAngle,
+    double? rearLeftAngle,
+    double? rearRightAngle,
+    int? gear,
+    double? brake,
+    double? throttle,
+    int? revLights,
   }) {
     return Vehicle(
       speed ?? this.speed,
       engineSpeed ?? this.engineSpeed,
       insideTemperature ?? this.insideTemperature,
       outsideTemperature ?? this.outsideTemperature,
+      engineTemperature ?? this.engineTemperature,
       range ?? this.range,
       batteryLevel ?? this.batteryLevel,
-      isChildLockActiveLeft ?? this.isChildLockActiveLeft,
-      isChildLockActiveRight ?? this.isChildLockActiveRight,
       frontLeftTire ?? this.frontLeftTire,
       frontRightTire ?? this.frontRightTire,
       rearLeftTire ?? this.rearLeftTire,
@@ -135,6 +169,14 @@ class Vehicle {
       driverTemperature ?? this.driverTemperature,
       passengerTemperature ?? this.passengerTemperature,
       temperatureSynced ?? this.temperatureSynced,
+      frontLeftAngle ?? this.frontLeftAngle,
+      frontRightAngle ?? this.frontRightAngle,
+      rearLeftAngle ?? this.rearLeftAngle,
+      rearRightAngle ?? this.rearRightAngle,
+      gear ?? this.gear,
+      brake ?? this.brake,
+      throttle ?? this.throttle,
+      revLights ?? this.revLights,
     );
   }
 
@@ -144,10 +186,9 @@ class Vehicle {
       'engineSpeed': engineSpeed,
       'insideTemperature': insideTemperature,
       'outsideTemperature': outsideTemperature,
+      'engineTemperature': engineTemperature,
       'range': range,
       'batteryLevel': batteryLevel,
-      'isChildLockActiveLeft': isChildLockActiveLeft,
-      'isChildLockActiveRight': isChildLockActiveRight,
       'frontLeftTire': frontLeftTire,
       'frontRightTire': frontRightTire,
       'rearLeftTire': rearLeftTire,
@@ -160,6 +201,14 @@ class Vehicle {
       'driverTemperature': driverTemperature,
       'passengerTemperature': passengerTemperature,
       'temperatureSynced': temperatureSynced,
+      'frontLeftAngle': frontLeftAngle,
+      'frontRightAngle': frontRightAngle,
+      'rearLeftAngle': rearLeftAngle,
+      'rearRightAngle': rearRightAngle,
+      'gear': gear,
+      'brake': brake,
+      'throttle': throttle,
+      'revLights': revLights,
     };
   }
 
@@ -169,10 +218,9 @@ class Vehicle {
       map['engineSpeed']?.toInt() ?? 0,
       map['insideTemperature']?.toDouble() ?? 0.0,
       map['outsideTemperature']?.toDouble() ?? 0.0,
+      map['engineTemperature']?.toDouble() ?? 0.0,
       map['range']?.toInt() ?? 0,
       map['batteryLevel']?.toDouble() ?? 0.0,
-      map['isChildLockActiveLeft'] ?? false,
-      map['isChildLockActiveRight'] ?? false,
       map['frontLeftTire']?.toInt() ?? 0,
       map['frontRightTire']?.toInt() ?? 0,
       map['rearLeftTire']?.toInt() ?? 0,
@@ -185,6 +233,14 @@ class Vehicle {
       map['driverTemperature'] ?? 0,
       map['passengerTemperature'] ?? 0,
       map['temperatureSynced'] ?? false,
+      map['frontLeftAngle']?.toDouble() ?? 0.0,
+      map['frontRightAngle']?.toDouble() ?? 0.0,
+      map['rearLeftAngle']?.toDouble() ?? 0.0,
+      map['rearRightAngle']?.toDouble() ?? 0.0,
+      map['gear']?.toInt() ?? 0,
+      map['brake']?.toDouble() ?? 0.0,
+      map['throttle']?.toDouble() ?? 0.0,
+      map['revLights']?.toInt() ?? 0,
     );
   }
 
@@ -195,7 +251,7 @@ class Vehicle {
 
   @override
   String toString() {
-    return 'Vehicle(speed: $speed, insideTemperature: $insideTemperature, outsideTemperature: $outsideTemperature, range: $range, batteryLevel: $batteryLevel, isChildLockActiveLeft: $isChildLockActiveLeft, isChildLockActiveRight: $isChildLockActiveRight, engineSpeed: $engineSpeed, frontLeftTire: $frontLeftTire, frontRightTire: $frontRightTire, rearLeftTire: $rearLeftTire, rearRightTire: $rearRightTire, isAirConditioningActive: $isAirConditioningActive, isFrontDefrosterActive: $isFrontDefrosterActive, isRearDefrosterActive: $isRearDefrosterActive, isRecirculationActive: $isRecirculationActive,fanSpeed:$fanSpeed,driverTemperature:$driverTemperature, passengerTemperature:$passengerTemperature)';
+    return 'Vehicle(speed: $speed, insideTemperature: $insideTemperature, outsideTemperature: $outsideTemperature, engineTemperature: $engineTemperature range: $range, batteryLevel: $batteryLevel, engineSpeed: $engineSpeed, frontLeftTire: $frontLeftTire, frontRightTire: $frontRightTire, rearLeftTire: $rearLeftTire, rearRightTire: $rearRightTire, isAirConditioningActive: $isAirConditioningActive, isFrontDefrosterActive: $isFrontDefrosterActive, isRearDefrosterActive: $isRearDefrosterActive, isRecirculationActive: $isRecirculationActive,fanSpeed:$fanSpeed,driverTemperature:$driverTemperature, passengerTemperature:$passengerTemperature)';
   }
 
   @override
@@ -209,8 +265,6 @@ class Vehicle {
         other.outsideTemperature == outsideTemperature &&
         other.range == range &&
         other.batteryLevel == batteryLevel &&
-        other.isChildLockActiveLeft == isChildLockActiveLeft &&
-        other.isChildLockActiveRight == isChildLockActiveRight &&
         other.frontLeftTire == frontLeftTire &&
         other.frontRightTire == frontRightTire &&
         other.rearLeftTire == rearLeftTire &&
@@ -222,7 +276,15 @@ class Vehicle {
         other.fanSpeed == fanSpeed &&
         other.driverTemperature == driverTemperature &&
         other.passengerTemperature == passengerTemperature &&
-        other.temperatureSynced == temperatureSynced;
+        other.temperatureSynced == temperatureSynced &&
+        other.frontLeftAngle == frontLeftAngle &&
+        other.frontRightAngle == frontRightAngle &&
+        other.rearLeftAngle == rearLeftAngle &&
+        other.rearRightAngle == rearRightAngle &&
+        other.gear == gear &&
+        other.brake == brake &&
+        other.throttle == throttle &&
+        other.revLights == revLights;
   }
 
   @override
@@ -233,8 +295,6 @@ class Vehicle {
         outsideTemperature.hashCode ^
         range.hashCode ^
         batteryLevel.hashCode ^
-        isChildLockActiveLeft.hashCode ^
-        isChildLockActiveRight.hashCode ^
         frontLeftTire.hashCode ^
         frontRightTire.hashCode ^
         rearLeftTire.hashCode ^
@@ -246,6 +306,14 @@ class Vehicle {
         fanSpeed.hashCode ^
         driverTemperature.hashCode ^
         passengerTemperature.hashCode ^
-        temperatureSynced.hashCode;
+        temperatureSynced.hashCode ^
+        frontLeftAngle.hashCode ^
+        frontRightAngle.hashCode ^
+        rearLeftAngle.hashCode ^
+        rearRightAngle.hashCode ^
+        gear.hashCode ^
+        brake.hashCode ^
+        throttle.hashCode ^
+        revLights.hashCode;
   }
 }

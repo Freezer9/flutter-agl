@@ -5,11 +5,15 @@ class TemperatureWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final temperature = ref.watch(vehicleProvider.select((vehicle) => vehicle));
-    // final outsideTemperature = ref
-    //     .watch(vehicleProvider.select((vehicle) => vehicle.outsideTemperature));
+    final outsideTemperature = ref
+        .watch(vehicleProvider.select((vehicle) => vehicle.outsideTemperature));
+    final insideTemperature = ref
+        .watch(vehicleProvider.select((vehicle) => vehicle.insideTemperature));
+    final engineTemperature = ref
+        .watch(vehicleProvider.select((vehicle) => vehicle.engineTemperature));
     final tempUnit =
         ref.watch(unitStateProvider.select((unit) => unit.temperatureUnit));
+    final screenSize = MediaQuery.of(context).size;
 
     TextStyle temperatureTextStyle = const TextStyle(
       fontFamily: 'BrunoAce',
@@ -24,9 +28,9 @@ class TemperatureWidget extends ConsumerWidget {
     );
 
     return Container(
-      width:
-          442, // needs to be adjusted after the celsius and farenheight symbols are fixed
-      height: 130, // Height of the oval
+      width: screenSize.width * 0.6,
+      padding: const EdgeInsets.symmetric(horizontal: 28),
+      height: 130,
       //padding: const EdgeInsets.all(10),
       decoration: ShapeDecoration(
         gradient: const RadialGradient(
@@ -48,26 +52,36 @@ class TemperatureWidget extends ConsumerWidget {
         ),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           // Inside temperature
           buildTemperatureRow(
             context,
             Icons.thermostat_outlined,
             "Inside",
-            temperature.insideTemperature,
+            insideTemperature,
             tempUnit,
             temperatureTextStyle,
             unitTextStyle,
             false,
           ),
-          const SizedBox(width: 10),
           // Outside temperature
           buildTemperatureRow(
             context,
-            Icons.thermostat_outlined,
+            Icons.wb_sunny_outlined,
             "Outside",
-            temperature.outsideTemperature,
+            outsideTemperature,
+            tempUnit,
+            temperatureTextStyle,
+            unitTextStyle,
+            true,
+          ),
+          // Engine temperature
+          buildTemperatureRow(
+            context,
+            Icons.engineering_outlined,
+            "Engine",
+            engineTemperature,
             tempUnit,
             temperatureTextStyle,
             unitTextStyle,

@@ -5143,7 +5143,16 @@
                     "datatype": "float",
                     "description": "Single track two-axle model steering angle. Angle according to ISO 8855. Positive = degrees to the left. Negative = degrees to the right.",
                     "type": "sensor",
-                    "unit": "degrees"
+                    "unit": "degrees",
+                    "signals": {
+                      "dbc2vss": {
+                        "interval_ms": 100,
+                        "signal": "Steering_Angle_Front"
+                      },
+                      "vss2dbc": {
+                        "signal": "Steering_Angle_Front"
+                      }
+                    }
                   },
                   "TireAspectRatio": {
                     "datatype": "uint8",
@@ -5376,7 +5385,16 @@
                     "datatype": "float",
                     "description": "Single track two-axle model steering angle. Angle according to ISO 8855. Positive = degrees to the left. Negative = degrees to the right.",
                     "type": "sensor",
-                    "unit": "degrees"
+                    "unit": "degrees",
+                    "signals": {
+                      "dbc2vss": {
+                        "interval_ms": 100,
+                        "signal": "Steering_Angle_Rear"
+                      },
+                      "vss2dbc": {
+                        "signal": "Steering_Angle_Rear"
+                      }
+                    }
                   },
                   "TireAspectRatio": {
                     "datatype": "uint8",

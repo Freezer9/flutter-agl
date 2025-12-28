@@ -48,7 +48,6 @@ class VersionInfoPage extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 144),
             child: Column(
               children: [
-                //Lottie.asset('animations/hybrid_model_yellow_arrow.json'),
                 Lottie.asset(
                   'animations/Logo_JSON.json',
                   fit: BoxFit.cover,
@@ -88,7 +87,6 @@ class VersionInfoPage extends ConsumerWidget {
                   ),
                   child: ListTile(
                     contentPadding: const EdgeInsets.only(top: 50, left: 25),
-
                     leading: Text(
                       kernelVersion(),
                       style: Theme.of(context).textTheme.titleMedium,
@@ -103,7 +101,6 @@ class VersionInfoPage extends ConsumerWidget {
           )
         ],
       ),
-      
     );
   }
 }

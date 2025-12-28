@@ -1,6 +1,4 @@
 import 'package:flutter_ics_homescreen/export.dart';
-
-import 'package:flutter_ics_homescreen/export.dart';
 import 'package:flutter_ics_homescreen/presentation/screens/settings/settings_screens/voice_assistant/widgets/voice_assistant_tile.dart';
 
 import '../../../../../../core/utils/helpers.dart';
@@ -8,7 +6,7 @@ import '../../../../../../data/models/voice_assistant_state.dart';
 
 @immutable
 class VoiceAssistantContent extends ConsumerWidget {
-  VoiceAssistantContent({Key? key}) : super(key: key);
+  VoiceAssistantContent({super.key});
   bool isWakeWordMode = false;
   bool isVoiceAssistantOverlay = false;
   bool isOnlineMode = false;
@@ -16,74 +14,72 @@ class VoiceAssistantContent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    isWakeWordMode =
-        ref.watch(voiceAssistantStateProvider.select((value) => value.isWakeWordMode));
-    isVoiceAssistantOverlay =
-        ref.watch(voiceAssistantStateProvider.select((value) => value.voiceAssistantOverlay));
-    isOnlineMode =
-        ref.watch(voiceAssistantStateProvider.select((value) => value.isOnlineMode));
-    sttModel =
-        ref.watch(voiceAssistantStateProvider.select((value) => value.sttModel));
+    isWakeWordMode = ref.watch(
+        voiceAssistantStateProvider.select((value) => value.isWakeWordMode));
+    isVoiceAssistantOverlay = ref.watch(voiceAssistantStateProvider
+        .select((value) => value.voiceAssistantOverlay));
+    isOnlineMode = ref.watch(
+        voiceAssistantStateProvider.select((value) => value.isOnlineMode));
+    sttModel = ref
+        .watch(voiceAssistantStateProvider.select((value) => value.sttModel));
 
-    final wakeWordCallback = () {
-      bool status = ref.read(voiceAssistantStateProvider.notifier).toggleWakeWordMode();
-      if(status){
+    void wakeWordCallback() {
+      bool status =
+          ref.read(voiceAssistantStateProvider.notifier).toggleWakeWordMode();
+      if (status) {
         var voiceAgentClient = ref.read(voiceAgentClientProvider);
         voiceAgentClient.startWakeWordDetection();
       }
-    };
+    }
 
-    final voiceAssistantOverlayCallback = () {
-      ref.read(voiceAssistantStateProvider.notifier).toggleVoiceAssistantOverlay();
-    };
+    void voiceAssistantOverlayCallback() {
+      ref
+          .read(voiceAssistantStateProvider.notifier)
+          .toggleVoiceAssistantOverlay();
+    }
 
-    final onlineModeCallback = () {
+    void onlineModeCallback() {
       ref.read(voiceAssistantStateProvider.notifier).toggleOnlineMode();
-    };
-
+    }
 
     return Column(
       children: [
         Expanded(
-          child: ListView(
-            padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 144),
-            children: [
-              VoiceAssistantTile(
-                  icon: Icons.insert_comment_outlined,
-                  title: "Voice Assistant Overlay",
-                  hasSwitch: true,
-                  voidCallback: voiceAssistantOverlayCallback,
-                  isSwitchOn: isVoiceAssistantOverlay
-              ),
-              if(ref.watch(voiceAssistantStateProvider.select((value) => value.isOnlineModeAvailable)))
+            child: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 144),
+          children: [
+            VoiceAssistantTile(
+                icon: Icons.insert_comment_outlined,
+                title: "Voice Assistant Overlay",
+                hasSwitch: true,
+                voidCallback: voiceAssistantOverlayCallback,
+                isSwitchOn: isVoiceAssistantOverlay),
+            if (ref.watch(voiceAssistantStateProvider
+                .select((value) => value.isOnlineModeAvailable)))
               VoiceAssistantTile(
                   icon: Icons.cloud_circle,
                   title: "Online Mode",
                   hasSwitch: true,
                   voidCallback: onlineModeCallback,
-                  isSwitchOn: isOnlineMode
-              ),
-              VoiceAssistantTile(
-                  icon: Icons.mic_none_outlined,
-                  title: "Wake Word Mode",
-                  hasSwitch: true,
-                  voidCallback: wakeWordCallback,
-                  isSwitchOn: isWakeWordMode
-              ),
-              if(ref.watch(voiceAssistantStateProvider.select((value) => value.isWakeWordMode)))
+                  isSwitchOn: isOnlineMode),
+            VoiceAssistantTile(
+                icon: Icons.mic_none_outlined,
+                title: "Wake Word Mode",
+                hasSwitch: true,
+                voidCallback: wakeWordCallback,
+                isSwitchOn: isWakeWordMode),
+            if (ref.watch(voiceAssistantStateProvider
+                .select((value) => value.isWakeWordMode)))
               WakeWordTile(),
-              SttTile(
-                  title: " Speech To Text",
-                  sttName: sttModel==SttModel.whisper ? "Whisper AI" : "Vosk",
-                  hasSwich: true,
-                  voidCallback: () async {
-                    context
-                        .flow<AppState>()
-                        .update((next) => AppState.sttModel);
-                  }),
-            ],
-          )
-        ),
+            SttTile(
+                title: " Speech To Text",
+                sttName: sttModel == SttModel.whisper ? "Whisper AI" : "Vosk",
+                hasSwich: true,
+                voidCallback: () async {
+                  context.flow<AppState>().update((next) => AppState.sttModel);
+                }),
+          ],
+        )),
       ],
     );
   }
@@ -128,7 +124,7 @@ class SttTileState extends ConsumerState<SttTile> {
           //color: Color(0xFF0D113F),
           child: ListTile(
             contentPadding:
-            const EdgeInsets.symmetric(vertical: 17, horizontal: 24),
+                const EdgeInsets.symmetric(vertical: 17, horizontal: 24),
             leading: Icon(
               Icons.transcribe_outlined,
               color: AGLDemoColors.periwinkleColor,
@@ -178,8 +174,6 @@ class SttTileState extends ConsumerState<SttTile> {
   }
 }
 
-
-
 class WakeWordTile extends ConsumerStatefulWidget {
   const WakeWordTile({Key? key}) : super(key: key);
 
@@ -205,7 +199,7 @@ class WakeWordTileState extends ConsumerState<WakeWordTile> {
           //color: Color(0xFF0D113F),
           child: ListTile(
             contentPadding:
-            const EdgeInsets.symmetric(vertical: 17, horizontal: 24),
+                const EdgeInsets.symmetric(vertical: 17, horizontal: 24),
             leading: Icon(
               Icons.mic_none_outlined,
               color: AGLDemoColors.periwinkleColor,
@@ -225,7 +219,9 @@ class WakeWordTileState extends ConsumerState<WakeWordTile> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  ref.watch(voiceAssistantStateProvider.select((value) => value.wakeWord)) ?? "Not Set",
+                  ref.watch(voiceAssistantStateProvider
+                          .select((value) => value.wakeWord)) ??
+                      "Not Set",
                   style: TextStyle(
                     color: AGLDemoColors.periwinkleColor,
                     shadows: [
@@ -237,7 +233,6 @@ class WakeWordTileState extends ConsumerState<WakeWordTile> {
                 const SizedBox(
                   width: 50,
                 ),
-
               ],
             ),
           ),

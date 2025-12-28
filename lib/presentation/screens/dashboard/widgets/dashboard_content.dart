@@ -62,16 +62,6 @@ class DashBoardState extends ConsumerState<DashBoard>
 
   @override
   Widget build(BuildContext context) {
-    Widget svgImage = Align(
-      alignment: Alignment.bottomCenter,
-      child: SvgPicture.asset(
-        'assets/Car Illustration.svg',
-        width: 625,
-        height: 440,
-        fit: BoxFit.fitHeight,
-      ),
-    );
-
     Widget fadeContent = FadeTransition(
         opacity: _animation,
         child: const Column(
@@ -80,21 +70,19 @@ class DashBoardState extends ConsumerState<DashBoard>
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //mainAxisSize: MainAxisSize.max,
               children: [
                 RPMProgressIndicator(),
                 SpeedProgressIndicator(),
                 BatteryProgressIndicator(),
               ],
             ),
-            HybridModel(),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TemperatureWidget(),
-                RangeWidget(),
               ],
             ),
+            // GearIndicator(),
             CarStatus(),
           ],
         ));
@@ -105,51 +93,6 @@ class DashBoardState extends ConsumerState<DashBoard>
         Positioned.fill(
           child: fadeContent,
         ),
-        Positioned(
-          bottom: 138,
-          child: svgImage,
-        ),
-        // !! THIS IS FOR TESTING BATTERY NOTIFICATIONS ONLY !!
-        // Positioned(
-        //   top: 16,
-        //   right: 16,
-        //   child: Column(
-        //     children: [
-        //       ElevatedButton(
-        //         onPressed: () {
-        //           ref.read(batteryNotifierProvider.notifier).checkBatteryLevel(100);
-        //         },
-        //         style: ElevatedButton.styleFrom(
-        //           backgroundColor: Colors.green,
-        //           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-        //         ),
-        //         child: const Text('Full (100%)', style: TextStyle(color: Colors.white)),
-        //       ),
-        //       const SizedBox(height: 8),
-        //       ElevatedButton(
-        //         onPressed: () {
-        //           ref.read(batteryNotifierProvider.notifier).checkBatteryLevel(50);
-        //         },
-        //         style: ElevatedButton.styleFrom(
-        //           backgroundColor: Colors.orange,
-        //           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-        //         ),
-        //         child: const Text('Medium (50%)', style: TextStyle(color: Colors.white)),
-        //       ),
-        //       const SizedBox(height: 8),
-        //       ElevatedButton(
-        //         onPressed: () {
-        //           ref.read(batteryNotifierProvider.notifier).checkBatteryLevel(8);
-        //         },
-        //         style: ElevatedButton.styleFrom(
-        //           backgroundColor: Colors.red,
-        //           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-        //         ),
-        //         child: const Text('Very Low (8%)', style: TextStyle(color: Colors.white)),
-        //       ),
-        //     ],
-        //   ),
-        // ),
       ],
     );
   }
