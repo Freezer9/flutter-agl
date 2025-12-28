@@ -67,20 +67,7 @@ bitbake flutter-ics-homescreen
 bitbake agl-ivi-demo-flutter
 ```
 
-### Step 6: For faster rebuilds during development, use the following command:
-
-```bash
-# 1. Make changes to your Flutter app code or bbappend
-# 2. Clean and rebuild Flutter package
-bitbake -c cleansstate flutter-ics-homescreen
-bitbake flutter-ics-homescreen
-
-# 3. Check if it built successfully
-# If yes, rebuild the image
-bitbake agl-ivi-demo-flutter
-```
-
-### Step 7: Make Sure flutter-ics-homescreen is reading KUKSA Configurations
+### Step 6: Make Sure flutter-ics-homescreen is reading KUKSA Configurations
 
 
 ```bash
@@ -88,7 +75,7 @@ bitbake agl-ivi-demo-flutter
 journalctl -u ics-homescreen.service 
 ```
 
-### Step 8: Change the VSS and DBC Files as Needed
+### Step 7: Change the VSS and DBC Files as Needed
 
 ```bash
 # VSS File Path

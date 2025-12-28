@@ -68,17 +68,17 @@ class DashBoardState extends ConsumerState<DashBoard>
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Column(
               children: [
-                RPMProgressIndicator(),
-                SpeedProgressIndicator(),
-                BatteryProgressIndicator(),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    RPMProgressIndicator(),
+                    SpeedProgressIndicator(),
+                    BatteryProgressIndicator(),
+                  ],
+                ),
+                SizedBox(height: 52),
                 TemperatureWidget(),
               ],
             ),
