@@ -51,26 +51,25 @@ class LeftCarStatus extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final frontLeftTire =
-        ref.watch(vehicleProvider.select((vehicle) => vehicle.frontLeftTire));
-    final rearLeftTire =
-        ref.watch(vehicleProvider.select((vehicle) => vehicle.rearLeftTire));
-    final frontLeftAngle =
-        ref.watch(vehicleProvider.select((vehicle) => vehicle.frontLeftAngle));
-    final rearLeftAngle =
-        ref.watch(vehicleProvider.select((vehicle) => vehicle.rearLeftAngle));
-    final unit =
-        ref.watch(unitStateProvider.select((unit) => unit.pressureUnit));
+    final frontLeftTire = ref.watch(
+        f1TelemetryNotifierProvider.select((vehicle) => vehicle.frontLeftTire));
+    ref.watch(f1TelemetryNotifierProvider
+        .select((vehicle) => vehicle.frontRightTire));
+    final rearLeftTire = ref.watch(
+        f1TelemetryNotifierProvider.select((vehicle) => vehicle.rearLeftTire));
+    ref.watch(
+        f1TelemetryNotifierProvider.select((vehicle) => vehicle.rearRightTire));
+    final frontLeftAngle = ref.watch(f1TelemetryNotifierProvider
+        .select((vehicle) => vehicle.frontLeftAngle));
+    ref.watch(f1TelemetryNotifierProvider
+        .select((vehicle) => vehicle.frontRightAngle));
+    final rearLeftAngle = ref.watch(
+        f1TelemetryNotifierProvider.select((vehicle) => vehicle.rearLeftAngle));
+    ref.watch(f1TelemetryNotifierProvider
+        .select((vehicle) => vehicle.rearRightAngle));
 
-    String frontLeftTireString = "";
-    String rearLeftTireString = "";
-    if (unit == PressureUnit.psi) {
-      frontLeftTireString = (frontLeftTire * 0.145038).toStringAsFixed(1);
-      rearLeftTireString = (rearLeftTire * 0.145038).toStringAsFixed(1);
-    } else {
-      frontLeftTireString = frontLeftTire.toString();
-      rearLeftTireString = rearLeftTire.toString();
-    }
+    String frontLeftTireString = frontLeftTire.toString();
+    String rearLeftTireString = rearLeftTire.toString();
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -136,26 +135,17 @@ class RightCarStatus extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final frontRightTire =
-        ref.watch(vehicleProvider.select((vehicle) => vehicle.frontRightTire));
-    final rearRightTire =
-        ref.watch(vehicleProvider.select((vehicle) => vehicle.rearRightTire));
-    final frontRightAngle =
-        ref.watch(vehicleProvider.select((vehicle) => vehicle.frontRightAngle));
-    final rearRightAngle =
-        ref.watch(vehicleProvider.select((vehicle) => vehicle.rearRightAngle));
-    final unit =
-        ref.watch(unitStateProvider.select((unit) => unit.pressureUnit));
+    final frontRightTire = ref.watch(f1TelemetryNotifierProvider
+        .select((vehicle) => vehicle.frontRightTire));
+    final rearRightTire = ref.watch(
+        f1TelemetryNotifierProvider.select((vehicle) => vehicle.rearRightTire));
+    final frontRightAngle = ref.watch(f1TelemetryNotifierProvider
+        .select((vehicle) => vehicle.frontRightAngle));
+    final rearRightAngle = ref.watch(f1TelemetryNotifierProvider
+        .select((vehicle) => vehicle.rearRightAngle));
 
-    String frontRightTireString = "";
-    String rearRightTireString = "";
-    if (unit == PressureUnit.psi) {
-      frontRightTireString = (frontRightTire * 0.145038).toStringAsFixed(1);
-      rearRightTireString = (rearRightTire * 0.145038).toStringAsFixed(1);
-    } else {
-      frontRightTireString = frontRightTire.toString();
-      rearRightTireString = rearRightTire.toString();
-    }
+    String frontRightTireString = frontRightTire.toString();
+    String rearRightTireString = rearRightTire.toString();
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,

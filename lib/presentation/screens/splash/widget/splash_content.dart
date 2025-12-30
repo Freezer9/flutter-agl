@@ -79,7 +79,7 @@ class SplashContentState extends ConsumerState<SplashContent>
         if (_showLottieAnimation)
           Center(
             child: Lottie.asset(
-              'animations/Logo_JSON.json',
+              'assets/animations/Logo_JSON.json',
               controller: _lottieController,
               onLoaded: (composition) {
                 _lottieController.duration = composition.duration;

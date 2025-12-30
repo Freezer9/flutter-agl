@@ -49,7 +49,7 @@ class VersionInfoPage extends ConsumerWidget {
             child: Column(
               children: [
                 Lottie.asset(
-                  'animations/Logo_JSON.json',
+                  'assets/animations/Logo_JSON.json',
                   fit: BoxFit.cover,
                   repeat: false,
                 ),

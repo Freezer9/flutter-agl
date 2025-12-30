@@ -1,5 +1,5 @@
 import 'package:flutter_ics_homescreen/export.dart';
-import 'package:flutter_ics_homescreen/data/data_providers/playlist_notifier.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/notifier/playlist_notifier.dart';
 
 enum PlayState { stopped, playing, paused }
 

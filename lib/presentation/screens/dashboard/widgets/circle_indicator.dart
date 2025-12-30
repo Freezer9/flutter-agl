@@ -36,8 +36,8 @@ class RPMProgressIndicatorState extends ConsumerState<RPMProgressIndicator>
 
   @override
   Widget build(BuildContext context) {
-    final rpm =
-        ref.watch(vehicleProvider.select((vehicle) => vehicle.engineSpeed));
+    final engineRpm = ref.watch(f1TelemetryNotifierProvider
+        .select((telemetry) => telemetry.engineSpeed));
     return Column(
       children: [
         SizedBox(
@@ -46,7 +46,7 @@ class RPMProgressIndicatorState extends ConsumerState<RPMProgressIndicator>
             alignment: Alignment.center,
             children: [
               Text(
-                rpm.toStringAsFixed(0),
+                engineRpm.toStringAsFixed(0),
                 style: GoogleFonts.brunoAce(
                   textStyle: const TextStyle(color: Colors.white, fontSize: 44),
                 ),
@@ -55,7 +55,7 @@ class RPMProgressIndicatorState extends ConsumerState<RPMProgressIndicator>
                   angle: pi,
                   child: Stack(
                     children: [
-                      if (rpm > 6500)
+                      if (engineRpm > 6500)
                         SizedBox(
                           height: 200,
                           width: 200,
@@ -65,7 +65,7 @@ class RPMProgressIndicatorState extends ConsumerState<RPMProgressIndicator>
                             //value: controller.value,
                             valueColor: const AlwaysStoppedAnimation<Color>(
                                 AGLDemoColors.redProgressStrokeColor),
-                            value: rpm * (1 / maxRpm),
+                            value: engineRpm * (1 / maxRpm),
                           ),
                         ),
                       SizedBox(
@@ -77,9 +77,9 @@ class RPMProgressIndicatorState extends ConsumerState<RPMProgressIndicator>
                           //value: controller.value,
                           valueColor: const AlwaysStoppedAnimation<Color>(
                               AGLDemoColors.jordyBlueColor),
-                          value: rpm >= 6500
+                          value: engineRpm >= 6500
                               ? 6500 * (1 / maxRpm)
-                              : rpm * (1 / maxRpm),
+                              : engineRpm * (1 / maxRpm),
                         ),
                       ),
                     ],
@@ -91,7 +91,7 @@ class RPMProgressIndicatorState extends ConsumerState<RPMProgressIndicator>
                     width: 220,
                     child: CustomPaint(
                       foregroundPainter: CirclePainter(
-                        value: rpm.toDouble(),
+                        value: engineRpm.toDouble(),
                         maxValue: maxRpm.toDouble(),
                         isRPM: true,
                       ),
@@ -140,7 +140,8 @@ class SpeedProgressIndicatorState extends ConsumerState<SpeedProgressIndicator>
 
   @override
   Widget build(BuildContext context) {
-    final speed = ref.watch(vehicleProvider.select((vehicle) => vehicle.speed));
+    final speed = ref
+        .watch(f1TelemetryNotifierProvider.select((vehicle) => vehicle.speed));
     final unit =
         ref.watch(unitStateProvider.select((unit) => unit.distanceUnit));
     return Column(

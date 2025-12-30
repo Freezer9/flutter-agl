@@ -1,25 +1,27 @@
-import 'package:flutter_ics_homescreen/data/data_providers/hybrid_notifier.dart';
-import 'package:flutter_ics_homescreen/data/data_providers/signal_notifier.dart';
-import 'package:flutter_ics_homescreen/data/data_providers/time_notifier.dart';
-import 'package:flutter_ics_homescreen/data/data_providers/units_notifier.dart';
-import 'package:flutter_ics_homescreen/data/data_providers/users_notifier.dart';
-import 'package:flutter_ics_homescreen/data/data_providers/vehicle_notifier.dart';
-import 'package:flutter_ics_homescreen/data/data_providers/battery_notifier.dart';
-import 'package:flutter_ics_homescreen/data/data_providers/audio_notifier.dart';
-import 'package:flutter_ics_homescreen/data/data_providers/radio_notifier.dart';
-import 'package:flutter_ics_homescreen/data/data_providers/mediaplayer_notifier.dart';
-import 'package:flutter_ics_homescreen/data/data_providers/mediaplayer_position_notifier.dart';
-import 'package:flutter_ics_homescreen/data/data_providers/playlist_notifier.dart';
-import 'package:flutter_ics_homescreen/data/data_providers/playlist_art_notifier.dart';
-import 'package:flutter_ics_homescreen/data/data_providers/val_client.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/client/f1_telemetry_client.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/notifier/f1_telemetry_notifier.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/notifier/hybrid_notifier.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/notifier/signal_notifier.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/notifier/time_notifier.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/notifier/units_notifier.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/notifier/users_notifier.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/notifier/vehicle_notifier.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/notifier/battery_notifier.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/notifier/audio_notifier.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/notifier/radio_notifier.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/notifier/mediaplayer_notifier.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/notifier/mediaplayer_position_notifier.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/notifier/playlist_notifier.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/notifier/playlist_art_notifier.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/client/val_client.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/app_launcher.dart';
-import 'package:flutter_ics_homescreen/data/data_providers/radio_client.dart'
+import 'package:flutter_ics_homescreen/data/data_providers/client/radio_client.dart'
     as radioApi;
-import 'package:flutter_ics_homescreen/data/data_providers/storage_client.dart';
-import 'package:flutter_ics_homescreen/data/data_providers/mpd_client.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/client/storage_client.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/client/mpd_client.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/play_controller.dart';
-import 'package:flutter_ics_homescreen/data/data_providers/voice_agent_client.dart';
-import 'package:flutter_ics_homescreen/data/data_providers/voice_assistant_notifier.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/client/voice_agent_client.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/notifier/voice_assistant_notifier.dart';
 import 'package:flutter_ics_homescreen/export.dart';
 
 import 'package:flutter_ics_homescreen/data/models/users.dart';
@@ -111,6 +113,12 @@ final mpdClientProvider = Provider((ref) {
   return MpdClient(config: config, ref: ref);
 });
 
+final f1TelemetryClientProvider = Provider<F1TelemetryClient>((ref) {
+  final client = F1TelemetryClient(ref);
+  ref.onDispose(() => client.dispose());
+  return client;
+});
+
 final vehicleProvider = NotifierProvider<VehicleNotifier, Vehicle>(
   VehicleNotifier.new,
 );
@@ -118,6 +126,11 @@ final vehicleProvider = NotifierProvider<VehicleNotifier, Vehicle>(
 final batteryNotifierProvider =
     NotifierProvider<BatteryNotifier, BatteryWarningLevel>(
   BatteryNotifier.new,
+);
+
+final f1TelemetryNotifierProvider =
+    NotifierProvider<F1TelemetryNotifier, Vehicle>(
+  F1TelemetryNotifier.new,
 );
 
 final signalsProvider = StateNotifierProvider<SignalNotifier, Signals>((ref) {

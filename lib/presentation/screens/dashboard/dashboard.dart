@@ -1,4 +1,4 @@
-import 'package:flutter_ics_homescreen/data/data_providers/battery_notifier.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/notifier/battery_notifier.dart';
 
 import '/export.dart';
 import 'widgets/dashboard_content.dart';

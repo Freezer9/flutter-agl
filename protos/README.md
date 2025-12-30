@@ -50,3 +50,14 @@ const like = 'sample';
 TODO: Tell users more about the package: where to find more information, how to 
 contribute to the package, how to file issues, what response they can expect 
 from the package authors, and more.
+
+### Command for Generating F1 Proto files
+
+```bash
+protoc \
+  --proto_path=protos/protos \
+  --cpp_out=protos/lib \
+  --go_out=protos/lib \
+  --dart_out=protos/lib \
+  protos/protos/f1/car_telemetry.proto
+```

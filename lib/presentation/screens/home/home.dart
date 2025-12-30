@@ -16,7 +16,7 @@ final bkgImageProvider = Provider((ref) {
 
 final bkgAnimationProvider = Provider((ref) {
   return Lottie.asset(
-    'animations/BG-dotwaveform.json',
+    'assets/animations/BG-dotwaveform.json',
     fit: BoxFit.cover,
     repeat: true,
   );
@@ -79,13 +79,14 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                     child: const VolumeFanControl()),
               ),
             //   Voice Assistant Button
-            if (appState != AppState.splash && ref.watch(voiceAssistantStateProvider.select((value)=>value.isVoiceAssistantEnable)))
+            if (appState != AppState.splash &&
+                ref.watch(voiceAssistantStateProvider
+                    .select((value) => value.isVoiceAssistantEnable)))
               Positioned(
                 top: MediaQuery.of(context).size.height * 0.82,
                 child: Container(
                     padding: const EdgeInsets.only(left: 8),
-                    child: const VoiceAssistantButton()
-                ),
+                    child: const VoiceAssistantButton()),
               ),
           ],
         ),

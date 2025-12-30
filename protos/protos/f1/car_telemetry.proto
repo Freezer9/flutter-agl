@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package f1;
+
+option go_package = "/f1";
+
+// Protocol Buffers - F1 Car Telemetry Data
+message CarTelemetry {
+  float speed = 1;
+  float throttle = 2;
+  float brake = 3;
+  int32 gear = 4;
+  float engine_rpm = 5;
+  float drs = 6;
+  float front_left_tyre_pressure = 7;
+  float front_right_tyre_pressure = 8;
+  float rear_left_tyre_pressure = 9;
+  float rear_right_tyre_pressure = 10;
+  float front_left_wheel_angle = 11;
+  float front_right_wheel_angle = 12;
+  float rear_left_wheel_angle = 13;
+  float rear_right_wheel_angle = 14;
+}

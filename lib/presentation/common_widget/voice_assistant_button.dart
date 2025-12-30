@@ -161,7 +161,7 @@ class _VoiceAssistantButtonState extends ConsumerState<VoiceAssistantButton>
                             height: MediaQuery.of(context).size.height * 0.05,
                           ),
                           Lottie.asset(
-                            'animations/LoadingAnimation.json',
+                            'assets/animations/LoadingAnimation.json',
                             fit: BoxFit.cover,
                             repeat: true,
                           ),
