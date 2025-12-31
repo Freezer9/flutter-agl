@@ -23,23 +23,30 @@ const (
 
 // Protocol Buffers - F1 Car Telemetry Data
 type CarTelemetry struct {
-	state                  protoimpl.MessageState `protogen:"open.v1"`
-	Speed                  float32                `protobuf:"fixed32,1,opt,name=speed,proto3" json:"speed,omitempty"`
-	Throttle               float32                `protobuf:"fixed32,2,opt,name=throttle,proto3" json:"throttle,omitempty"`
-	Brake                  float32                `protobuf:"fixed32,3,opt,name=brake,proto3" json:"brake,omitempty"`
-	Gear                   int32                  `protobuf:"varint,4,opt,name=gear,proto3" json:"gear,omitempty"`
-	EngineRpm              float32                `protobuf:"fixed32,5,opt,name=engine_rpm,json=engineRpm,proto3" json:"engine_rpm,omitempty"`
-	Drs                    float32                `protobuf:"fixed32,6,opt,name=drs,proto3" json:"drs,omitempty"`
-	FrontLeftTyrePressure  float32                `protobuf:"fixed32,7,opt,name=front_left_tyre_pressure,json=frontLeftTyrePressure,proto3" json:"front_left_tyre_pressure,omitempty"`
-	FrontRightTyrePressure float32                `protobuf:"fixed32,8,opt,name=front_right_tyre_pressure,json=frontRightTyrePressure,proto3" json:"front_right_tyre_pressure,omitempty"`
-	RearLeftTyrePressure   float32                `protobuf:"fixed32,9,opt,name=rear_left_tyre_pressure,json=rearLeftTyrePressure,proto3" json:"rear_left_tyre_pressure,omitempty"`
-	RearRightTyrePressure  float32                `protobuf:"fixed32,10,opt,name=rear_right_tyre_pressure,json=rearRightTyrePressure,proto3" json:"rear_right_tyre_pressure,omitempty"`
-	FrontLeftWheelAngle    float32                `protobuf:"fixed32,11,opt,name=front_left_wheel_angle,json=frontLeftWheelAngle,proto3" json:"front_left_wheel_angle,omitempty"`
-	FrontRightWheelAngle   float32                `protobuf:"fixed32,12,opt,name=front_right_wheel_angle,json=frontRightWheelAngle,proto3" json:"front_right_wheel_angle,omitempty"`
-	RearLeftWheelAngle     float32                `protobuf:"fixed32,13,opt,name=rear_left_wheel_angle,json=rearLeftWheelAngle,proto3" json:"rear_left_wheel_angle,omitempty"`
-	RearRightWheelAngle    float32                `protobuf:"fixed32,14,opt,name=rear_right_wheel_angle,json=rearRightWheelAngle,proto3" json:"rear_right_wheel_angle,omitempty"`
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Speed             uint32                 `protobuf:"varint,1,opt,name=speed,proto3" json:"speed,omitempty"`                                                       // Speed of car in kilometres per hour
+	Throttle          float32                `protobuf:"fixed32,2,opt,name=throttle,proto3" json:"throttle,omitempty"`                                                // Amount of throttle applied (0.0 to 1.0)
+	Steer             float32                `protobuf:"fixed32,3,opt,name=steer,proto3" json:"steer,omitempty"`                                                      // Steering (-1.0 (full lock left) to 1.0 (full lock right))
+	Brake             float32                `protobuf:"fixed32,4,opt,name=brake,proto3" json:"brake,omitempty"`                                                      // Amount of brake applied (0.0 to 1.0)
+	Clutch            uint32                 `protobuf:"varint,5,opt,name=clutch,proto3" json:"clutch,omitempty"`                                                     // Amount of clutch applied (0 to 100)
+	Gear              int32                  `protobuf:"varint,6,opt,name=gear,proto3" json:"gear,omitempty"`                                                         // Gear selected (1-8, N=0, R=-1)
+	EngineRpm         uint32                 `protobuf:"varint,7,opt,name=engine_rpm,json=engineRpm,proto3" json:"engine_rpm,omitempty"`                              // Engine RPM
+	Drs               uint32                 `protobuf:"varint,8,opt,name=drs,proto3" json:"drs,omitempty"`                                                           // 0 = off, 1 = on
+	RevLightsPercent  uint32                 `protobuf:"varint,9,opt,name=rev_lights_percent,json=revLightsPercent,proto3" json:"rev_lights_percent,omitempty"`       // Rev lights indicator (percentage)
+	RevLightsBitValue uint32                 `protobuf:"varint,10,opt,name=rev_lights_bit_value,json=revLightsBitValue,proto3" json:"rev_lights_bit_value,omitempty"` // Rev lights (bit 0 = leftmost LED, bit 14 = rightmost LED)
+	// Brakes temperature (celsius) - [RL, RR, FL, FR]
+	BrakesTemperature []uint32 `protobuf:"varint,11,rep,packed,name=brakes_temperature,json=brakesTemperature,proto3" json:"brakes_temperature,omitempty"`
+	// Tyres surface temperature (celsius) - [RL, RR, FL, FR]
+	TyresSurfaceTemperature []uint32 `protobuf:"varint,12,rep,packed,name=tyres_surface_temperature,json=tyresSurfaceTemperature,proto3" json:"tyres_surface_temperature,omitempty"`
+	// Tyres inner temperature (celsius) - [RL, RR, FL, FR]
+	TyresInnerTemperature []uint32 `protobuf:"varint,13,rep,packed,name=tyres_inner_temperature,json=tyresInnerTemperature,proto3" json:"tyres_inner_temperature,omitempty"`
+	EngineTemperature     uint32   `protobuf:"varint,14,opt,name=engine_temperature,json=engineTemperature,proto3" json:"engine_temperature,omitempty"` // Engine temperature (celsius)
+	// Tyres pressure (PSI) - [RL, RR, FL, FR]
+	TyresPressure []float32 `protobuf:"fixed32,15,rep,packed,name=tyres_pressure,json=tyresPressure,proto3" json:"tyres_pressure,omitempty"`
+	// Driving surface type - [RL, RR, FL, FR]
+	SurfaceType   []uint32 `protobuf:"varint,16,rep,packed,name=surface_type,json=surfaceType,proto3" json:"surface_type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CarTelemetry) Reset() {
@@ -72,7 +79,7 @@ func (*CarTelemetry) Descriptor() ([]byte, []int) {
 	return file_f1_car_telemetry_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *CarTelemetry) GetSpeed() float32 {
+func (x *CarTelemetry) GetSpeed() uint32 {
 	if x != nil {
 		return x.Speed
 	}
@@ -86,9 +93,23 @@ func (x *CarTelemetry) GetThrottle() float32 {
 	return 0
 }
 
+func (x *CarTelemetry) GetSteer() float32 {
+	if x != nil {
+		return x.Steer
+	}
+	return 0
+}
+
 func (x *CarTelemetry) GetBrake() float32 {
 	if x != nil {
 		return x.Brake
+	}
+	return 0
+}
+
+func (x *CarTelemetry) GetClutch() uint32 {
+	if x != nil {
+		return x.Clutch
 	}
 	return 0
 }
@@ -100,98 +121,100 @@ func (x *CarTelemetry) GetGear() int32 {
 	return 0
 }
 
-func (x *CarTelemetry) GetEngineRpm() float32 {
+func (x *CarTelemetry) GetEngineRpm() uint32 {
 	if x != nil {
 		return x.EngineRpm
 	}
 	return 0
 }
 
-func (x *CarTelemetry) GetDrs() float32 {
+func (x *CarTelemetry) GetDrs() uint32 {
 	if x != nil {
 		return x.Drs
 	}
 	return 0
 }
 
-func (x *CarTelemetry) GetFrontLeftTyrePressure() float32 {
+func (x *CarTelemetry) GetRevLightsPercent() uint32 {
 	if x != nil {
-		return x.FrontLeftTyrePressure
+		return x.RevLightsPercent
 	}
 	return 0
 }
 
-func (x *CarTelemetry) GetFrontRightTyrePressure() float32 {
+func (x *CarTelemetry) GetRevLightsBitValue() uint32 {
 	if x != nil {
-		return x.FrontRightTyrePressure
+		return x.RevLightsBitValue
 	}
 	return 0
 }
 
-func (x *CarTelemetry) GetRearLeftTyrePressure() float32 {
+func (x *CarTelemetry) GetBrakesTemperature() []uint32 {
 	if x != nil {
-		return x.RearLeftTyrePressure
+		return x.BrakesTemperature
+	}
+	return nil
+}
+
+func (x *CarTelemetry) GetTyresSurfaceTemperature() []uint32 {
+	if x != nil {
+		return x.TyresSurfaceTemperature
+	}
+	return nil
+}
+
+func (x *CarTelemetry) GetTyresInnerTemperature() []uint32 {
+	if x != nil {
+		return x.TyresInnerTemperature
+	}
+	return nil
+}
+
+func (x *CarTelemetry) GetEngineTemperature() uint32 {
+	if x != nil {
+		return x.EngineTemperature
 	}
 	return 0
 }
 
-func (x *CarTelemetry) GetRearRightTyrePressure() float32 {
+func (x *CarTelemetry) GetTyresPressure() []float32 {
 	if x != nil {
-		return x.RearRightTyrePressure
+		return x.TyresPressure
 	}
-	return 0
+	return nil
 }
 
-func (x *CarTelemetry) GetFrontLeftWheelAngle() float32 {
+func (x *CarTelemetry) GetSurfaceType() []uint32 {
 	if x != nil {
-		return x.FrontLeftWheelAngle
+		return x.SurfaceType
 	}
-	return 0
-}
-
-func (x *CarTelemetry) GetFrontRightWheelAngle() float32 {
-	if x != nil {
-		return x.FrontRightWheelAngle
-	}
-	return 0
-}
-
-func (x *CarTelemetry) GetRearLeftWheelAngle() float32 {
-	if x != nil {
-		return x.RearLeftWheelAngle
-	}
-	return 0
-}
-
-func (x *CarTelemetry) GetRearRightWheelAngle() float32 {
-	if x != nil {
-		return x.RearRightWheelAngle
-	}
-	return 0
+	return nil
 }
 
 var File_f1_car_telemetry_proto protoreflect.FileDescriptor
 
 const file_f1_car_telemetry_proto_rawDesc = "" +
 	"\n" +
-	"\x16f1/car_telemetry.proto\x12\x02f1\"\xd3\x04\n" +
+	"\x16f1/car_telemetry.proto\x12\x02f1\"\xc4\x04\n" +
 	"\fCarTelemetry\x12\x14\n" +
-	"\x05speed\x18\x01 \x01(\x02R\x05speed\x12\x1a\n" +
+	"\x05speed\x18\x01 \x01(\rR\x05speed\x12\x1a\n" +
 	"\bthrottle\x18\x02 \x01(\x02R\bthrottle\x12\x14\n" +
-	"\x05brake\x18\x03 \x01(\x02R\x05brake\x12\x12\n" +
-	"\x04gear\x18\x04 \x01(\x05R\x04gear\x12\x1d\n" +
+	"\x05steer\x18\x03 \x01(\x02R\x05steer\x12\x14\n" +
+	"\x05brake\x18\x04 \x01(\x02R\x05brake\x12\x16\n" +
+	"\x06clutch\x18\x05 \x01(\rR\x06clutch\x12\x12\n" +
+	"\x04gear\x18\x06 \x01(\x05R\x04gear\x12\x1d\n" +
 	"\n" +
-	"engine_rpm\x18\x05 \x01(\x02R\tengineRpm\x12\x10\n" +
-	"\x03drs\x18\x06 \x01(\x02R\x03drs\x127\n" +
-	"\x18front_left_tyre_pressure\x18\a \x01(\x02R\x15frontLeftTyrePressure\x129\n" +
-	"\x19front_right_tyre_pressure\x18\b \x01(\x02R\x16frontRightTyrePressure\x125\n" +
-	"\x17rear_left_tyre_pressure\x18\t \x01(\x02R\x14rearLeftTyrePressure\x127\n" +
-	"\x18rear_right_tyre_pressure\x18\n" +
-	" \x01(\x02R\x15rearRightTyrePressure\x123\n" +
-	"\x16front_left_wheel_angle\x18\v \x01(\x02R\x13frontLeftWheelAngle\x125\n" +
-	"\x17front_right_wheel_angle\x18\f \x01(\x02R\x14frontRightWheelAngle\x121\n" +
-	"\x15rear_left_wheel_angle\x18\r \x01(\x02R\x12rearLeftWheelAngle\x123\n" +
-	"\x16rear_right_wheel_angle\x18\x0e \x01(\x02R\x13rearRightWheelAngleB\x05Z\x03/f1b\x06proto3"
+	"engine_rpm\x18\a \x01(\rR\tengineRpm\x12\x10\n" +
+	"\x03drs\x18\b \x01(\rR\x03drs\x12,\n" +
+	"\x12rev_lights_percent\x18\t \x01(\rR\x10revLightsPercent\x12/\n" +
+	"\x14rev_lights_bit_value\x18\n" +
+	" \x01(\rR\x11revLightsBitValue\x12-\n" +
+	"\x12brakes_temperature\x18\v \x03(\rR\x11brakesTemperature\x12:\n" +
+	"\x19tyres_surface_temperature\x18\f \x03(\rR\x17tyresSurfaceTemperature\x126\n" +
+	"\x17tyres_inner_temperature\x18\r \x03(\rR\x15tyresInnerTemperature\x12-\n" +
+	"\x12engine_temperature\x18\x0e \x01(\rR\x11engineTemperature\x12%\n" +
+	"\x0etyres_pressure\x18\x0f \x03(\x02R\rtyresPressure\x12!\n" +
+	"\fsurface_type\x18\x10 \x03(\rR\vsurfaceTypeB\x05Z\x03/f1b\x06proto3"
 
 var (
 	file_f1_car_telemetry_proto_rawDescOnce sync.Once

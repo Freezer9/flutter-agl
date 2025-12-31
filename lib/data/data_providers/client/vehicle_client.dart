@@ -36,11 +36,7 @@ class VehicleClient {
     try {
       final notifier = ref.read(vehicleProvider.notifier);
 
-      if (data[0] == headerByte) {
-        notifier.updateFromBinaryData(data);
-      } else {
-        notifier.updateFromProtobuf(data);
-      }
+      notifier.updateFromProtobuf(data);
     } catch (e) {
       debugPrint('Error handling vehicle telemetry data: $e');
     }

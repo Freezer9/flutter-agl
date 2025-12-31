@@ -65,24 +65,20 @@ class DashBoardState extends ConsumerState<DashBoard>
     Widget fadeContent = FadeTransition(
         opacity: _animation,
         child: const Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    RPMProgressIndicator(),
-                    SpeedProgressIndicator(),
-                    BatteryProgressIndicator(),
-                  ],
-                ),
-                SizedBox(height: 52),
-                TemperatureWidget(),
+                RPMProgressIndicator(),
+                SpeedProgressIndicator(),
+                BatteryProgressIndicator(),
               ],
             ),
-            // GearIndicator(),
+            SizedBox(height: 50),
+            GearIndicator(),
+            SizedBox(height: 30),
             CarStatus(),
           ],
         ));

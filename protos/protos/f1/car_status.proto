@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package f1;
+
+option go_package = "/f1";
+
+// Protocol Buffers - F1 Car Status Data
+message CarStatus {
+  uint32 traction_control = 1; // Traction control - 0 = off, 1 = medium, 2 = full
+  uint32 anti_lock_brakes = 2; // 0 (off) - 1 (on)
+  uint32 fuel_mix = 3; // Fuel mix - 0 = lean, 1 = standard, 2 = rich, 3 = max
+  uint32 front_brake_bias = 4; // Front brake bias (percentage)
+  uint32 pit_limiter_status = 5; // Pit limiter status - 0 = off, 1 = on
+  float fuel_in_tank = 6; // Current fuel mass
+  float fuel_capacity = 7; // Fuel capacity
+  float fuel_remaining_laps = 8; // Fuel remaining in terms of laps (value on MFD)
+  uint32 max_rpm = 9; // Cars max RPM, point of rev limiter
+  uint32 idle_rpm = 10; // Cars idle RPM
+  uint32 max_gears = 11; // Maximum number of gears
+  uint32 drs_allowed = 12; // 0 = not allowed, 1 = allowed
+  uint32 drs_activation_distance = 13; // 0 = DRS not available, non-zero - DRS will be available in [X] metres
+  
+  uint32 actual_tyre_compound = 14; // F1 Modern - 16 = C5, 17 = C4, 18 = C3, 19 = C2, 20 = C1
+                                            // 21 = C0, 7 = inter, 8 = wet
+                                            // F1 Classic - 9 = dry, 10 = wet
+                                            // F2 – 11 = super soft, 12 = soft, 13 = medium, 14 = hard, 15 = wet
+  
+  uint32 visual_tyre_compound = 15; // F1 visual (can be different from actual compound)
+                                            // 16 = soft, 17 = medium, 18 = hard, 7 = inter, 8 = wet
+                                            // F1 Classic – same as above
+                                            // F2 '19, 15 = wet, 19 – super soft, 20 = soft, 21 = medium, 22 = hard
+  
+  uint32 tyres_age_laps = 16; // Age in laps of the current set of tyres
+  int32 vehicle_fia_flags = 17; // -1 = invalid/unknown, 0 = none, 1 = green, 2 = blue, 3 = yellow
+  float engine_power_ice = 18; // Engine power output of ICE (W)
+  float engine_power_mguk = 19; // Engine power output of MGU-K (W)
+  float ers_store_energy = 20; // ERS energy store in Joules
+  uint32 ers_deploy_mode = 21; // ERS deployment mode, 0 = none, 1 = medium, 2 = hotlap, 3 = overtake
+  float ers_harvested_this_lap_mguk = 22; // ERS energy harvested this lap by MGU-K
+  float ers_harvested_this_lap_mguh = 23; // ERS energy harvested this lap by MGU-H
+  float ers_deployed_this_lap = 24; // ERS energy deployed this lap
+  uint32 network_paused = 25; // Whether the car is paused in a network game
+}

@@ -317,7 +317,7 @@ class BatteryProgressIndicatorState
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              'Battery',
+              'ERS',
               style: TextStyle(color: Colors.white, fontSize: 40),
             ),
             if (isLowBattery) ...[

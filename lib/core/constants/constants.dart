@@ -16,3 +16,4 @@ const randomHybridAnimationDefault =
     bool.fromEnvironment('RANDOM_HYBRID_ANIMATION');
 const enableVoiceAssistantDefault =
     bool.fromEnvironment('ENABLE_VOICE_ASSISTANT');
+const maxERSJoules = 4000000.0;

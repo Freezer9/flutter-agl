@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package f1;
+
+option go_package = "/f1";
+
+// Protocol Buffers - F1 Car Damage Data
+message CarDamage {
+    repeated float tyres_wear = 1; // Tyre wear (percentage)
+    repeated uint32 tyres_damage = 2; // Tyre damage (percentage)
+    repeated uint32 brakes_damage = 3; // Brakes damage (percentage)
+    uint32 front_left_wing_damage = 4; // Front left wing damage (percentage)
+    uint32 front_right_wing_damage = 5; // Front right wing damage (percentage)
+    uint32 rear_wing_damage = 6; // Rear wing damage (percentage)
+    uint32 floor_damage = 7; // Floor damage (percentage)
+    uint32 diffuser_damage = 8; // Diffuser damage (percentage)
+    uint32 sidepod_damage = 9; // Sidepod damage (percentage)
+    uint32 drs_fault = 10; // DRS fault, 0 = OK, 1 = fault
+    uint32 ers_fault = 11; // ERS fault, 0 = OK, 1 = fault
+    uint32 gear_box_damage = 12; // Gear box damage (percentage)
+    uint32 engine_damage = 13; // Engine damage (percentage)
+    uint32 engine_mguh_wear = 14; // Engine wear MGU-H (percentage)
+    uint32 engine_es_wear = 15; // Engine wear ES (percentage)
+    uint32 engine_ce_wear = 16; // Engine wear CE (percentage)
+    uint32 engine_ice_wear = 17; // Engine wear ICE (percentage)
+    uint32 engine_mguk_wear = 18; // Engine wear MGU-K (percentage)
+    uint32 engine_tc_wear = 19; // Engine wear TC (percentage)
+    uint32 engine_blown = 20; // Engine blown, 0 = OK, 1 = fault
+    uint32 engine_seized = 21; // Engine seized, 0 = OK, 1 = fault
+}

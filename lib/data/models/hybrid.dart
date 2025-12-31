@@ -46,30 +46,6 @@ class Hybrid {
     );
   }
 
-  // Map<String, dynamic> toMap() {
-  //   return {
-  //     'hybridState': hybridState.toMap(),
-  //     'topArrowState': topArrowState.toMap(),
-  //     'leftArrowState': leftArrowState.toMap(),
-  //     'rightArrowState': rightArrowState.toMap(),
-  //     'batteryState': batteryState.toMap(),
-  //   };
-  // }
-
-  // factory Hybrid.fromMap(Map<String, dynamic> map) {
-  //   return Hybrid(
-  //     hybridState: HybridState.fromMap(map['hybridState']),
-  //     topArrowState: ArrowState.fromMap(map['topArrowState']),
-  //     leftArrowState: ArrowState.fromMap(map['leftArrowState']),
-  //     rightArrowState: ArrowState.fromMap(map['rightArrowState']),
-  //     batteryState: BatteryState.fromMap(map['batteryState']),
-  //   );
-  // }
-
-  // String toJson() => json.encode(toMap());
-
-  // factory Hybrid.fromJson(String source) => Hybrid.fromMap(json.decode(source));
-
   @override
   String toString() {
     return 'Hybrid(hybridState: $hybridState, topArrowState: $topArrowState, leftArrowState: $leftArrowState, rightArrowState: $rightArrowState, batteryState: $batteryState)';

@@ -138,16 +138,19 @@ class TemperatureWidget extends ConsumerWidget {
                   fontSize: 26,
                 ),
               ),
-              RichText(
-                text: TextSpan(
-                  text: temperatureDisplay,
-                  style: tempTextStyle,
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: tempUnit == TemperatureUnit.celsius ? '°C' : '°F',
-                      style: unitTextStyle,
-                    ),
-                  ],
+              SizedBox(
+                width: 110,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(temperatureDisplay, style: tempTextStyle),
+                      Text(tempUnit == TemperatureUnit.celsius ? '°C' : '°F',
+                          style: unitTextStyle),
+                    ],
+                  ),
                 ),
               ),
             ],

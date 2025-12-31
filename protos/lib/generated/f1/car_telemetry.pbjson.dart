@@ -19,81 +19,71 @@ import 'dart:typed_data' as $typed_data;
 const CarTelemetry$json = {
   '1': 'CarTelemetry',
   '2': [
-    {'1': 'speed', '3': 1, '4': 1, '5': 2, '10': 'speed'},
+    {'1': 'speed', '3': 1, '4': 1, '5': 13, '10': 'speed'},
     {'1': 'throttle', '3': 2, '4': 1, '5': 2, '10': 'throttle'},
-    {'1': 'brake', '3': 3, '4': 1, '5': 2, '10': 'brake'},
-    {'1': 'gear', '3': 4, '4': 1, '5': 5, '10': 'gear'},
-    {'1': 'engine_rpm', '3': 5, '4': 1, '5': 2, '10': 'engineRpm'},
-    {'1': 'drs', '3': 6, '4': 1, '5': 2, '10': 'drs'},
+    {'1': 'steer', '3': 3, '4': 1, '5': 2, '10': 'steer'},
+    {'1': 'brake', '3': 4, '4': 1, '5': 2, '10': 'brake'},
+    {'1': 'clutch', '3': 5, '4': 1, '5': 13, '10': 'clutch'},
+    {'1': 'gear', '3': 6, '4': 1, '5': 5, '10': 'gear'},
+    {'1': 'engine_rpm', '3': 7, '4': 1, '5': 13, '10': 'engineRpm'},
+    {'1': 'drs', '3': 8, '4': 1, '5': 13, '10': 'drs'},
     {
-      '1': 'front_left_tyre_pressure',
-      '3': 7,
-      '4': 1,
-      '5': 2,
-      '10': 'frontLeftTyrePressure'
-    },
-    {
-      '1': 'front_right_tyre_pressure',
-      '3': 8,
-      '4': 1,
-      '5': 2,
-      '10': 'frontRightTyrePressure'
-    },
-    {
-      '1': 'rear_left_tyre_pressure',
+      '1': 'rev_lights_percent',
       '3': 9,
       '4': 1,
-      '5': 2,
-      '10': 'rearLeftTyrePressure'
+      '5': 13,
+      '10': 'revLightsPercent'
     },
     {
-      '1': 'rear_right_tyre_pressure',
+      '1': 'rev_lights_bit_value',
       '3': 10,
       '4': 1,
-      '5': 2,
-      '10': 'rearRightTyrePressure'
+      '5': 13,
+      '10': 'revLightsBitValue'
     },
     {
-      '1': 'front_left_wheel_angle',
+      '1': 'brakes_temperature',
       '3': 11,
-      '4': 1,
-      '5': 2,
-      '10': 'frontLeftWheelAngle'
+      '4': 3,
+      '5': 13,
+      '10': 'brakesTemperature'
     },
     {
-      '1': 'front_right_wheel_angle',
+      '1': 'tyres_surface_temperature',
       '3': 12,
-      '4': 1,
-      '5': 2,
-      '10': 'frontRightWheelAngle'
+      '4': 3,
+      '5': 13,
+      '10': 'tyresSurfaceTemperature'
     },
     {
-      '1': 'rear_left_wheel_angle',
+      '1': 'tyres_inner_temperature',
       '3': 13,
-      '4': 1,
-      '5': 2,
-      '10': 'rearLeftWheelAngle'
+      '4': 3,
+      '5': 13,
+      '10': 'tyresInnerTemperature'
     },
     {
-      '1': 'rear_right_wheel_angle',
+      '1': 'engine_temperature',
       '3': 14,
       '4': 1,
-      '5': 2,
-      '10': 'rearRightWheelAngle'
+      '5': 13,
+      '10': 'engineTemperature'
     },
+    {'1': 'tyres_pressure', '3': 15, '4': 3, '5': 2, '10': 'tyresPressure'},
+    {'1': 'surface_type', '3': 16, '4': 3, '5': 13, '10': 'surfaceType'},
   ],
 };
 
 /// Descriptor for `CarTelemetry`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List carTelemetryDescriptor = $convert.base64Decode(
-    'CgxDYXJUZWxlbWV0cnkSFAoFc3BlZWQYASABKAJSBXNwZWVkEhoKCHRocm90dGxlGAIgASgCUg'
-    'h0aHJvdHRsZRIUCgVicmFrZRgDIAEoAlIFYnJha2USEgoEZ2VhchgEIAEoBVIEZ2VhchIdCgpl'
-    'bmdpbmVfcnBtGAUgASgCUgllbmdpbmVScG0SEAoDZHJzGAYgASgCUgNkcnMSNwoYZnJvbnRfbG'
-    'VmdF90eXJlX3ByZXNzdXJlGAcgASgCUhVmcm9udExlZnRUeXJlUHJlc3N1cmUSOQoZZnJvbnRf'
-    'cmlnaHRfdHlyZV9wcmVzc3VyZRgIIAEoAlIWZnJvbnRSaWdodFR5cmVQcmVzc3VyZRI1ChdyZW'
-    'FyX2xlZnRfdHlyZV9wcmVzc3VyZRgJIAEoAlIUcmVhckxlZnRUeXJlUHJlc3N1cmUSNwoYcmVh'
-    'cl9yaWdodF90eXJlX3ByZXNzdXJlGAogASgCUhVyZWFyUmlnaHRUeXJlUHJlc3N1cmUSMwoWZn'
-    'JvbnRfbGVmdF93aGVlbF9hbmdsZRgLIAEoAlITZnJvbnRMZWZ0V2hlZWxBbmdsZRI1Chdmcm9u'
-    'dF9yaWdodF93aGVlbF9hbmdsZRgMIAEoAlIUZnJvbnRSaWdodFdoZWVsQW5nbGUSMQoVcmVhcl'
-    '9sZWZ0X3doZWVsX2FuZ2xlGA0gASgCUhJyZWFyTGVmdFdoZWVsQW5nbGUSMwoWcmVhcl9yaWdo'
-    'dF93aGVlbF9hbmdsZRgOIAEoAlITcmVhclJpZ2h0V2hlZWxBbmdsZQ==');
+    'CgxDYXJUZWxlbWV0cnkSFAoFc3BlZWQYASABKA1SBXNwZWVkEhoKCHRocm90dGxlGAIgASgCUg'
+    'h0aHJvdHRsZRIUCgVzdGVlchgDIAEoAlIFc3RlZXISFAoFYnJha2UYBCABKAJSBWJyYWtlEhYK'
+    'BmNsdXRjaBgFIAEoDVIGY2x1dGNoEhIKBGdlYXIYBiABKAVSBGdlYXISHQoKZW5naW5lX3JwbR'
+    'gHIAEoDVIJZW5naW5lUnBtEhAKA2RycxgIIAEoDVIDZHJzEiwKEnJldl9saWdodHNfcGVyY2Vu'
+    'dBgJIAEoDVIQcmV2TGlnaHRzUGVyY2VudBIvChRyZXZfbGlnaHRzX2JpdF92YWx1ZRgKIAEoDV'
+    'IRcmV2TGlnaHRzQml0VmFsdWUSLQoSYnJha2VzX3RlbXBlcmF0dXJlGAsgAygNUhFicmFrZXNU'
+    'ZW1wZXJhdHVyZRI6Chl0eXJlc19zdXJmYWNlX3RlbXBlcmF0dXJlGAwgAygNUhd0eXJlc1N1cm'
+    'ZhY2VUZW1wZXJhdHVyZRI2Chd0eXJlc19pbm5lcl90ZW1wZXJhdHVyZRgNIAMoDVIVdHlyZXNJ'
+    'bm5lclRlbXBlcmF0dXJlEi0KEmVuZ2luZV90ZW1wZXJhdHVyZRgOIAEoDVIRZW5naW5lVGVtcG'
+    'VyYXR1cmUSJQoOdHlyZXNfcHJlc3N1cmUYDyADKAJSDXR5cmVzUHJlc3N1cmUSIQoMc3VyZmFj'
+    'ZV90eXBlGBAgAygNUgtzdXJmYWNlVHlwZQ==');

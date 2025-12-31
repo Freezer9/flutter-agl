@@ -6,18 +6,31 @@ option go_package = "/f1";
 
 // Protocol Buffers - F1 Car Telemetry Data
 message CarTelemetry {
-  float speed = 1;
-  float throttle = 2;
-  float brake = 3;
-  int32 gear = 4;
-  float engine_rpm = 5;
-  float drs = 6;
-  float front_left_tyre_pressure = 7;
-  float front_right_tyre_pressure = 8;
-  float rear_left_tyre_pressure = 9;
-  float rear_right_tyre_pressure = 10;
-  float front_left_wheel_angle = 11;
-  float front_right_wheel_angle = 12;
-  float rear_left_wheel_angle = 13;
-  float rear_right_wheel_angle = 14;
+  uint32 speed = 1; // Speed of car in kilometres per hour
+  float throttle = 2; // Amount of throttle applied (0.0 to 1.0)
+  float steer = 3; // Steering (-1.0 (full lock left) to 1.0 (full lock right))
+  float brake = 4; // Amount of brake applied (0.0 to 1.0)
+  uint32 clutch = 5; // Amount of clutch applied (0 to 100)
+  int32 gear = 6; // Gear selected (1-8, N=0, R=-1)
+  uint32 engine_rpm = 7; // Engine RPM
+  uint32 drs = 8; // 0 = off, 1 = on
+  uint32 rev_lights_percent = 9; // Rev lights indicator (percentage)
+  uint32 rev_lights_bit_value = 10; // Rev lights (bit 0 = leftmost LED, bit 14 = rightmost LED)
+
+  // Brakes temperature (celsius) - [RL, RR, FL, FR]
+  repeated uint32 brakes_temperature = 11;
+  
+  // Tyres surface temperature (celsius) - [RL, RR, FL, FR]
+  repeated uint32 tyres_surface_temperature = 12;
+  
+  // Tyres inner temperature (celsius) - [RL, RR, FL, FR]
+  repeated uint32 tyres_inner_temperature = 13;
+  
+  uint32 engine_temperature = 14; // Engine temperature (celsius)
+  
+  // Tyres pressure (PSI) - [RL, RR, FL, FR]
+  repeated float tyres_pressure = 15;
+  
+  // Driving surface type - [RL, RR, FL, FR]
+  repeated uint32 surface_type = 16;
 }

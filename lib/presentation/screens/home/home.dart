@@ -69,15 +69,15 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                 HeroController(),
               ],
             ),
-            if (appState != AppState.splash)
-              Positioned(
-                top: 0,
-                bottom: 0,
-                child: Container(
-                    padding: const EdgeInsets.only(left: 8),
-                    height: 500,
-                    child: const VolumeFanControl()),
-              ),
+            // if (appState != AppState.splash)
+            //   Positioned(
+            //     top: 0,
+            //     bottom: 0,
+            //     child: Container(
+            //         padding: const EdgeInsets.only(left: 8),
+            //         height: 500,
+            //         child: const VolumeFanControl()),
+            //   ),
             //   Voice Assistant Button
             if (appState != AppState.splash &&
                 ref.watch(voiceAssistantStateProvider
@@ -85,8 +85,9 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
               Positioned(
                 top: MediaQuery.of(context).size.height * 0.82,
                 child: Container(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: const VoiceAssistantButton()),
+                  padding: const EdgeInsets.only(left: 8),
+                  child: const VoiceAssistantButton(),
+                ),
               ),
           ],
         ),

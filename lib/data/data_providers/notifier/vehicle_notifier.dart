@@ -1,5 +1,5 @@
 import 'package:flutter_ics_homescreen/export.dart';
-import 'package:protos/vehicle_api.dart';
+import 'package:protos/vehicle_api.dart' as proto;
 
 class VehicleNotifier extends Notifier<Vehicle> {
   @override
@@ -13,115 +13,126 @@ class VehicleNotifier extends Notifier<Vehicle> {
 
   void updateFromProtobuf(Uint8List data) {
     try {
-      final telemetry = CarTelemetry.fromBuffer(data);
-      _applyTelemetryToState(telemetry);
+      final vehicleMsg = proto.VehicleMessage.fromBuffer(data);
+
+      switch (vehicleMsg.whichPayload()) {
+        case proto.VehicleMessage_Payload.telemetry:
+          _applyTelemetryToState(vehicleMsg.telemetry);
+          break;
+        case proto.VehicleMessage_Payload.status:
+          _applyStatusToState(vehicleMsg.status);
+          break;
+        case proto.VehicleMessage_Payload.damage:
+          _applyDamageToState(vehicleMsg.damage);
+          break;
+        default:
+          debugPrint('Unknown or empty vehicle message');
+      }
     } catch (e) {
-      debugPrint('Error parsing vehicle telemetry protobuf: $e');
+      debugPrint('Error parsing vehicle protobuf: $e');
     }
   }
 
-  void updateFromTelemetry(CarTelemetry telemetry) {
-    _applyTelemetryToState(telemetry);
-  }
-
-  void _applyTelemetryToState(CarTelemetry telemetry) {
+  void _applyTelemetryToState(proto.CarTelemetry telemetry) {
     state = state.copyWith(
-      speed: telemetry.hasSpeed() ? telemetry.speed : state.speed,
+      speed: telemetry.hasSpeed() ? telemetry.speed.toDouble() : state.speed,
       throttle: telemetry.hasThrottle() ? telemetry.throttle : state.throttle,
       brake: telemetry.hasBrake() ? telemetry.brake : state.brake,
       gear: telemetry.hasGear() ? telemetry.gear : state.gear,
-      engineSpeed: telemetry.hasEngineRpm()
-          ? telemetry.engineRpm.toInt()
-          : state.engineSpeed,
-      frontLeftTire: telemetry.hasFrontLeftTyrePressure()
-          ? telemetry.frontLeftTyrePressure.toInt()
+      revLights: telemetry.hasRevLightsBitValue()
+          ? telemetry.revLightsPercent
+          : state.revLights,
+      engineSpeed:
+          telemetry.hasEngineRpm() ? telemetry.engineRpm : state.engineSpeed,
+      // Tyres pressure array: [RL, RR, FL, FR]
+      frontLeftTire: telemetry.tyresPressure.length > 2
+          ? telemetry.tyresPressure[2].toInt()
           : state.frontLeftTire,
-      frontRightTire: telemetry.hasFrontRightTyrePressure()
-          ? telemetry.frontRightTyrePressure.toInt()
+      frontRightTire: telemetry.tyresPressure.length > 3
+          ? telemetry.tyresPressure[3].toInt()
           : state.frontRightTire,
-      rearLeftTire: telemetry.hasRearLeftTyrePressure()
-          ? telemetry.rearLeftTyrePressure.toInt()
+      rearLeftTire: telemetry.tyresPressure.isNotEmpty
+          ? telemetry.tyresPressure[0].toInt()
           : state.rearLeftTire,
-      rearRightTire: telemetry.hasRearRightTyrePressure()
-          ? telemetry.rearRightTyrePressure.toInt()
+      rearRightTire: telemetry.tyresPressure.length > 1
+          ? telemetry.tyresPressure[1].toInt()
           : state.rearRightTire,
-      frontLeftAngle: telemetry.hasFrontLeftWheelAngle()
-          ? telemetry.frontLeftWheelAngle
-          : state.frontLeftAngle,
-      frontRightAngle: telemetry.hasFrontRightWheelAngle()
-          ? telemetry.frontRightWheelAngle
-          : state.frontRightAngle,
-      rearLeftAngle: telemetry.hasRearLeftWheelAngle()
-          ? telemetry.rearLeftWheelAngle
-          : state.rearLeftAngle,
-      rearRightAngle: telemetry.hasRearRightWheelAngle()
-          ? telemetry.rearRightWheelAngle
-          : state.rearRightAngle,
+      engineTemperature: telemetry.hasEngineTemperature()
+          ? telemetry.engineTemperature.toDouble()
+          : state.engineTemperature,
+
+      frontLeftBrakeTemperature: telemetry.brakesTemperature.length > 2
+          ? telemetry.brakesTemperature[2].toInt()
+          : state.frontLeftBrakeTemperature,
+      frontRightBrakeTemperature: telemetry.brakesTemperature.length > 3
+          ? telemetry.brakesTemperature[3].toInt()
+          : state.frontRightBrakeTemperature,
+      rearLeftBrakeTemperature: telemetry.brakesTemperature.isNotEmpty
+          ? telemetry.brakesTemperature[0].toInt()
+          : state.rearLeftBrakeTemperature,
+      rearRightBrakeTemperature: telemetry.brakesTemperature.length > 1
+          ? telemetry.brakesTemperature[1].toInt()
+          : state.rearRightBrakeTemperature,
+
+      frontLeftInnerTemperature: telemetry.tyresSurfaceTemperature.length > 2
+          ? telemetry.tyresSurfaceTemperature[2].toInt()
+          : state.frontLeftInnerTemperature,
+      frontRightInnerTemperature: telemetry.tyresSurfaceTemperature.length > 3
+          ? telemetry.tyresSurfaceTemperature[3].toInt()
+          : state.frontRightInnerTemperature,
+      rearLeftInnerTemperature: telemetry.tyresSurfaceTemperature.isNotEmpty
+          ? telemetry.tyresSurfaceTemperature[0].toInt()
+          : state.rearLeftInnerTemperature,
+      rearRightInnerTemperature: telemetry.tyresSurfaceTemperature.length > 1
+          ? telemetry.tyresSurfaceTemperature[1].toInt()
+          : state.rearRightInnerTemperature,
+
+      frontLeftSurfaceTemperature: telemetry.tyresInnerTemperature.length > 2
+          ? telemetry.tyresInnerTemperature[2].toInt()
+          : state.frontLeftSurfaceTemperature,
+      frontRightSurfaceTemperature: telemetry.tyresInnerTemperature.length > 3
+          ? telemetry.tyresInnerTemperature[3].toInt()
+          : state.frontRightSurfaceTemperature,
+      rearLeftSurfaceTemperature: telemetry.tyresInnerTemperature.isNotEmpty
+          ? telemetry.tyresInnerTemperature[0].toInt()
+          : state.rearLeftSurfaceTemperature,
+      rearRightSurfaceTemperature: telemetry.tyresInnerTemperature.length > 1
+          ? telemetry.tyresInnerTemperature[1].toInt()
+          : state.rearRightSurfaceTemperature,
+
+      drsMode: telemetry.hasDrs() ? telemetry.drs == 1 : state.drsMode,
     );
   }
 
-  /// Format: 1b header (0xCA), 1b ID, 2b*4 angles, 2b speed, 1b checksum
-  void updateFromBinaryData(Uint8List data) {
-    try {
-      if (data.length != 13) {
-        debugPrint('Invalid binary packet size: ${data.length}');
-        return;
-      }
+  void _applyStatusToState(proto.CarStatus status) {
+    double ersPercent = state.batteryLevel.toDouble();
 
-      // Skip header (data[0] = 0xCA)
-      final id = data[1];
-
-      // Parse angles as signed int16 (little-endian)
-      final frontLeftAngle = _bytesToInt16(data[2], data[3]);
-      final frontRightAngle = _bytesToInt16(data[4], data[5]);
-      final rearLeftAngle = _bytesToInt16(data[6], data[7]);
-      final rearRightAngle = _bytesToInt16(data[8], data[9]);
-
-      // Parse speed as unsigned int16 (little-endian)
-      final speed = _bytesToUint16(data[10], data[11]);
-
-      final sequence = data[12];
-
-      // Create simulator telemetry message
-      final simTelemetry = SimulatorTelemetry()
-        ..id = id
-        ..frontLeftAngle = frontLeftAngle
-        ..frontRightAngle = frontRightAngle
-        ..rearLeftAngle = rearLeftAngle
-        ..rearRightAngle = rearRightAngle
-        ..speed = speed
-        ..sequence = sequence;
-
-      _applySimulatorTelemetry(simTelemetry);
-    } catch (e) {
-      debugPrint('Error parsing binary simulator data: $e');
+    if (status.hasErsStoreEnergy()) {
+      final ersJoules = status.ersStoreEnergy;
+      ersPercent = ((ersJoules / maxERSJoules) * 100).round().toDouble();
+      ersPercent = ersPercent.clamp(0, 100);
     }
-  }
 
-  double _bytesToInt16(int low, int high) {
-    final value = (high << 8) | low;
-    return value > 32767 ? (value - 65536).toDouble() : value.toDouble();
-  }
-
-  double _bytesToUint16(int low, int high) {
-    return ((high << 8) | low).toDouble();
-  }
-
-  void _applySimulatorTelemetry(SimulatorTelemetry telemetry) {
     state = state.copyWith(
-      speed: telemetry.hasSpeed() ? telemetry.speed : state.speed,
-      frontLeftAngle: telemetry.hasFrontLeftAngle()
-          ? telemetry.frontLeftAngle
-          : state.frontLeftAngle,
-      frontRightAngle: telemetry.hasFrontRightAngle()
-          ? telemetry.frontRightAngle
-          : state.frontRightAngle,
-      rearLeftAngle: telemetry.hasRearLeftAngle()
-          ? telemetry.rearLeftAngle
-          : state.rearLeftAngle,
-      rearRightAngle: telemetry.hasRearRightAngle()
-          ? telemetry.rearRightAngle
-          : state.rearRightAngle,
+      batteryLevel: ersPercent.toInt(),
+      ersMode: status.hasErsDeployMode() ? status.ersDeployMode : state.ersMode,
+    );
+  }
+
+  void _applyDamageToState(proto.CarDamageData damage) {
+    state = state.copyWith(
+      frontLeftTireWear: damage.tyresWear.length > 2
+          ? damage.tyresWear[2].toInt()
+          : state.frontLeftTireWear,
+      frontRightTireWear: damage.tyresWear.length > 3
+          ? damage.tyresWear[3].toInt()
+          : state.frontRightTireWear,
+      rearLeftTireWear: damage.tyresWear.isNotEmpty
+          ? damage.tyresWear[0].toInt()
+          : state.rearLeftTireWear,
+      rearRightTireWear: damage.tyresWear.length > 1
+          ? damage.tyresWear[1].toInt()
+          : state.rearRightTireWear,
     );
   }
 

@@ -11,6 +11,10 @@ class GearIndicator extends ConsumerWidget {
         ref.watch(vehicleProvider.select((vehicle) => vehicle.throttle));
     final revLights =
         ref.watch(vehicleProvider.select((vehicle) => vehicle.revLights));
+    final drsMode =
+        ref.watch(vehicleProvider.select((vehicle) => vehicle.drsMode));
+    final ersMode =
+        ref.watch(vehicleProvider.select((vehicle) => vehicle.ersMode));
 
     final gearDisplay = gear == 0
         ? 'N'
@@ -20,15 +24,53 @@ class GearIndicator extends ConsumerWidget {
 
     return Column(
       children: [
-        // Rev Lights Indicator (top)
+        const TemperatureWidget(),
+
+        const SizedBox(height: 32),
         _RevLightsIndicator(revLights: revLights),
         const SizedBox(height: 16),
 
         // Main panel with gear, brake, and throttle
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              margin: const EdgeInsets.symmetric(horizontal: 8),
+              decoration: BoxDecoration(
+                color: drsMode
+                    ? Colors.green.withOpacity(0.2)
+                    : Colors.grey.withOpacity(0.15),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: drsMode ? Colors.greenAccent : Colors.grey.shade700,
+                  width: 2,
+                ),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'DRS',
+                    style: TextStyle(
+                      color: drsMode ? Colors.greenAccent : Colors.white70,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    drsMode ? 'ACTIVE' : 'INACTIVE',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: drsMode ? Colors.greenAccent : Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
             _PedalIndicator(
               label: 'BRK',
               value: brake,
@@ -36,7 +78,6 @@ class GearIndicator extends ConsumerWidget {
             ),
             const SizedBox(width: 16),
 
-            // Gear indicator (center)
             Container(
               width: 160,
               height: 240,
@@ -91,6 +132,47 @@ class GearIndicator extends ConsumerWidget {
               value: throttle,
               color: Colors.greenAccent,
             ),
+
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              margin: const EdgeInsets.symmetric(horizontal: 8),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: AGLDemoColors.jordyBlueColor.withOpacity(0.5),
+                  width: 2,
+                ),
+              ),
+              child: SizedBox(
+                width: 100,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      'ERS',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white70,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      _ersLabel(ersMode),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ],
@@ -105,6 +187,11 @@ class _RevLightsIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // revLights is a percentage (0-100)
+    int totalBoxes = 15;
+    double percent = revLights.clamp(0, 100) / 100.0;
+    int litCount = (percent * totalBoxes).round();
+
     return Container(
       width: 680,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -118,12 +205,9 @@ class _RevLightsIndicator extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(15, (index) {
-          // Check if bit at position 'index' is set
-          bool isLit = (revLights & (1 << index)) != 0;
+        children: List.generate(totalBoxes, (index) {
+          bool isLit = index < litCount;
           Color ledColor;
-
-          // Color coding: green (0-4), yellow (5-9), red (10-14)
           if (index < 5) {
             ledColor = Colors.green;
           } else if (index < 10) {
@@ -131,7 +215,6 @@ class _RevLightsIndicator extends StatelessWidget {
           } else {
             ledColor = Colors.red;
           }
-
           return Container(
             margin: const EdgeInsets.symmetric(horizontal: 4),
             width: 30,
@@ -153,6 +236,19 @@ class _RevLightsIndicator extends StatelessWidget {
         }),
       ),
     );
+  }
+}
+
+String _ersLabel(int mode) {
+  switch (mode) {
+    case 1:
+      return 'Medium';
+    case 2:
+      return 'Hotlap';
+    case 3:
+      return 'Overtake';
+    default:
+      return 'None';
   }
 }
 
@@ -196,28 +292,38 @@ class _PedalIndicator extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(12.0),
-              child: RotatedBox(
-                quarterTurns: 2,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(6),
-                  child: LinearProgressIndicator(
-                    value: value.clamp(0.0, 1.0),
-                    backgroundColor: Colors.grey.shade800,
-                    valueColor: AlwaysStoppedAnimation<Color>(color),
-                    minHeight: double.infinity,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  width: 40,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade800,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      Container(
+                        height: double.infinity,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade800,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                      ),
+                      FractionallySizedBox(
+                        heightFactor: value.clamp(0.0, 1.0),
+                        child: Container(
+                          width: 40,
+                          decoration: BoxDecoration(
+                            color: color,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 12.0),
-            child: Text(
-              '${(value * 100).toStringAsFixed(0)}%',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
               ),
             ),
           ),

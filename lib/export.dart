@@ -28,6 +28,7 @@ export 'presentation/screens/dashboard/widgets/range.dart';
 export 'presentation/screens/dashboard/widgets/temperature.dart';
 export 'presentation/screens/dashboard/widgets/circle_indicator.dart';
 export 'presentation/screens/dashboard/widgets/gear_indicator.dart';
+export 'presentation/screens/dashboard/widgets/wheel.dart';
 export 'presentation/widget/custom_bottom_bar.dart';
 export 'presentation/widget/custom_top_bar.dart';
 export 'presentation/screens/media/media.dart';

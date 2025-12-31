@@ -1,0 +1,17 @@
+syntax = "proto3";
+package f1;
+
+option go_package = "/f1";
+
+import "f1/car_telemetry.proto";
+import "f1/car_status.proto";
+import "f1/car_damage.proto";
+
+// Protocol Buffers - F1 Vehicle Message
+message VehicleMessage {
+  oneof payload {
+    CarTelemetry telemetry = 1;
+    CarStatus status = 2;
+    CarDamage damage = 3;
+  }
+}

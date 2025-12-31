@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-
 import 'package:flutter_ics_homescreen/export.dart';
 
 class CirclePainter extends CustomPainter {
