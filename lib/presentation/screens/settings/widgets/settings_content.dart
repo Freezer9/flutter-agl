@@ -1,6 +1,6 @@
 import 'package:flutter_ics_homescreen/export.dart';
 
-import '../../../custom_icons/custom_icons.dart';
+import '../../../icons/custom_icons.dart';
 import '../settings_screens/voice_assistant/widgets/voice_assistant_settings_list_tile.dart';
 
 class Settings extends ConsumerWidget {
@@ -54,17 +54,20 @@ class Settings extends ConsumerWidget {
                   title: 'Audio Settings',
                   hasSwich: false,
                   voidCallback: () {
-                    ref.read(appProvider.notifier).update(AppState.audioSettings);
+                    ref
+                        .read(appProvider.notifier)
+                        .update(AppState.audioSettings);
                   }),
-              if(ref.watch(appConfigProvider).enableVoiceAssistant)
-              VoiceAssistantSettingsTile(
-                  icon: Icons.keyboard_voice_outlined,
-                  title: "Voice Assistant",
-                  hasSwich: true,
-                  voidCallback: (){
-                    ref.read(appProvider.notifier).update(AppState.voiceAssistant);
-                  }
-              ),
+              if (ref.watch(appConfigProvider).enableVoiceAssistant)
+                VoiceAssistantSettingsTile(
+                    icon: Icons.keyboard_voice_outlined,
+                    title: "Voice Assistant",
+                    hasSwich: true,
+                    voidCallback: () {
+                      ref
+                          .read(appProvider.notifier)
+                          .update(AppState.voiceAssistant);
+                    }),
               SettingsTile(
                   icon: Icons.person_2_outlined,
                   title: 'Profiles',

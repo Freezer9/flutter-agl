@@ -238,7 +238,6 @@ class NewProfilePageState extends ConsumerState<NewProfilePage> {
                   }
                 },
               ),
-            
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 150.0),

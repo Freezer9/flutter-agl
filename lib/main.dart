@@ -1,4 +1,4 @@
-import 'package:flutter_ics_homescreen/data/data_providers/setup/initialize_f1_telemetry.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/setup/initialize_vehicle.dart';
 
 import 'export.dart';
 import 'package:window_manager/window_manager.dart';
@@ -27,7 +27,7 @@ void main() async {
   // Initialize settings from storage API.
   final container = ProviderContainer();
   await initializeSettings(container);
-  await initializeF1Telemetry(container);
+  await initializeVehicle(container);
 
   runApp(
     ProviderScope(

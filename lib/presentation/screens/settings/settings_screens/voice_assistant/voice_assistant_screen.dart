@@ -1,14 +1,13 @@
-
 import 'package:flutter_ics_homescreen/export.dart';
 import 'widgets/voice_assistant_content.dart';
 
-class VoiceAssistantPage extends ConsumerWidget{
+class VoiceAssistantPage extends ConsumerWidget {
   const VoiceAssistantPage({super.key});
 
-  static Page<void> page() => const MaterialPage<void>(child: VoiceAssistantPage());
+  static Page<void> page() =>
+      const MaterialPage<void>(child: VoiceAssistantPage());
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
-
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Column(
         children: [
@@ -25,4 +24,3 @@ class VoiceAssistantPage extends ConsumerWidget{
     );
   }
 }
-

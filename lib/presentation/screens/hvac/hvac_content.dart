@@ -45,11 +45,16 @@ class HVACState extends ConsumerState<HVAC> {
 
   @override
   Widget build(BuildContext context) {
-    bool isACSelected = ref.watch(vehicleProvider.select((vehicle) => vehicle.isAirConditioningActive));
-    bool isFrontDefrostSelected = ref.watch(vehicleProvider.select((vehicle) => vehicle.isFrontDefrosterActive));
-    bool isRearDefrostSelected = ref.watch(vehicleProvider.select((vehicle) => vehicle.isRearDefrosterActive));
-    bool isRecirculationSelected = ref.watch(vehicleProvider.select((vehicle) => vehicle.isRecirculationActive));
-    bool isSYNCSelected = ref.watch(vehicleProvider.select((vehicle) => vehicle.temperatureSynced));
+    bool isACSelected = ref.watch(
+        vehicleProvider.select((vehicle) => vehicle.isAirConditioningActive));
+    bool isFrontDefrostSelected = ref.watch(
+        vehicleProvider.select((vehicle) => vehicle.isFrontDefrosterActive));
+    bool isRearDefrostSelected = ref.watch(
+        vehicleProvider.select((vehicle) => vehicle.isRearDefrosterActive));
+    bool isRecirculationSelected = ref.watch(
+        vehicleProvider.select((vehicle) => vehicle.isRecirculationActive));
+    bool isSYNCSelected = ref
+        .watch(vehicleProvider.select((vehicle) => vehicle.temperatureSynced));
     Size size = MediaQuery.sizeOf(context);
 
     return Column(
@@ -176,7 +181,8 @@ class HVACState extends ConsumerState<HVAC> {
             ClimateControls(
                 onPressed: () {
                   if (!isSYNCSelected) {
-                    int temperature = ref.read(vehicleProvider.select((vehicle) => vehicle.driverTemperature));
+                    int temperature = ref.read(vehicleProvider
+                        .select((vehicle) => vehicle.driverTemperature));
                     ref
                         .read(vehicleProvider.notifier)
                         .setTemperature(side: Side.right, value: temperature);

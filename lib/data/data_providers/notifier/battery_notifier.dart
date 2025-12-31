@@ -1,5 +1,5 @@
 import 'package:flutter_ics_homescreen/export.dart';
-import 'package:flutter_ics_homescreen/presentation/common_widget/battery_notification.dart';
+import 'package:flutter_ics_homescreen/presentation/widget/battery_notification.dart';
 
 enum BatteryWarningLevel { none, low, critical, full }
 

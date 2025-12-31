@@ -5,6 +5,7 @@ import '../../../../../../core/utils/helpers.dart';
 import '../../../../../../data/models/voice_assistant_state.dart';
 
 @immutable
+// ignore: must_be_immutable
 class VoiceAssistantContent extends ConsumerWidget {
   VoiceAssistantContent({super.key});
   bool isWakeWordMode = false;

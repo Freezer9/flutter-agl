@@ -1,4 +1,4 @@
-import 'package:flutter_ics_homescreen/presentation/custom_icons/custom_icons.dart';
+import 'package:flutter_ics_homescreen/presentation/icons/custom_icons.dart';
 
 import '../../../../../../../export.dart';
 import 'bluetooth.dart';

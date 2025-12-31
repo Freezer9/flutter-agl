@@ -16,28 +16,20 @@ ThemeData theme = ThemeData(
   // Define the default `TextTheme`. Use this to specify the default
   // text styling for headlines, titles, bodies of text, and more.
   textTheme: TextTheme(
-    
     displayLarge: const TextStyle(
       fontSize: 72,
       fontWeight: FontWeight.bold,
-      
     ),
     // ···
     titleLarge: GoogleFonts.oswald(
-      fontSize: 30,
-      fontStyle: FontStyle.italic,
-      color: Colors.red
-    ),
-    
+        fontSize: 30, fontStyle: FontStyle.italic, color: Colors.red),
+
     titleMedium: GoogleFonts.firaSans(
         color: AGLDemoColors.periwinkleColor, fontSize: 40),
     bodyMedium: GoogleFonts.firaSans(color: AGLDemoColors.periwinkleColor),
-   
-    
   ),
   appBarTheme: const AppBarTheme(
       backgroundColor: Colors.blue,
       foregroundColor: Colors.white, //here you can give the text color
-      titleTextStyle: TextStyle()
-      ),
+      titleTextStyle: TextStyle()),
 );

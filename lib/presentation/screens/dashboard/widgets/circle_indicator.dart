@@ -36,8 +36,8 @@ class RPMProgressIndicatorState extends ConsumerState<RPMProgressIndicator>
 
   @override
   Widget build(BuildContext context) {
-    final engineRpm = ref.watch(f1TelemetryNotifierProvider
-        .select((telemetry) => telemetry.engineSpeed));
+    final engineRpm =
+        ref.watch(vehicleProvider.select((vehicle) => vehicle.engineSpeed));
     return Column(
       children: [
         SizedBox(
@@ -140,8 +140,7 @@ class SpeedProgressIndicatorState extends ConsumerState<SpeedProgressIndicator>
 
   @override
   Widget build(BuildContext context) {
-    final speed = ref
-        .watch(f1TelemetryNotifierProvider.select((vehicle) => vehicle.speed));
+    final speed = ref.watch(vehicleProvider.select((vehicle) => vehicle.speed));
     final unit =
         ref.watch(unitStateProvider.select((unit) => unit.distanceUnit));
     return Column(

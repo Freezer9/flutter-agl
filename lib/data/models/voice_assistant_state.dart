@@ -1,9 +1,6 @@
-enum SttModel {
-  whisper,
-  vosk
-}
+enum SttModel { whisper, vosk }
 
-class VoiceAssistantState{
+class VoiceAssistantState {
   final bool isWakeWordMode;
   final bool isVoiceAssistantEnable;
   final bool voiceAssistantOverlay;
@@ -21,7 +18,6 @@ class VoiceAssistantState{
   final String commandResponse;
   final bool isWakeWordDetected;
   final bool showOverLay;
-
 
   const VoiceAssistantState({
     required this.isWakeWordMode,
@@ -82,21 +78,25 @@ class VoiceAssistantState{
     bool? showOverLay,
   }) {
     return VoiceAssistantState(
-      isVoiceAssistantEnable : isVoiceAssistantEnable ?? this.isVoiceAssistantEnable,
-      isWakeWordMode : isWakeWordMode ?? this.isWakeWordMode,
-      voiceAssistantOverlay : voiceAssistantOverlay ?? this.voiceAssistantOverlay,
-      isOnlineMode : isOnlineMode ?? this.isOnlineMode,
-      isOnlineModeAvailable : isOnlineModeAvailable ?? this.isOnlineModeAvailable,
-      wakeWord : wakeWord ?? this.wakeWord,
-      sttModel : sttModel ?? this.sttModel,
-      streamId : streamId ?? this.streamId,
-      isCommandProcessing : isCommandProcessing ?? this.isCommandProcessing,
-      commandProcessingText : commandProcessingText ?? this.commandProcessingText,
-      recordingTime : recordingTime ?? this.recordingTime,
-      buttonPressed : buttonPressed ?? this.buttonPressed,
-      isRecording : isRecording ?? this.isRecording,
-      command : command ?? this.command,
-      commandResponse : commandResponse ?? this.commandResponse,
+      isVoiceAssistantEnable:
+          isVoiceAssistantEnable ?? this.isVoiceAssistantEnable,
+      isWakeWordMode: isWakeWordMode ?? this.isWakeWordMode,
+      voiceAssistantOverlay:
+          voiceAssistantOverlay ?? this.voiceAssistantOverlay,
+      isOnlineMode: isOnlineMode ?? this.isOnlineMode,
+      isOnlineModeAvailable:
+          isOnlineModeAvailable ?? this.isOnlineModeAvailable,
+      wakeWord: wakeWord ?? this.wakeWord,
+      sttModel: sttModel ?? this.sttModel,
+      streamId: streamId ?? this.streamId,
+      isCommandProcessing: isCommandProcessing ?? this.isCommandProcessing,
+      commandProcessingText:
+          commandProcessingText ?? this.commandProcessingText,
+      recordingTime: recordingTime ?? this.recordingTime,
+      buttonPressed: buttonPressed ?? this.buttonPressed,
+      isRecording: isRecording ?? this.isRecording,
+      command: command ?? this.command,
+      commandResponse: commandResponse ?? this.commandResponse,
       isWakeWordDetected: isWakeWordDetected ?? this.isWakeWordDetected,
       showOverLay: showOverLay ?? this.showOverLay,
     );

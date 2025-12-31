@@ -51,22 +51,18 @@ class LeftCarStatus extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final frontLeftTire = ref.watch(
-        f1TelemetryNotifierProvider.select((vehicle) => vehicle.frontLeftTire));
-    ref.watch(f1TelemetryNotifierProvider
-        .select((vehicle) => vehicle.frontRightTire));
-    final rearLeftTire = ref.watch(
-        f1TelemetryNotifierProvider.select((vehicle) => vehicle.rearLeftTire));
-    ref.watch(
-        f1TelemetryNotifierProvider.select((vehicle) => vehicle.rearRightTire));
-    final frontLeftAngle = ref.watch(f1TelemetryNotifierProvider
-        .select((vehicle) => vehicle.frontLeftAngle));
-    ref.watch(f1TelemetryNotifierProvider
-        .select((vehicle) => vehicle.frontRightAngle));
-    final rearLeftAngle = ref.watch(
-        f1TelemetryNotifierProvider.select((vehicle) => vehicle.rearLeftAngle));
-    ref.watch(f1TelemetryNotifierProvider
-        .select((vehicle) => vehicle.rearRightAngle));
+    final frontLeftTire =
+        ref.watch(vehicleProvider.select((vehicle) => vehicle.frontLeftTire));
+    ref.watch(vehicleProvider.select((vehicle) => vehicle.frontRightTire));
+    final rearLeftTire =
+        ref.watch(vehicleProvider.select((vehicle) => vehicle.rearLeftTire));
+    ref.watch(vehicleProvider.select((vehicle) => vehicle.rearRightTire));
+    final frontLeftAngle =
+        ref.watch(vehicleProvider.select((vehicle) => vehicle.frontLeftAngle));
+    ref.watch(vehicleProvider.select((vehicle) => vehicle.frontRightAngle));
+    final rearLeftAngle =
+        ref.watch(vehicleProvider.select((vehicle) => vehicle.rearLeftAngle));
+    ref.watch(vehicleProvider.select((vehicle) => vehicle.rearRightAngle));
 
     String frontLeftTireString = frontLeftTire.toString();
     String rearLeftTireString = rearLeftTire.toString();
@@ -135,14 +131,14 @@ class RightCarStatus extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final frontRightTire = ref.watch(f1TelemetryNotifierProvider
-        .select((vehicle) => vehicle.frontRightTire));
-    final rearRightTire = ref.watch(
-        f1TelemetryNotifierProvider.select((vehicle) => vehicle.rearRightTire));
-    final frontRightAngle = ref.watch(f1TelemetryNotifierProvider
-        .select((vehicle) => vehicle.frontRightAngle));
-    final rearRightAngle = ref.watch(f1TelemetryNotifierProvider
-        .select((vehicle) => vehicle.rearRightAngle));
+    final frontRightTire =
+        ref.watch(vehicleProvider.select((vehicle) => vehicle.frontRightTire));
+    final rearRightTire =
+        ref.watch(vehicleProvider.select((vehicle) => vehicle.rearRightTire));
+    final frontRightAngle =
+        ref.watch(vehicleProvider.select((vehicle) => vehicle.frontRightAngle));
+    final rearRightAngle =
+        ref.watch(vehicleProvider.select((vehicle) => vehicle.rearRightAngle));
 
     String frontRightTireString = frontRightTire.toString();
     String rearRightTireString = rearRightTire.toString();

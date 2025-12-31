@@ -10,8 +10,6 @@ class UnitsPage extends ConsumerWidget {
     final unit = ref.watch(unitStateProvider.select((unit) => unit));
 
     return Scaffold(
-      //appBar: SettingsTopBar('Units'),
-
       body: Column(
         children: [
           CommonTitle(

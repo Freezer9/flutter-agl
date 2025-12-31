@@ -1,5 +1,5 @@
 import 'package:flutter_ics_homescreen/export.dart';
-import 'package:protos/applauncher_api.dart';
+import 'package:protos/app_launcher_api.dart';
 import 'package:protos/agl_shell_api.dart';
 
 class AppLauncher {
@@ -15,13 +15,15 @@ class AppLauncher {
   AppLauncher({required this.ref}) {
     aglShellChannel = ClientChannel('localhost',
         port: 14005,
-        options: const ChannelOptions(credentials: ChannelCredentials.insecure()));
+        options:
+            const ChannelOptions(credentials: ChannelCredentials.insecure()));
 
     aglShell = AglShellManagerServiceClient(aglShellChannel);
 
     appLauncherChannel = ClientChannel('localhost',
         port: 50052,
-        options: const ChannelOptions(credentials: ChannelCredentials.insecure()));
+        options:
+            const ChannelOptions(credentials: ChannelCredentials.insecure()));
     appLauncher = AppLauncherClient(appLauncherChannel);
   }
 
@@ -58,7 +60,10 @@ class AppLauncher {
         debugPrint("$info");
         // Existing icons are currently not usable, so leave blank for now
         apps.add(AppLauncherInfo(
-            id: info.id, name: info.name, icon: info.iconPath, internal: false));
+            id: info.id,
+            name: info.name,
+            icon: info.iconPath,
+            internal: false));
       }
       apps.sort((a, b) => a.name.compareTo(b.name));
 
@@ -77,7 +82,7 @@ class AppLauncher {
 
       ref.read(appLauncherListProvider.notifier).update(apps);
     } catch (e) {
-      print(e);
+      debugPrint("Error getting app list: $e");
     }
   }
 

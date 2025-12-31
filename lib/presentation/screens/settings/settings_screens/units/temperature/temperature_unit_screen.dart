@@ -11,7 +11,6 @@ class TemperatureUnitPage extends ConsumerWidget {
         ref.watch(unitStateProvider.select((unit) => unit.temperatureUnit));
 
     return Scaffold(
-     
       body: Column(
         children: [
           CommonTitle(
@@ -54,7 +53,8 @@ class TemperatureUnitPage extends ConsumerWidget {
                         //title: Text(widget.title),
                         //enabled: isSwitchOn,
                         trailing: unit == TemperatureUnit.celsius
-                            ? const Icon(Icons.done,
+                            ? const Icon(
+                                Icons.done,
                                 color: AGLDemoColors.periwinkleColor,
                                 size: 48,
                               )
@@ -96,7 +96,8 @@ class TemperatureUnitPage extends ConsumerWidget {
                       //title: Text(widget.title),
                       //enabled: isSwitchOn,
                       trailing: unit == TemperatureUnit.fahrenheit
-                          ? const Icon(Icons.done,
+                          ? const Icon(
+                              Icons.done,
                               color: AGLDemoColors.periwinkleColor,
                               size: 38,
                             )

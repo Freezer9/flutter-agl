@@ -6,7 +6,13 @@ class VoiceAssistantTile extends ConsumerStatefulWidget {
   final bool hasSwitch;
   final VoidCallback voidCallback;
   final bool isSwitchOn;
-  const VoiceAssistantTile({super.key, required this.icon, required this.title, required this.hasSwitch, required this.voidCallback,required this.isSwitchOn});
+  const VoiceAssistantTile(
+      {super.key,
+      required this.icon,
+      required this.title,
+      required this.hasSwitch,
+      required this.voidCallback,
+      required this.isSwitchOn});
 
   @override
   ConsumerState<VoiceAssistantTile> createState() => _VoiceAssistantTileState();
@@ -29,18 +35,17 @@ class _VoiceAssistantTileState extends ConsumerState<VoiceAssistantTile> {
                 colors: isSwitchOn
                     ? <Color>[Colors.black, Colors.black12]
                     : <Color>[
-                  const Color.fromARGB(50, 0, 0, 0),
-                  Colors.transparent
-                ],
+                        const Color.fromARGB(50, 0, 0, 0),
+                        Colors.transparent
+                      ],
               ),
             ),
             child: Card(
-
               color: Colors.transparent,
               elevation: 5,
               child: Padding(
                 padding:
-                const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
+                    const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
                 child: Row(
                   children: [
                     Icon(
@@ -57,40 +62,37 @@ class _VoiceAssistantTileState extends ConsumerState<VoiceAssistantTile> {
                     ),
                     widget.hasSwitch
                         ? Container(
-                      width: 126,
-                      height: 80,
-                      decoration: const ShapeDecoration(
-                        color:
-                        AGLDemoColors.gradientBackgroundDarkColor,
-                        shape: StadiumBorder(
-                            side: BorderSide(
-                              color: Color(0xFF5477D4),
-                              width: 4,
-                            )),
-                      ),
-                      child: FittedBox(
-                        fit: BoxFit.fill,
-                        child: Switch(
-                            value: isSwitchOn,
-                            onChanged: (bool value) {
-                              setState(() {
-                                isSwitchOn = value;
-                              });
-                              widget.voidCallback();
-                            },
-                            inactiveTrackColor: Colors.transparent,
-                            activeTrackColor: Colors.transparent,
-                            thumbColor:
-                            MaterialStateProperty.all<Color>(
-                                AGLDemoColors.periwinkleColor)),
-                      ),
-                    )
+                            width: 126,
+                            height: 80,
+                            decoration: const ShapeDecoration(
+                              color: AGLDemoColors.gradientBackgroundDarkColor,
+                              shape: StadiumBorder(
+                                  side: BorderSide(
+                                color: Color(0xFF5477D4),
+                                width: 4,
+                              )),
+                            ),
+                            child: FittedBox(
+                              fit: BoxFit.fill,
+                              child: Switch(
+                                  value: isSwitchOn,
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      isSwitchOn = value;
+                                    });
+                                    widget.voidCallback();
+                                  },
+                                  inactiveTrackColor: Colors.transparent,
+                                  activeTrackColor: Colors.transparent,
+                                  thumbColor: MaterialStateProperty.all<Color>(
+                                      AGLDemoColors.periwinkleColor)),
+                            ),
+                          )
                         : const SizedBox(),
                   ],
                 ),
               ),
-            )
-        ),
+            )),
         const SizedBox(
           height: 14,
         )
@@ -98,5 +100,3 @@ class _VoiceAssistantTileState extends ConsumerState<VoiceAssistantTile> {
     );
   }
 }
-
-

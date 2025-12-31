@@ -5,8 +5,7 @@ import 'package:flutter_ics_homescreen/export.dart';
 enum Side { left, right }
 
 class TemperatureControl extends ConsumerStatefulWidget {
-  const TemperatureControl(
-      {super.key, required this.side});
+  const TemperatureControl({super.key, required this.side});
   final Side side;
 
   @override
@@ -21,9 +20,11 @@ class TemperatureControlState extends ConsumerState<TemperatureControl> {
   onPressed({required String type, required Side side}) {
     int temperature = 0;
     if (side == Side.left) {
-      temperature = ref.read(vehicleProvider.select((vehicle) => vehicle.driverTemperature));
+      temperature = ref
+          .read(vehicleProvider.select((vehicle) => vehicle.driverTemperature));
     } else {
-      temperature = ref.read(vehicleProvider.select((vehicle) => vehicle.passengerTemperature));
+      temperature = ref.read(
+          vehicleProvider.select((vehicle) => vehicle.passengerTemperature));
     }
     if (type == "add") {
       temperature = temperature + 1;
@@ -36,7 +37,8 @@ class TemperatureControlState extends ConsumerState<TemperatureControl> {
     } else if (temperature >= 38) {
       temperature = 38;
     }
-    bool isSynced = ref.read(vehicleProvider.select((vehicle) => vehicle.temperatureSynced));
+    bool isSynced = ref
+        .read(vehicleProvider.select((vehicle) => vehicle.temperatureSynced));
     if (widget.side == Side.left) {
       ref
           .read(vehicleProvider.notifier)
@@ -48,9 +50,7 @@ class TemperatureControlState extends ConsumerState<TemperatureControl> {
       }
     } else {
       if (isSynced) {
-        ref
-            .read(vehicleProvider.notifier)
-            .setTemperatureSynced(false);
+        ref.read(vehicleProvider.notifier).setTemperatureSynced(false);
       }
       ref
           .read(vehicleProvider.notifier)
@@ -62,9 +62,11 @@ class TemperatureControlState extends ConsumerState<TemperatureControl> {
   Widget build(BuildContext context) {
     int temperature = 0;
     if (widget.side == Side.left) {
-      temperature = ref.watch(vehicleProvider.select((vehicle) => vehicle.driverTemperature));
+      temperature = ref.watch(
+          vehicleProvider.select((vehicle) => vehicle.driverTemperature));
     } else {
-      temperature = ref.watch(vehicleProvider.select((vehicle) => vehicle.passengerTemperature));
+      temperature = ref.watch(
+          vehicleProvider.select((vehicle) => vehicle.passengerTemperature));
     }
     final tempUnit =
         ref.watch(unitStateProvider.select((unit) => unit.temperatureUnit));
@@ -99,7 +101,6 @@ class TemperatureControlState extends ConsumerState<TemperatureControl> {
                 tempButtonTimer.cancel();
               });
             },
-            
             child: SizedBox(
                 height: height,
                 width: width,
@@ -184,7 +185,6 @@ class TemperatureControlState extends ConsumerState<TemperatureControl> {
               onPressed(type: "subtract", side: widget.side);
             },
             onTapUp: (detail) {
-             
               setState(() {
                 isDownButtonHighlighted = !isDownButtonHighlighted;
               });
@@ -202,7 +202,6 @@ class TemperatureControlState extends ConsumerState<TemperatureControl> {
                 tempButtonTimer.cancel();
               });
             },
-
             child: SizedBox(
                 height: height,
                 width: width,

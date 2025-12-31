@@ -1,8 +1,8 @@
 library radio_api;
 
-export 'src/generated/radio.pb.dart';
-export 'src/generated/radio.pbenum.dart';
-export 'src/generated/radio.pbgrpc.dart';
-export 'src/generated/radio.pbjson.dart';
+export 'generated/radio.pb.dart';
+export 'generated/radio.pbenum.dart';
+export 'generated/radio.pbgrpc.dart';
+export 'generated/radio.pbjson.dart';
 
 export 'package:grpc/grpc.dart';

@@ -15,14 +15,17 @@ class VoiceAssistantSettingsTile extends ConsumerStatefulWidget {
   }) : super(key: key);
 
   @override
-  VoiceAssistantSettingsTileState createState() => VoiceAssistantSettingsTileState();
+  VoiceAssistantSettingsTileState createState() =>
+      VoiceAssistantSettingsTileState();
 }
 
-class VoiceAssistantSettingsTileState extends ConsumerState<VoiceAssistantSettingsTile> {
+class VoiceAssistantSettingsTileState
+    extends ConsumerState<VoiceAssistantSettingsTile> {
   bool isSwitchOn = true;
   @override
   Widget build(BuildContext context) {
-    isSwitchOn = ref.watch(voiceAssistantStateProvider.select((voiceAssistant) => voiceAssistant.isVoiceAssistantEnable));
+    isSwitchOn = ref.watch(voiceAssistantStateProvider
+        .select((voiceAssistant) => voiceAssistant.isVoiceAssistantEnable));
     return Column(
       children: [
         GestureDetector(
@@ -37,9 +40,9 @@ class VoiceAssistantSettingsTileState extends ConsumerState<VoiceAssistantSettin
                   colors: isSwitchOn
                       ? <Color>[Colors.black, Colors.black12]
                       : <Color>[
-                    const Color.fromARGB(50, 0, 0, 0),
-                    Colors.transparent
-                  ],
+                          const Color.fromARGB(50, 0, 0, 0),
+                          Colors.transparent
+                        ],
                 ),
               ),
               child: Card(
@@ -47,7 +50,7 @@ class VoiceAssistantSettingsTileState extends ConsumerState<VoiceAssistantSettin
                 elevation: 5,
                 child: Padding(
                   padding:
-                  const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
                   child: Row(
                     children: [
                       Icon(
@@ -64,43 +67,48 @@ class VoiceAssistantSettingsTileState extends ConsumerState<VoiceAssistantSettin
                       ),
                       widget.hasSwich
                           ? Container(
-                        width: 126,
-                        height: 80,
-                        decoration: const ShapeDecoration(
-                          color:
-                          AGLDemoColors.gradientBackgroundDarkColor,
-                          shape: StadiumBorder(
-                              side: BorderSide(
-                                color: Color(0xFF5477D4),
-                                width: 4,
-                              )),
-                        ),
-                        child: FittedBox(
-                          fit: BoxFit.fill,
-                          child: Switch(
-                              value: isSwitchOn,
-                              onChanged: (bool value) async {
-                                var voiceAgentClient = ref.read(voiceAgentClientProvider);
-                                ServiceStatus status = await voiceAgentClient.checkServiceStatus();
-                                ref.read(voiceAssistantStateProvider.notifier).toggleVoiceAssistant(status);
-                                setState(() {
-                                  isSwitchOn = value;
-                                });
-                                // This is called when the user toggles the switch.
-                              },
-                              inactiveTrackColor: Colors.transparent,
-                              activeTrackColor: Colors.transparent,
-                              thumbColor:
-                              MaterialStateProperty.all<Color>(
-                                  AGLDemoColors.periwinkleColor)),
-                        ),
-                      )
+                              width: 126,
+                              height: 80,
+                              decoration: const ShapeDecoration(
+                                color:
+                                    AGLDemoColors.gradientBackgroundDarkColor,
+                                shape: StadiumBorder(
+                                    side: BorderSide(
+                                  color: Color(0xFF5477D4),
+                                  width: 4,
+                                )),
+                              ),
+                              child: FittedBox(
+                                fit: BoxFit.fill,
+                                child: Switch(
+                                    value: isSwitchOn,
+                                    onChanged: (bool value) async {
+                                      var voiceAgentClient =
+                                          ref.read(voiceAgentClientProvider);
+                                      ServiceStatus status =
+                                          await voiceAgentClient
+                                              .checkServiceStatus();
+                                      ref
+                                          .read(voiceAssistantStateProvider
+                                              .notifier)
+                                          .toggleVoiceAssistant(status);
+                                      setState(() {
+                                        isSwitchOn = value;
+                                      });
+                                      // This is called when the user toggles the switch.
+                                    },
+                                    inactiveTrackColor: Colors.transparent,
+                                    activeTrackColor: Colors.transparent,
+                                    thumbColor:
+                                        MaterialStateProperty.all<Color>(
+                                            AGLDemoColors.periwinkleColor)),
+                              ),
+                            )
                           : const SizedBox(),
                     ],
                   ),
                 ),
-              )
-          ),
+              )),
         ),
         const SizedBox(
           height: 8,

@@ -30,25 +30,29 @@ class _AppsState extends ConsumerState<Apps> {
       children: [
         const CommonTitle(title: "Applications"),
         Expanded(
-          child: GridView.builder(
-            padding: const EdgeInsets.fromLTRB(148, 50, 148, 150),
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: apps.length,
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 300),
-            itemBuilder: (context, index) {
-              return GridTile(
-                  child: Container(
-                      alignment: Alignment.center,
-                      child: AppButton(
-                        title: apps[index].name,
-                        image: apps[index].icon.isNotEmpty ? apps[index].icon : "app-generic.svg",
-                        onPressed: () {
-                          onPressed(internal: apps[index].internal, id: apps[index].id);
-                        },
-                      )));
-            })
-        ),
+            child: GridView.builder(
+                padding: const EdgeInsets.fromLTRB(148, 50, 148, 150),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: apps.length,
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 300),
+                itemBuilder: (context, index) {
+                  return GridTile(
+                      child: Container(
+                          alignment: Alignment.center,
+                          child: AppButton(
+                            title: apps[index].name,
+                            image: apps[index].icon.isNotEmpty
+                                ? apps[index].icon
+                                : "app-generic.svg",
+                            onPressed: () {
+                              onPressed(
+                                  internal: apps[index].internal,
+                                  id: apps[index].id);
+                            },
+                          )));
+                })),
         // Center(
         //   child: SizedBox(
         //       width: 500,
@@ -61,4 +65,3 @@ class _AppsState extends ConsumerState<Apps> {
     );
   }
 }
-

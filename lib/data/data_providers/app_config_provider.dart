@@ -4,37 +4,6 @@ import 'package:flutter_ics_homescreen/core/constants/constants.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yaml/yaml.dart';
 
-class KuksaConfig {
-  final String hostname;
-  final int port;
-  final String authorization;
-  final bool useTls;
-  final List<int> caCertificate;
-  final String tlsServerName;
-
-  static String defaultHostname = 'localhost';
-  static int defaultPort = 55555;
-  static String defaultCaCertPath = '/etc/kuksa-val/CA.pem';
-
-  KuksaConfig(
-      {required this.hostname,
-      required this.port,
-      required this.authorization,
-      required this.useTls,
-      required this.caCertificate,
-      required this.tlsServerName});
-
-  static KuksaConfig defaultConfig() {
-    return KuksaConfig(
-        hostname: KuksaConfig.defaultHostname,
-        port: KuksaConfig.defaultPort,
-        authorization: "",
-        useTls: false,
-        caCertificate: [],
-        tlsServerName: "");
-  }
-}
-
 class RadioConfig {
   final String hostname;
   final int port;
@@ -107,7 +76,6 @@ class AppConfig {
   final bool disableBkgAnimation;
   final bool plainBackground;
   final bool randomHybridAnimation;
-  final KuksaConfig kuksaConfig;
   final RadioConfig radioConfig;
   final StorageConfig storageConfig;
   final MpdConfig mpdConfig;
@@ -120,81 +88,11 @@ class AppConfig {
       {required this.disableBkgAnimation,
       required this.plainBackground,
       required this.randomHybridAnimation,
-      required this.kuksaConfig,
       required this.radioConfig,
       required this.storageConfig,
       required this.mpdConfig,
       required this.voiceAgentConfig,
       required this.enableVoiceAssistant});
-
-  static KuksaConfig parseKuksaConfig(YamlMap kuksaMap) {
-    try {
-      String hostname = KuksaConfig.defaultHostname;
-      if (kuksaMap.containsKey('hostname')) {
-        hostname = kuksaMap['hostname'];
-      }
-
-      int port = KuksaConfig.defaultPort;
-      if (kuksaMap.containsKey('port')) {
-        port = kuksaMap['port'];
-      }
-
-      String token = "";
-      if (kuksaMap.containsKey('authorization')) {
-        String s = kuksaMap['authorization'];
-        if (s.isNotEmpty) {
-          if (s.startsWith("/")) {
-            debugPrint("Reading authorization token $s");
-            try {
-              token = File(s).readAsStringSync();
-            } catch (_) {
-              print("ERROR: Could not read authorization token file $token");
-              token = "";
-            }
-          } else {
-            token = s;
-          }
-        }
-      }
-      //debugPrint("authorization = $token");
-
-      bool useTls = false;
-      if (kuksaMap.containsKey('use-tls')) {
-        var value = kuksaMap['use-tls'];
-        if (value is bool) useTls = value;
-      }
-      //debugPrint("Use TLS = $use_tls");
-
-      List<int> caCert = [];
-      String caPath = KuksaConfig.defaultCaCertPath;
-      if (kuksaMap.containsKey('ca-certificate')) {
-        caPath = kuksaMap['ca-certificate'];
-      }
-      try {
-        caCert = File(caPath).readAsBytesSync();
-      } catch (_) {
-        print("ERROR: Could not read CA certificate file $caPath");
-        caCert = [];
-      }
-      //debugPrint("CA cert = $ca_cert");
-
-      String tlsServerName = "";
-      if (kuksaMap.containsKey('tls-server-name')) {
-        tlsServerName = kuksaMap['tls-server-name'];
-      }
-
-      return KuksaConfig(
-          hostname: hostname,
-          port: port,
-          authorization: token,
-          useTls: useTls,
-          caCertificate: caCert,
-          tlsServerName: tlsServerName);
-    } catch (_) {
-      debugPrint("Invalid KUKSA.val configuration, using defaults");
-      return KuksaConfig.defaultConfig();
-    }
-  }
 
   static RadioConfig parseRadioConfig(YamlMap radioMap) {
     try {
@@ -281,22 +179,9 @@ class AppConfig {
 final appConfigProvider = Provider((ref) {
   final configFile = File(AppConfig.configFilePath);
   try {
-    print("Reading configuration ${AppConfig.configFilePath}");
+    debugPrint("Reading configuration ${AppConfig.configFilePath}");
     String content = configFile.readAsStringSync();
     final dynamic yamlMap = loadYaml(content);
-
-    KuksaConfig kuksaConfig;
-    if (yamlMap.containsKey('kuksa')) {
-      kuksaConfig = AppConfig.parseKuksaConfig(yamlMap['kuksa']);
-    } else {
-      kuksaConfig = KuksaConfig(
-          hostname: KuksaConfig.defaultHostname,
-          port: KuksaConfig.defaultPort,
-          authorization: "",
-          useTls: false,
-          caCertificate: [],
-          tlsServerName: "");
-    }
 
     RadioConfig radioConfig;
     if (yamlMap.containsKey('radio')) {
@@ -362,7 +247,6 @@ final appConfigProvider = Provider((ref) {
         disableBkgAnimation: disableBkgAnimation,
         plainBackground: plainBackground,
         randomHybridAnimation: randomHybridAnimation,
-        kuksaConfig: kuksaConfig,
         radioConfig: radioConfig,
         storageConfig: storageConfig,
         mpdConfig: mpdConfig,
@@ -373,7 +257,6 @@ final appConfigProvider = Provider((ref) {
         disableBkgAnimation: false,
         plainBackground: false,
         randomHybridAnimation: false,
-        kuksaConfig: KuksaConfig.defaultConfig(),
         radioConfig: RadioConfig.defaultConfig(),
         storageConfig: StorageConfig.defaultConfig(),
         mpdConfig: MpdConfig.defaultConfig(),

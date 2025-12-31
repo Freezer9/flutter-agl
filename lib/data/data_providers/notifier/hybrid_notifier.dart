@@ -41,9 +41,6 @@ class HybridNotifier extends StateNotifier<Hybrid> {
             rightArrowState: ArrowState.yellow,
             batteryState: BatteryState.yellow);
         break;
-      default:
-        state = state.copyWith(hybridState: hybridState);
-        break;
     }
   }
 

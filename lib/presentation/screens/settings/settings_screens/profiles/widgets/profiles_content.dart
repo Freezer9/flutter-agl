@@ -107,7 +107,6 @@ class ProfilesContentState extends ConsumerState<ProfilesContent> {
                       .update((state) => AppState.newProfile);
                 },
               ),
-           
               const SizedBox(height: 20),
               GenericButton(
                 height: 122,
@@ -122,4 +121,3 @@ class ProfilesContentState extends ConsumerState<ProfilesContent> {
     );
   }
 }
-

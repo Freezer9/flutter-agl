@@ -109,9 +109,8 @@ class SettingsTileState extends ConsumerState<SettingsTile> {
                                     },
                                     inactiveTrackColor: Colors.transparent,
                                     activeTrackColor: Colors.transparent,
-                                    thumbColor:
-                                        WidgetStateProperty.all<Color>(
-                                            AGLDemoColors.periwinkleColor)),
+                                    thumbColor: WidgetStateProperty.all<Color>(
+                                        AGLDemoColors.periwinkleColor)),
                               ),
                             )
                           : const SizedBox(),

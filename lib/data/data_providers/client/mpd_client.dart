@@ -224,8 +224,6 @@ class MpdClient {
           playState = PlayState.paused;
           ref.read(mediaPlayerPositionProvider.notifier).pause();
           break;
-        default:
-          break;
       }
       ref.read(mediaPlayerStateProvider.notifier).updatePlayState(playState);
     }

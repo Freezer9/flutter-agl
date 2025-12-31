@@ -1,5 +1,4 @@
-import 'package:flutter_ics_homescreen/data/data_providers/client/f1_telemetry_client.dart';
-import 'package:flutter_ics_homescreen/data/data_providers/notifier/f1_telemetry_notifier.dart';
+import 'package:flutter_ics_homescreen/data/data_providers/client/vehicle_client.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/notifier/hybrid_notifier.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/notifier/signal_notifier.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/notifier/time_notifier.dart';
@@ -13,7 +12,6 @@ import 'package:flutter_ics_homescreen/data/data_providers/notifier/mediaplayer_
 import 'package:flutter_ics_homescreen/data/data_providers/notifier/mediaplayer_position_notifier.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/notifier/playlist_notifier.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/notifier/playlist_art_notifier.dart';
-import 'package:flutter_ics_homescreen/data/data_providers/client/val_client.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/app_launcher.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/client/radio_client.dart'
     as radioApi;
@@ -79,9 +77,10 @@ final appProvider = NotifierProvider<AppStateNotifier, AppState>(
   AppStateNotifier.new,
 );
 
-final valClientProvider = Provider((ref) {
-  KuksaConfig config = ref.watch(appConfigProvider).kuksaConfig;
-  return ValClient(config: config, ref: ref);
+final vehicleClientProvider = Provider<VehicleClient>((ref) {
+  final client = VehicleClient(ref);
+  ref.onDispose(() => client.dispose());
+  return client;
 });
 
 final voiceAgentClientProvider = Provider((ref) {
@@ -113,10 +112,11 @@ final mpdClientProvider = Provider((ref) {
   return MpdClient(config: config, ref: ref);
 });
 
-final f1TelemetryClientProvider = Provider<F1TelemetryClient>((ref) {
-  final client = F1TelemetryClient(ref);
-  ref.onDispose(() => client.dispose());
-  return client;
+final homeScreenProvider = Provider((ref) {
+  final Map<String, String> envVars = Platform.environment;
+  final ciFlagStr = envVars['HOMESCREEN_DEMO_CI'];
+  final bool ciFlag = ciFlagStr != null && ciFlagStr != "0";
+  return ciFlag ? const HomeScreenCI() : const HomeScreen();
 });
 
 final vehicleProvider = NotifierProvider<VehicleNotifier, Vehicle>(
@@ -126,11 +126,6 @@ final vehicleProvider = NotifierProvider<VehicleNotifier, Vehicle>(
 final batteryNotifierProvider =
     NotifierProvider<BatteryNotifier, BatteryWarningLevel>(
   BatteryNotifier.new,
-);
-
-final f1TelemetryNotifierProvider =
-    NotifierProvider<F1TelemetryNotifier, Vehicle>(
-  F1TelemetryNotifier.new,
 );
 
 final signalsProvider = StateNotifierProvider<SignalNotifier, Signals>((ref) {

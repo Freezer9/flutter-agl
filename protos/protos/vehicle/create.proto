@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package vehicle;
+
+option go_package = "/vehicle";
+
+// Create Vehicle Telemetry Data Message
+// - 1 byte header (0xCA)
+// - 1 byte ID
+// - 2 bytes front left wheel angle (signed int16)
+// - 2 bytes front right wheel angle (signed int16)
+// - 2 bytes rear left wheel angle (signed int16)
+// - 2 bytes rear right wheel angle (signed int16)
+// - 2 bytes vehicle speed (unsigned int16)
+// - 1 byte sequence/checksum
+message SimulatorTelemetry {
+  uint32 id = 1;
+  double front_left_angle = 2;
+  double front_right_angle = 3;
+  double rear_left_angle = 4;
+  double rear_right_angle = 5;
+  double speed = 6;
+  uint32 sequence = 7;
+}
+

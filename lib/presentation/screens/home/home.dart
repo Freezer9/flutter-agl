@@ -1,6 +1,6 @@
 import 'package:flutter_ics_homescreen/export.dart';
 
-import '../../common_widget/voice_assistant_button.dart';
+import '../../widget/voice_assistant_button.dart';
 // import 'package:media_kit_video/media_kit_video.dart';
 
 final bkgImageProvider = Provider((ref) {

@@ -38,9 +38,7 @@ class RadioClient {
       var response = await stub.getBandParameters(
         api.GetBandParametersRequest(band: api.Band.BAND_FM),
       );
-      ref
-          .read(radioStateProvider.notifier)
-          .updateBandParameters(
+      ref.read(radioStateProvider.notifier).updateBandParameters(
             freqMin: response.min,
             freqMax: response.max,
             freqStep: response.step,

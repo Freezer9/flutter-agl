@@ -12,6 +12,7 @@ class WiredPage extends ConsumerWidget {
   }
 }
 
+// ignore: must_be_immutable
 class WiredScreen extends StatefulWidget {
   WidgetRef ref;
   WiredScreen({super.key, required this.ref});

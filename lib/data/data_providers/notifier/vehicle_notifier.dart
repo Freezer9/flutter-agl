@@ -1,9 +1,5 @@
-// ignore_for_file: unused_local_variable
-
-import 'dart:async';
-
 import 'package:flutter_ics_homescreen/export.dart';
-import 'package:protos/val_api.dart';
+import 'package:protos/vehicle_api.dart';
 
 class VehicleNotifier extends Notifier<Vehicle> {
   @override
@@ -15,136 +11,127 @@ class VehicleNotifier extends Notifier<Vehicle> {
     state = state.copyWith(speed: newValue);
   }
 
-  void _checkBatteryWarning() {
-    final batteryNotifier = ref.read(batteryNotifierProvider.notifier);
-    batteryNotifier.checkBatteryLevel(state.batteryLevel);
+  void updateFromProtobuf(Uint8List data) {
+    try {
+      final telemetry = CarTelemetry.fromBuffer(data);
+      _applyTelemetryToState(telemetry);
+    } catch (e) {
+      debugPrint('Error parsing vehicle telemetry protobuf: $e');
+    }
   }
 
-  bool handleSignalUpdate(DataEntry entry) {
-    bool handled = true;
-    switch (entry.path) {
-      case VSSPath.vehicleSpeed:
-        if (entry.value.hasFloat()) {
-          state = state.copyWith(speed: entry.value.float);
-        }
-        break;
-      case VSSPath.vehicleInsideTemperature:
-        if (entry.value.hasFloat()) {
-          state = state.copyWith(insideTemperature: entry.value.float);
-        }
-        break;
-      case VSSPath.vehicleOutsideTemperature:
-        if (entry.value.hasFloat()) {
-          state = state.copyWith(outsideTemperature: entry.value.float);
-        }
-        break;
-      case VSSPath.vehicleRange:
-        if (entry.value.hasUint32()) {
-          state = state.copyWith(range: entry.value.uint32);
-        }
-        break;
-      case VSSPath.vehicleBatteryLevel:
-        if (entry.value.hasUint32()) {
-          state = state.copyWith(batteryLevel: entry.value.uint32);
-          _checkBatteryWarning();
-        } else if (entry.value.hasFloat()) {
-          state = state.copyWith(batteryLevel: entry.value.float.toInt());
-          _checkBatteryWarning();
-        }
-      case VSSPath.vehicleEngineSpeed:
-        if (entry.value.hasUint32()) {
-          state = state.copyWith(engineSpeed: entry.value.uint32);
-        }
-        break;
-      case VSSPath.vehicleFrontLeftTire:
-        if (entry.value.hasUint32()) {
-          state = state.copyWith(frontLeftTire: entry.value.uint32);
-        }
-        break;
-      case VSSPath.vehicleFrontRightTire:
-        if (entry.value.hasUint32()) {
-          state = state.copyWith(frontRightTire: entry.value.uint32);
-        }
-        break;
-      case VSSPath.vehicleRearLeftTire:
-        if (entry.value.hasUint32()) {
-          state = state.copyWith(rearLeftTire: entry.value.uint32);
-        }
-        break;
-      case VSSPath.vehicleRearRightTire:
-        if (entry.value.hasUint32()) {
-          state = state.copyWith(rearRightTire: entry.value.uint32);
-        }
-        break;
-      case VSSPath.vehicleIsAirConditioningActive:
-        if (entry.value.hasBool_12()) {
-          state = state.copyWith(isAirConditioningActive: entry.value.bool_12);
-        }
-        break;
-      case VSSPath.vehicleIsFrontDefrosterActive:
-        if (entry.value.hasBool_12()) {
-          state = state.copyWith(isFrontDefrosterActive: entry.value.bool_12);
-        }
-        break;
-      case VSSPath.vehicleIsRearDefrosterActive:
-        if (entry.value.hasBool_12()) {
-          state = state.copyWith(isRearDefrosterActive: entry.value.bool_12);
-        }
-        break;
-      case VSSPath.vehicleIsRecirculationActive:
-        if (entry.value.hasBool_12()) {
-          state = state.copyWith(isRecirculationActive: entry.value.bool_12);
-        }
-        break;
-      case VSSPath.vehicleFanSpeed:
-        if (entry.value.hasUint32()) {
-          // Convert 0-100 to local 0-3 setting
-          var value = entry.value.uint32;
-          var fanSpeed = 0;
-          if (value > 66) {
-            fanSpeed = 3;
-          } else if (value > 33) {
-            fanSpeed = 2;
-          } else if (value > 0) {
-            fanSpeed = 1;
-          }
-          state = state.copyWith(fanSpeed: fanSpeed);
-        }
-        break;
-      case VSSPath.vehicleDriverTemperature:
-        if (entry.value.hasInt32()) {
-          state = state.copyWith(driverTemperature: entry.value.int32);
-        }
-        break;
-      case VSSPath.vehiclePassengerTemperature:
-        if (entry.value.hasInt32()) {
-          state = state.copyWith(passengerTemperature: entry.value.int32);
-        }
-        break;
-      default:
-        handled = false;
+  void updateFromTelemetry(CarTelemetry telemetry) {
+    _applyTelemetryToState(telemetry);
+  }
+
+  void _applyTelemetryToState(CarTelemetry telemetry) {
+    state = state.copyWith(
+      speed: telemetry.hasSpeed() ? telemetry.speed : state.speed,
+      throttle: telemetry.hasThrottle() ? telemetry.throttle : state.throttle,
+      brake: telemetry.hasBrake() ? telemetry.brake : state.brake,
+      gear: telemetry.hasGear() ? telemetry.gear : state.gear,
+      engineSpeed: telemetry.hasEngineRpm()
+          ? telemetry.engineRpm.toInt()
+          : state.engineSpeed,
+      frontLeftTire: telemetry.hasFrontLeftTyrePressure()
+          ? telemetry.frontLeftTyrePressure.toInt()
+          : state.frontLeftTire,
+      frontRightTire: telemetry.hasFrontRightTyrePressure()
+          ? telemetry.frontRightTyrePressure.toInt()
+          : state.frontRightTire,
+      rearLeftTire: telemetry.hasRearLeftTyrePressure()
+          ? telemetry.rearLeftTyrePressure.toInt()
+          : state.rearLeftTire,
+      rearRightTire: telemetry.hasRearRightTyrePressure()
+          ? telemetry.rearRightTyrePressure.toInt()
+          : state.rearRightTire,
+      frontLeftAngle: telemetry.hasFrontLeftWheelAngle()
+          ? telemetry.frontLeftWheelAngle
+          : state.frontLeftAngle,
+      frontRightAngle: telemetry.hasFrontRightWheelAngle()
+          ? telemetry.frontRightWheelAngle
+          : state.frontRightAngle,
+      rearLeftAngle: telemetry.hasRearLeftWheelAngle()
+          ? telemetry.rearLeftWheelAngle
+          : state.rearLeftAngle,
+      rearRightAngle: telemetry.hasRearRightWheelAngle()
+          ? telemetry.rearRightWheelAngle
+          : state.rearRightAngle,
+    );
+  }
+
+  /// Format: 1b header (0xCA), 1b ID, 2b*4 angles, 2b speed, 1b checksum
+  void updateFromBinaryData(Uint8List data) {
+    try {
+      if (data.length != 13) {
+        debugPrint('Invalid binary packet size: ${data.length}');
+        return;
+      }
+
+      // Skip header (data[0] = 0xCA)
+      final id = data[1];
+
+      // Parse angles as signed int16 (little-endian)
+      final frontLeftAngle = _bytesToInt16(data[2], data[3]);
+      final frontRightAngle = _bytesToInt16(data[4], data[5]);
+      final rearLeftAngle = _bytesToInt16(data[6], data[7]);
+      final rearRightAngle = _bytesToInt16(data[8], data[9]);
+
+      // Parse speed as unsigned int16 (little-endian)
+      final speed = _bytesToUint16(data[10], data[11]);
+
+      final sequence = data[12];
+
+      // Create simulator telemetry message
+      final simTelemetry = SimulatorTelemetry()
+        ..id = id
+        ..frontLeftAngle = frontLeftAngle
+        ..frontRightAngle = frontRightAngle
+        ..rearLeftAngle = rearLeftAngle
+        ..rearRightAngle = rearRightAngle
+        ..speed = speed
+        ..sequence = sequence;
+
+      _applySimulatorTelemetry(simTelemetry);
+    } catch (e) {
+      debugPrint('Error parsing binary simulator data: $e');
     }
-    return handled;
+  }
+
+  double _bytesToInt16(int low, int high) {
+    final value = (high << 8) | low;
+    return value > 32767 ? (value - 65536).toDouble() : value.toDouble();
+  }
+
+  double _bytesToUint16(int low, int high) {
+    return ((high << 8) | low).toDouble();
+  }
+
+  void _applySimulatorTelemetry(SimulatorTelemetry telemetry) {
+    state = state.copyWith(
+      speed: telemetry.hasSpeed() ? telemetry.speed : state.speed,
+      frontLeftAngle: telemetry.hasFrontLeftAngle()
+          ? telemetry.frontLeftAngle
+          : state.frontLeftAngle,
+      frontRightAngle: telemetry.hasFrontRightAngle()
+          ? telemetry.frontRightAngle
+          : state.frontRightAngle,
+      rearLeftAngle: telemetry.hasRearLeftAngle()
+          ? telemetry.rearLeftAngle
+          : state.rearLeftAngle,
+      rearRightAngle: telemetry.hasRearRightAngle()
+          ? telemetry.rearRightAngle
+          : state.rearRightAngle,
+    );
   }
 
   void setTemperature({required Side side, required int value}) {
-    var valClient = ref.read(valClientProvider);
     try {
       switch (side) {
         case Side.left:
-          valClient.setFloat(
-            VSSPath.vehicleDriverTemperature,
-            value.toDouble(),
-            true,
-          );
           state = state.copyWith(driverTemperature: value);
           break;
         case Side.right:
-          valClient.setFloat(
-            VSSPath.vehiclePassengerTemperature,
-            value.toDouble(),
-            true,
-          );
           state = state.copyWith(passengerTemperature: value);
           break;
       }
@@ -158,72 +145,30 @@ class VehicleNotifier extends Notifier<Vehicle> {
   }
 
   void updateFanSpeed(int newValue) {
-    // Convert local 0-3 setting to the 0-100 the VSS signal expects
-    var targetFanSpeed = 0;
-    switch (newValue) {
-      case 1:
-        targetFanSpeed = 33;
-        break;
-      case 2:
-        targetFanSpeed = 66;
-        break;
-      case 3:
-        targetFanSpeed = 100;
-      case 0:
-      default:
-        break;
-    }
-    var valClient = ref.read(valClientProvider);
-    valClient.setUint32(
-      VSSPath.vehicleFanSpeed,
-      targetFanSpeed,
-      true,
-    );
     state = state.copyWith(fanSpeed: newValue);
   }
 
   void setHVACMode({required String mode}) {
-    var valClient = ref.read(valClientProvider);
     try {
       switch (mode) {
         case 'airCondition':
-          valClient.setBool(
-            VSSPath.vehicleIsAirConditioningActive,
-            !state.isAirConditioningActive,
-            true,
-          );
           state = state.copyWith(
               isAirConditioningActive: !state.isAirConditioningActive);
           break;
         case 'frontDefrost':
-          valClient.setBool(
-            VSSPath.vehicleIsFrontDefrosterActive,
-            !state.isFrontDefrosterActive,
-            true,
-          );
           state = state.copyWith(
               isFrontDefrosterActive: !state.isFrontDefrosterActive);
           break;
         case 'rearDefrost':
-          valClient.setBool(
-            VSSPath.vehicleIsRearDefrosterActive,
-            !state.isRearDefrosterActive,
-            true,
-          );
           state = state.copyWith(
               isRearDefrosterActive: !state.isRearDefrosterActive);
           break;
         case 'recirculation':
-          valClient.setBool(
-            VSSPath.vehicleIsRecirculationActive,
-            !state.isRecirculationActive,
-            true,
-          );
           state = state.copyWith(
               isRecirculationActive: !state.isRecirculationActive);
           break;
         default:
-          debugPrint("ERROR: Unexpected mode value ${mode}");
+          debugPrint("ERROR: Unexpected mode value $mode");
           break;
       }
     } catch (e) {
@@ -232,104 +177,6 @@ class VehicleNotifier extends Notifier<Vehicle> {
   }
 
   void setInitialState() {
-    var speed = state.speed;
-    var rpm = state.engineSpeed;
-    var batteryLevel = state.batteryLevel;
-    var insideTemp = state.insideTemperature;
-    var outsideTemp = state.outsideTemperature;
-    var range = state.range;
-    var psi = state.frontLeftTire;
-    var actualSpeed = 0.0;
-    var actualRpm = 0;
-    var actualBatteryLevel = 0.0;
-    var actualInsideTemp = 0.0;
-    var actualOutsideTemp = 0.0;
-    var actualRange = 0;
-    var actualPsi = 0;
-
     state = const Vehicle.initial();
-    Timer speedTimer =
-        Timer.periodic(const Duration(milliseconds: 600), (timer) {
-      actualSpeed = actualSpeed + 10;
-
-      if (actualSpeed > speed) {
-        actualSpeed = speed;
-
-        timer.cancel();
-      }
-      state = state.copyWith(speed: actualSpeed);
-    });
-    Timer rpmTimer = Timer.periodic(const Duration(milliseconds: 400), (timer) {
-      actualRpm = actualRpm + 150;
-
-      if (actualRpm > rpm) {
-        actualRpm = rpm;
-        timer.cancel();
-      }
-      state = state.copyWith(engineSpeed: actualRpm);
-    });
-    Timer batteryLevelTimer = Timer.periodic(
-      const Duration(milliseconds: 400),
-      (timer) {
-        actualBatteryLevel = actualBatteryLevel + 1;
-
-        if (actualBatteryLevel > batteryLevel) {
-          actualBatteryLevel = batteryLevel.toDouble();
-
-          timer.cancel();
-        }
-        state = state.copyWith(batteryLevel: actualBatteryLevel.toInt());
-        _checkBatteryWarning();
-      },
-    );
-    Timer outsideTemperatureTimer =
-        Timer.periodic(const Duration(milliseconds: 300), (timer) {
-      actualOutsideTemp = actualOutsideTemp + 0.5;
-
-      if (actualOutsideTemp > outsideTemp) {
-        actualOutsideTemp = outsideTemp;
-
-        timer.cancel();
-      }
-      state = state.copyWith(outsideTemperature: actualOutsideTemp);
-    });
-    Timer insideTemperatureTimer =
-        Timer.periodic(const Duration(milliseconds: 300), (timer) {
-      actualInsideTemp = actualInsideTemp + 0.5;
-
-      if (actualInsideTemp > insideTemp) {
-        actualInsideTemp = insideTemp;
-
-        timer.cancel();
-      }
-      state = state.copyWith(insideTemperature: actualInsideTemp);
-    });
-    Timer rangeTimer =
-        Timer.periodic(const Duration(milliseconds: 300), (timer) {
-      actualRange = actualRange + 5;
-
-      if (actualRange > range) {
-        actualRange = range;
-
-        timer.cancel();
-      }
-      state = state.copyWith(range: actualRange);
-    });
-    Timer psiTimer =
-        Timer.periodic(const Duration(milliseconds: 1200), (timer) {
-      actualPsi = actualPsi + 5;
-
-      if (actualPsi > psi) {
-        actualPsi = psi;
-
-        timer.cancel();
-      }
-      state = state.copyWith(
-        frontLeftTire: actualPsi,
-        rearLeftTire: actualPsi,
-        frontRightTire: actualPsi,
-        rearRightTire: actualPsi,
-      );
-    });
   }
 }

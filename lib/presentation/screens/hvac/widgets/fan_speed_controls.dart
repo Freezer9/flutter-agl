@@ -69,7 +69,8 @@ class FanSpeedControlsState extends ConsumerState<FanSpeedControls>
 
     double iconSize = 80;
 
-    int selectedFanSpeed = ref.watch(vehicleProvider.select((vehicle) => vehicle.fanSpeed));
+    int selectedFanSpeed =
+        ref.watch(vehicleProvider.select((vehicle) => vehicle.fanSpeed));
     controlProgress = selectedFanSpeed * 0.3;
 
     return Stack(
@@ -171,10 +172,8 @@ class FanSpeedControlsState extends ConsumerState<FanSpeedControls>
                           .updateFanSpeed(controlProgress ~/ 0.3);
                     });
                   },
-                  onTapDown: (details) {
-                  },
-                  onTapUp: (details) {
-                  },
+                  onTapDown: (details) {},
+                  onTapUp: (details) {},
                   child: Container(
                       width: size,
                       height: size,
@@ -193,8 +192,7 @@ class FanSpeedControlsState extends ConsumerState<FanSpeedControls>
                                   controllers: [_controller],
                                   onInit: (_) => setState(() {
                                         _controller.isActive = true;
-                                      }))))
-                  ),
+                                      }))))),
             ),
           ),
         ))

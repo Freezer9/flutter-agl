@@ -5,11 +5,11 @@ import '../../../../../../../data/models/voice_assistant_state.dart';
 class STTModelPage extends ConsumerWidget {
   const STTModelPage({super.key});
 
-  static Page<void> page() =>
-      const MaterialPage<void>(child: STTModelPage());
+  static Page<void> page() => const MaterialPage<void>(child: STTModelPage());
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final SttModel sttModel = ref.watch(voiceAssistantStateProvider.select((value) => value.sttModel));
+    final SttModel sttModel = ref
+        .watch(voiceAssistantStateProvider.select((value) => value.sttModel));
 
     return Scaffold(
       body: Column(
@@ -18,7 +18,9 @@ class STTModelPage extends ConsumerWidget {
             title: 'Speech to Text Model',
             hasBackButton: true,
             onPressed: () {
-              context.flow<AppState>().update((state) => AppState.voiceAssistant);
+              context
+                  .flow<AppState>()
+                  .update((state) => AppState.voiceAssistant);
             },
           ),
           Expanded(
@@ -37,10 +39,10 @@ class STTModelPage extends ConsumerWidget {
                               : [0.1, 1],
                           colors: sttModel == SttModel.whisper
                               ? <Color>[
-                            Colors.white,
-                            Colors.blue,
-                            const Color.fromARGB(16, 41, 98, 255)
-                          ]
+                                  Colors.white,
+                                  Colors.blue,
+                                  const Color.fromARGB(16, 41, 98, 255)
+                                ]
                               : <Color>[Colors.black, Colors.black12]),
                     ),
                     child: ListTile(
@@ -53,10 +55,10 @@ class STTModelPage extends ConsumerWidget {
                         ),
                         trailing: sttModel == SttModel.whisper
                             ? const Icon(
-                          Icons.done,
-                          color: AGLDemoColors.periwinkleColor,
-                          size: 48,
-                        )
+                                Icons.done,
+                                color: AGLDemoColors.periwinkleColor,
+                                size: 48,
+                              )
                             : null,
                         onTap: () {
                           ref
@@ -78,10 +80,10 @@ class STTModelPage extends ConsumerWidget {
                               : [0.1, 1],
                           colors: sttModel == SttModel.vosk
                               ? <Color>[
-                            Colors.white,
-                            Colors.blue,
-                            const Color.fromARGB(16, 41, 98, 255)
-                          ]
+                                  Colors.white,
+                                  Colors.blue,
+                                  const Color.fromARGB(16, 41, 98, 255)
+                                ]
                               : <Color>[Colors.black, Colors.black12]),
                     ),
                     child: ListTile(
@@ -96,10 +98,10 @@ class STTModelPage extends ConsumerWidget {
                       //enabled: isSwitchOn,
                       trailing: sttModel == SttModel.vosk
                           ? const Icon(
-                        Icons.done,
-                        color: AGLDemoColors.periwinkleColor,
-                        size: 48,
-                      )
+                              Icons.done,
+                              color: AGLDemoColors.periwinkleColor,
+                              size: 48,
+                            )
                           : null,
 
                       onTap: () {

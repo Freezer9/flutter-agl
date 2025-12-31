@@ -6,7 +6,11 @@ class AppLauncherInfo {
   final String icon;
   final bool internal;
 
-  AppLauncherInfo({required this.id, required this.name, required this.icon, required this.internal});
+  AppLauncherInfo(
+      {required this.id,
+      required this.name,
+      required this.icon,
+      required this.internal});
 }
 
 class AppLauncherList extends Notifier<List<AppLauncherInfo>> {
