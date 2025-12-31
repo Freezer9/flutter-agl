@@ -104,6 +104,7 @@ class LeftCarStatus extends ConsumerWidget {
           innerTemperature: vehicle.frontLeftInnerTemperature,
           surfaceTemperature: vehicle.frontLeftSurfaceTemperature,
           tirePressure: vehicle.frontLeftTire,
+          tireWear: vehicle.frontLeftTireWear,
           leftOrRight: "left",
         ),
         WheelStatus(
@@ -112,6 +113,7 @@ class LeftCarStatus extends ConsumerWidget {
           innerTemperature: vehicle.rearLeftInnerTemperature,
           surfaceTemperature: vehicle.rearLeftSurfaceTemperature,
           tirePressure: vehicle.rearLeftTire,
+          tireWear: vehicle.rearLeftTireWear,
           leftOrRight: "left",
           frontOrRear: "rear",
         ),
@@ -139,6 +141,7 @@ class RightCarStatus extends ConsumerWidget {
           innerTemperature: vehicle.frontRightInnerTemperature,
           surfaceTemperature: vehicle.frontRightSurfaceTemperature,
           tirePressure: vehicle.frontRightTire,
+          tireWear: vehicle.frontRightTireWear,
           leftOrRight: "right",
         ),
         WheelStatus(
@@ -147,6 +150,7 @@ class RightCarStatus extends ConsumerWidget {
           innerTemperature: vehicle.rearRightInnerTemperature,
           surfaceTemperature: vehicle.rearRightSurfaceTemperature,
           tirePressure: vehicle.rearRightTire,
+          tireWear: vehicle.rearRightTireWear,
           leftOrRight: "right",
           frontOrRear: "rear",
         ),

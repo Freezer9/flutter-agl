@@ -48,27 +48,30 @@ class GearIndicator extends ConsumerWidget {
                   width: 2,
                 ),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'DRS',
-                    style: TextStyle(
-                      color: drsMode ? Colors.greenAccent : Colors.white70,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+              child: SizedBox(
+                width: 100,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'DRS',
+                      style: TextStyle(
+                        color: drsMode ? Colors.greenAccent : Colors.white70,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    drsMode ? 'ACTIVE' : 'INACTIVE',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: drsMode ? Colors.greenAccent : Colors.red,
-                      fontWeight: FontWeight.bold,
+                    const SizedBox(height: 4),
+                    Text(
+                      drsMode ? 'ACTIVE' : 'INACTIVE',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: drsMode ? Colors.greenAccent : Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             _PedalIndicator(
@@ -242,13 +245,13 @@ class _RevLightsIndicator extends StatelessWidget {
 String _ersLabel(int mode) {
   switch (mode) {
     case 1:
-      return 'Medium';
+      return 'MEDIUM';
     case 2:
-      return 'Hotlap';
+      return 'HOTLAP';
     case 3:
-      return 'Overtake';
+      return 'OVERTAKE';
     default:
-      return 'None';
+      return 'NONE';
   }
 }
 

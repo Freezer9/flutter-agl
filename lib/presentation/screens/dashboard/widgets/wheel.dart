@@ -14,8 +14,8 @@ class WheelStatus extends StatelessWidget {
     super.key,
     required this.angle,
     required this.tirePressure,
-    this.tireWear = 0,
     required this.innerTemperature,
+    required this.tireWear,
     required this.surfaceTemperature,
     required this.brakeTemperature,
     required this.leftOrRight,
@@ -52,7 +52,7 @@ class WheelStatus extends StatelessWidget {
 
     Color colorForBrake(int v) {
       if (v < 500) return Colors.greenAccent;
-      if (v < 700) return Colors.orangeAccent;
+      if (v < 1000) return Colors.orangeAccent;
       return Colors.redAccent;
     }
 
