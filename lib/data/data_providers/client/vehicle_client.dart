@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter_ics_homescreen/export.dart';
-import 'package:protos/vehicle_api.dart';
 
 class VehicleClient {
   final Ref ref;
@@ -44,10 +43,6 @@ class VehicleClient {
     } catch (e) {
       debugPrint('Error handling vehicle telemetry data: $e');
     }
-  }
-
-  Uint8List serializeTelemetry(CarTelemetry telemetry) {
-    return Uint8List.fromList(telemetry.writeToBuffer());
   }
 
   void dispose() {

@@ -13,49 +13,27 @@ class VehicleNotifier extends Notifier<Vehicle> {
 
   void updateFromProtobuf(Uint8List data) {
     try {
-      final telemetry = CarTelemetry.fromBuffer(data);
+      final telemetry = SimulatorTelemetry.fromBuffer(data);
       _applyTelemetryToState(telemetry);
     } catch (e) {
       debugPrint('Error parsing vehicle telemetry protobuf: $e');
     }
   }
 
-  void updateFromTelemetry(CarTelemetry telemetry) {
-    _applyTelemetryToState(telemetry);
-  }
-
-  void _applyTelemetryToState(CarTelemetry telemetry) {
+  void _applyTelemetryToState(SimulatorTelemetry telemetry) {
     state = state.copyWith(
       speed: telemetry.hasSpeed() ? telemetry.speed : state.speed,
-      throttle: telemetry.hasThrottle() ? telemetry.throttle : state.throttle,
-      brake: telemetry.hasBrake() ? telemetry.brake : state.brake,
-      gear: telemetry.hasGear() ? telemetry.gear : state.gear,
-      engineSpeed: telemetry.hasEngineRpm()
-          ? telemetry.engineRpm.toInt()
-          : state.engineSpeed,
-      frontLeftTire: telemetry.hasFrontLeftTyrePressure()
-          ? telemetry.frontLeftTyrePressure.toInt()
-          : state.frontLeftTire,
-      frontRightTire: telemetry.hasFrontRightTyrePressure()
-          ? telemetry.frontRightTyrePressure.toInt()
-          : state.frontRightTire,
-      rearLeftTire: telemetry.hasRearLeftTyrePressure()
-          ? telemetry.rearLeftTyrePressure.toInt()
-          : state.rearLeftTire,
-      rearRightTire: telemetry.hasRearRightTyrePressure()
-          ? telemetry.rearRightTyrePressure.toInt()
-          : state.rearRightTire,
-      frontLeftAngle: telemetry.hasFrontLeftWheelAngle()
-          ? telemetry.frontLeftWheelAngle
+      frontLeftAngle: telemetry.hasFrontLeftAngle()
+          ? telemetry.frontLeftAngle
           : state.frontLeftAngle,
-      frontRightAngle: telemetry.hasFrontRightWheelAngle()
-          ? telemetry.frontRightWheelAngle
+      frontRightAngle: telemetry.hasFrontRightAngle()
+          ? telemetry.frontRightAngle
           : state.frontRightAngle,
-      rearLeftAngle: telemetry.hasRearLeftWheelAngle()
-          ? telemetry.rearLeftWheelAngle
+      rearLeftAngle: telemetry.hasRearLeftAngle()
+          ? telemetry.rearLeftAngle
           : state.rearLeftAngle,
-      rearRightAngle: telemetry.hasRearRightWheelAngle()
-          ? telemetry.rearRightWheelAngle
+      rearRightAngle: telemetry.hasRearRightAngle()
+          ? telemetry.rearRightAngle
           : state.rearRightAngle,
     );
   }
