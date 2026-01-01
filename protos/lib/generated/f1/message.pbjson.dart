@@ -42,7 +42,7 @@ const VehicleMessage$json = {
       '3': 3,
       '4': 1,
       '5': 11,
-      '6': '.f1.CarDamageData',
+      '6': '.f1.CarDamage',
       '9': 0,
       '10': 'damage'
     },
@@ -55,5 +55,5 @@ const VehicleMessage$json = {
 /// Descriptor for `VehicleMessage`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List vehicleMessageDescriptor = $convert.base64Decode(
     'Cg5WZWhpY2xlTWVzc2FnZRIwCgl0ZWxlbWV0cnkYASABKAsyEC5mMS5DYXJUZWxlbWV0cnlIAF'
-    'IJdGVsZW1ldHJ5EicKBnN0YXR1cxgCIAEoCzINLmYxLkNhclN0YXR1c0gAUgZzdGF0dXMSKwoG'
-    'ZGFtYWdlGAMgASgLMhEuZjEuQ2FyRGFtYWdlRGF0YUgAUgZkYW1hZ2VCCQoHcGF5bG9hZA==');
+    'IJdGVsZW1ldHJ5EicKBnN0YXR1cxgCIAEoCzINLmYxLkNhclN0YXR1c0gAUgZzdGF0dXMSJwoG'
+    'ZGFtYWdlGAMgASgLMg0uZjEuQ2FyRGFtYWdlSABSBmRhbWFnZUIJCgdwYXlsb2Fk');

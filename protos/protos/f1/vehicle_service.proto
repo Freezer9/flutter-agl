@@ -1,0 +1,15 @@
+syntax = "proto3";
+package f1;
+
+option go_package = "/f1";
+
+import "f1/message.proto";
+
+// Vehicle Service Definition
+service VehicleService {
+  // Subscribe to vehicle messages stream
+  rpc Subscribe (SubscribeRequest) returns (stream VehicleMessage);
+}
+
+// Subscribe Request Message
+message SubscribeRequest {}

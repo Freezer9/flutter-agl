@@ -15,9 +15,9 @@ import 'dart:convert' as $convert;
 import 'dart:core' as $core;
 import 'dart:typed_data' as $typed_data;
 
-@$core.Deprecated('Use carDamageDataDescriptor instead')
-const CarDamageData$json = {
-  '1': 'CarDamageData',
+@$core.Deprecated('Use carDamageDescriptor instead')
+const CarDamage$json = {
+  '1': 'CarDamage',
   '2': [
     {'1': 'tyres_wear', '3': 1, '4': 3, '5': 2, '10': 'tyresWear'},
     {'1': 'tyres_damage', '3': 2, '4': 3, '5': 13, '10': 'tyresDamage'},
@@ -55,20 +55,20 @@ const CarDamageData$json = {
   ],
 };
 
-/// Descriptor for `CarDamageData`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List carDamageDataDescriptor = $convert.base64Decode(
-    'Cg1DYXJEYW1hZ2VEYXRhEh0KCnR5cmVzX3dlYXIYASADKAJSCXR5cmVzV2VhchIhCgx0eXJlc1'
-    '9kYW1hZ2UYAiADKA1SC3R5cmVzRGFtYWdlEiMKDWJyYWtlc19kYW1hZ2UYAyADKA1SDGJyYWtl'
-    'c0RhbWFnZRIzChZmcm9udF9sZWZ0X3dpbmdfZGFtYWdlGAQgASgNUhNmcm9udExlZnRXaW5nRG'
-    'FtYWdlEjUKF2Zyb250X3JpZ2h0X3dpbmdfZGFtYWdlGAUgASgNUhRmcm9udFJpZ2h0V2luZ0Rh'
-    'bWFnZRIoChByZWFyX3dpbmdfZGFtYWdlGAYgASgNUg5yZWFyV2luZ0RhbWFnZRIhCgxmbG9vcl'
-    '9kYW1hZ2UYByABKA1SC2Zsb29yRGFtYWdlEicKD2RpZmZ1c2VyX2RhbWFnZRgIIAEoDVIOZGlm'
-    'ZnVzZXJEYW1hZ2USJQoOc2lkZXBvZF9kYW1hZ2UYCSABKA1SDXNpZGVwb2REYW1hZ2USGwoJZH'
-    'JzX2ZhdWx0GAogASgNUghkcnNGYXVsdBIbCgllcnNfZmF1bHQYCyABKA1SCGVyc0ZhdWx0EiYK'
-    'D2dlYXJfYm94X2RhbWFnZRgMIAEoDVINZ2VhckJveERhbWFnZRIjCg1lbmdpbmVfZGFtYWdlGA'
-    '0gASgNUgxlbmdpbmVEYW1hZ2USKAoQZW5naW5lX21ndWhfd2VhchgOIAEoDVIOZW5naW5lTWd1'
-    'aFdlYXISJAoOZW5naW5lX2VzX3dlYXIYDyABKA1SDGVuZ2luZUVzV2VhchIkCg5lbmdpbmVfY2'
-    'Vfd2VhchgQIAEoDVIMZW5naW5lQ2VXZWFyEiYKD2VuZ2luZV9pY2Vfd2VhchgRIAEoDVINZW5n'
-    'aW5lSWNlV2VhchIoChBlbmdpbmVfbWd1a193ZWFyGBIgASgNUg5lbmdpbmVNZ3VrV2VhchIkCg'
-    '5lbmdpbmVfdGNfd2VhchgTIAEoDVIMZW5naW5lVGNXZWFyEiEKDGVuZ2luZV9ibG93bhgUIAEo'
-    'DVILZW5naW5lQmxvd24SIwoNZW5naW5lX3NlaXplZBgVIAEoDVIMZW5naW5lU2VpemVk');
+/// Descriptor for `CarDamage`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List carDamageDescriptor = $convert.base64Decode(
+    'CglDYXJEYW1hZ2USHQoKdHlyZXNfd2VhchgBIAMoAlIJdHlyZXNXZWFyEiEKDHR5cmVzX2RhbW'
+    'FnZRgCIAMoDVILdHlyZXNEYW1hZ2USIwoNYnJha2VzX2RhbWFnZRgDIAMoDVIMYnJha2VzRGFt'
+    'YWdlEjMKFmZyb250X2xlZnRfd2luZ19kYW1hZ2UYBCABKA1SE2Zyb250TGVmdFdpbmdEYW1hZ2'
+    'USNQoXZnJvbnRfcmlnaHRfd2luZ19kYW1hZ2UYBSABKA1SFGZyb250UmlnaHRXaW5nRGFtYWdl'
+    'EigKEHJlYXJfd2luZ19kYW1hZ2UYBiABKA1SDnJlYXJXaW5nRGFtYWdlEiEKDGZsb29yX2RhbW'
+    'FnZRgHIAEoDVILZmxvb3JEYW1hZ2USJwoPZGlmZnVzZXJfZGFtYWdlGAggASgNUg5kaWZmdXNl'
+    'ckRhbWFnZRIlCg5zaWRlcG9kX2RhbWFnZRgJIAEoDVINc2lkZXBvZERhbWFnZRIbCglkcnNfZm'
+    'F1bHQYCiABKA1SCGRyc0ZhdWx0EhsKCWVyc19mYXVsdBgLIAEoDVIIZXJzRmF1bHQSJgoPZ2Vh'
+    'cl9ib3hfZGFtYWdlGAwgASgNUg1nZWFyQm94RGFtYWdlEiMKDWVuZ2luZV9kYW1hZ2UYDSABKA'
+    '1SDGVuZ2luZURhbWFnZRIoChBlbmdpbmVfbWd1aF93ZWFyGA4gASgNUg5lbmdpbmVNZ3VoV2Vh'
+    'chIkCg5lbmdpbmVfZXNfd2VhchgPIAEoDVIMZW5naW5lRXNXZWFyEiQKDmVuZ2luZV9jZV93ZW'
+    'FyGBAgASgNUgxlbmdpbmVDZVdlYXISJgoPZW5naW5lX2ljZV93ZWFyGBEgASgNUg1lbmdpbmVJ'
+    'Y2VXZWFyEigKEGVuZ2luZV9tZ3VrX3dlYXIYEiABKA1SDmVuZ2luZU1ndWtXZWFyEiQKDmVuZ2'
+    'luZV90Y193ZWFyGBMgASgNUgxlbmdpbmVUY1dlYXISIQoMZW5naW5lX2Jsb3duGBQgASgNUgtl'
+    'bmdpbmVCbG93bhIjCg1lbmdpbmVfc2VpemVkGBUgASgNUgxlbmdpbmVTZWl6ZWQ=');

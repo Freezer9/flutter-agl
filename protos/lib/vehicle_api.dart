@@ -12,3 +12,9 @@ export 'generated/f1/car_damage.pbjson.dart';
 export 'generated/f1/message.pb.dart';
 export 'generated/f1/message.pbenum.dart';
 export 'generated/f1/message.pbjson.dart';
+export 'generated/f1/vehicle_service.pb.dart';
+export 'generated/f1/vehicle_service.pbenum.dart';
+export 'generated/f1/vehicle_service.pbjson.dart';
+export 'generated/f1/vehicle_service.pbgrpc.dart';
+
+export 'package:grpc/grpc.dart';

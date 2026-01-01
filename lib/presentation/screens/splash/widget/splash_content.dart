@@ -66,7 +66,7 @@ class SplashContentState extends ConsumerState<SplashContent>
 
   @override
   void didChangeDependencies() {
-    ref.read(vehicleClientProvider).startDataListener();
+    ref.read(vehicleClientProvider).subscribe();
     ref.read(radioClientProvider).run();
     ref.read(mpdClientProvider).run();
     super.didChangeDependencies();

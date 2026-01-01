@@ -15,3 +15,4 @@ dependencies:
 dev_dependencies:
   lints: ^4.0.0
   test: ^1.25.8
+  protoc_plugin: ^24.0.0

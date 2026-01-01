@@ -1,5 +1,7 @@
 # Flutter ICS Homescreen - Quick Reference for AGL BitBake
 
+This AGL using trout branch
+
 ## 📁 Folder Structure for Recipe
 
 ```
@@ -18,8 +20,8 @@ meta-flutter-ics-homescreen/
 mkdir -p ~/agl && cd ~/agl
 repo init -b trout -u https://gerrit.automotivelinux.org/gerrit/AGL/AGL-repo
 repo sync
-source meta-agl/scripts/aglsetup.sh -m qemux86-64 -b build agl-demo agl-devel
-source meta-agl/scripts/aglsetup.sh -m raspberrypi4-64  -b build-rpi4 agl-demo agl-devel
+source meta-agl/scripts/aglsetup.sh -m qemux86-64 -b build agl-demo agl-devel               # for Virtual Machine
+source meta-agl/scripts/aglsetup.sh -m raspberrypi4-64  -b build-rpi4 agl-demo agl-devel    # for Raspberry Pi 4
 ```
 
 ### Step 2: Check bitbake-layers
@@ -48,7 +50,7 @@ nano flutter-ics-homescreen_git.bbappend
 ```
 # Use custom Flutter app
 inherit externalsrc
-EXTERNALSRC = "/home/freeze/AGL/trout/my-flutter-app"
+EXTERNALSRC = "/home/{yourusername}/AGL/trout/my-flutter-app"
 EXTERNALSRC_BUILD = "${WORKDIR}/build"
 
 # Remove git source, keep config files

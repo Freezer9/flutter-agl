@@ -11,10 +11,8 @@ class VehicleNotifier extends Notifier<Vehicle> {
     state = state.copyWith(speed: newValue);
   }
 
-  void updateFromProtobuf(Uint8List data) {
+  void updateFromMessage(proto.VehicleMessage vehicleMsg) {
     try {
-      final vehicleMsg = proto.VehicleMessage.fromBuffer(data);
-
       switch (vehicleMsg.whichPayload()) {
         case proto.VehicleMessage_Payload.telemetry:
           _applyTelemetryToState(vehicleMsg.telemetry);
@@ -29,7 +27,7 @@ class VehicleNotifier extends Notifier<Vehicle> {
           debugPrint('Unknown or empty vehicle message');
       }
     } catch (e) {
-      debugPrint('Error parsing vehicle protobuf: $e');
+      debugPrint('Error parsing vehicle message: $e');
     }
   }
 
@@ -119,7 +117,7 @@ class VehicleNotifier extends Notifier<Vehicle> {
     );
   }
 
-  void _applyDamageToState(proto.CarDamageData damage) {
+  void _applyDamageToState(proto.CarDamage damage) {
     state = state.copyWith(
       frontLeftTireWear: damage.tyresWear.length > 2
           ? damage.tyresWear[2].toInt()

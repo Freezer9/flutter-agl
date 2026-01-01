@@ -4,50 +4,52 @@ import 'package:protos/vehicle_api.dart';
 
 class VehicleClient {
   final Ref ref;
-  RawDatagramSocket? _socket;
+  ClientChannel? _channel;
   StreamSubscription? _subscription;
-
-  static const int headerByte = 0xCA;
 
   VehicleClient(this.ref);
 
-  Future<void> startDataListener({
-    String address = '0.0.0.0',
+  Future<void> subscribe({
+    String address = 'localhost',
     int port = 20778,
   }) async {
     try {
-      _socket = await RawDatagramSocket.bind(address, port);
-      debugPrint('Vehicle data listener started on $address:$port');
+      _channel = ClientChannel(
+        address,
+        port: port,
+        options:
+            const ChannelOptions(credentials: ChannelCredentials.insecure()),
+      );
+      final client = VehicleServiceClient(_channel!);
+      final stream = client.subscribe(SubscribeRequest());
 
-      _subscription = _socket!.listen((event) {
-        if (event == RawSocketEvent.read) {
-          final datagram = _socket!.receive();
-          if (datagram != null) {
-            _handleIncomingData(datagram.data);
-          }
-        }
-      });
+      _subscription = stream.listen(
+        _handleIncomingData,
+        onError: (error) {
+          debugPrint('Error in vehicle data stream: $error');
+        },
+        onDone: () {
+          debugPrint('Vehicle data stream closed');
+        },
+      );
+
+      debugPrint('Vehicle data subscription started on $address:$port');
     } catch (e) {
-      debugPrint('Error starting vehicle data listener: $e');
+      debugPrint('Error starting vehicle data subscription: $e');
     }
   }
 
-  void _handleIncomingData(Uint8List data) {
+  void _handleIncomingData(VehicleMessage msg) {
     try {
       final notifier = ref.read(vehicleProvider.notifier);
-
-      notifier.updateFromProtobuf(data);
+      notifier.updateFromMessage(msg);
     } catch (e) {
-      debugPrint('Error handling vehicle telemetry data: $e');
+      debugPrint('Error handling vehicle message: $e');
     }
-  }
-
-  Uint8List serializeTelemetry(CarTelemetry telemetry) {
-    return Uint8List.fromList(telemetry.writeToBuffer());
   }
 
   void dispose() {
     _subscription?.cancel();
-    _socket?.close();
+    _channel?.shutdown();
   }
 }

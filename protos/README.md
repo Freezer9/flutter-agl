@@ -19,8 +19,19 @@ cd protos
 
 protoc \
   --proto_path=protos \
-  --cpp_out=lib/generated \
-  --go_out=lib/generated \
-  --dart_out=lib/generated \
+  --cpp_out=lib/generated \ # Optional: If you need C++ output
+  --go_out=lib/generated \ # Optional: If you need Go output
+  --dart_out=grpc:lib/generated \ # Dart output with gRPC support
+  protos/f1/*.proto
+```
+
+### Command for Generating gRPC Go Service files
+
+```bash
+cd protos
+protoc \
+  --proto_path=protos \
+  --go_out=../server 
+  --go-grpc_out=../server \
   protos/f1/*.proto
 ```

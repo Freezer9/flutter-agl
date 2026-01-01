@@ -27,7 +27,7 @@ class VehicleMessage extends $pb.GeneratedMessage {
   factory VehicleMessage({
     $0.CarTelemetry? telemetry,
     $1.CarStatus? status,
-    $2.CarDamageData? damage,
+    $2.CarDamage? damage,
   }) {
     final result = create();
     if (telemetry != null) result.telemetry = telemetry;
@@ -61,8 +61,8 @@ class VehicleMessage extends $pb.GeneratedMessage {
         subBuilder: $0.CarTelemetry.create)
     ..aOM<$1.CarStatus>(2, _omitFieldNames ? '' : 'status',
         subBuilder: $1.CarStatus.create)
-    ..aOM<$2.CarDamageData>(3, _omitFieldNames ? '' : 'damage',
-        subBuilder: $2.CarDamageData.create)
+    ..aOM<$2.CarDamage>(3, _omitFieldNames ? '' : 'damage',
+        subBuilder: $2.CarDamage.create)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -117,15 +117,15 @@ class VehicleMessage extends $pb.GeneratedMessage {
   $1.CarStatus ensureStatus() => $_ensure(1);
 
   @$pb.TagNumber(3)
-  $2.CarDamageData get damage => $_getN(2);
+  $2.CarDamage get damage => $_getN(2);
   @$pb.TagNumber(3)
-  set damage($2.CarDamageData value) => $_setField(3, value);
+  set damage($2.CarDamage value) => $_setField(3, value);
   @$pb.TagNumber(3)
   $core.bool hasDamage() => $_has(2);
   @$pb.TagNumber(3)
   void clearDamage() => $_clearField(3);
   @$pb.TagNumber(3)
-  $2.CarDamageData ensureDamage() => $_ensure(2);
+  $2.CarDamage ensureDamage() => $_ensure(2);
 }
 
 const $core.bool _omitFieldNames =

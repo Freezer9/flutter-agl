@@ -17,8 +17,8 @@ import 'package:protobuf/protobuf.dart' as $pb;
 export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 /// Protocol Buffers - F1 Car Damage Data
-class CarDamageData extends $pb.GeneratedMessage {
-  factory CarDamageData({
+class CarDamage extends $pb.GeneratedMessage {
+  factory CarDamage({
     $core.Iterable<$core.double>? tyresWear,
     $core.Iterable<$core.int>? tyresDamage,
     $core.Iterable<$core.int>? brakesDamage,
@@ -68,17 +68,17 @@ class CarDamageData extends $pb.GeneratedMessage {
     return result;
   }
 
-  CarDamageData._();
+  CarDamage._();
 
-  factory CarDamageData.fromBuffer($core.List<$core.int> data,
+  factory CarDamage.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(data, registry);
-  factory CarDamageData.fromJson($core.String json,
+  factory CarDamage.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'CarDamageData',
+      _omitMessageNames ? '' : 'CarDamage',
       package: const $pb.PackageName(_omitMessageNames ? '' : 'f1'),
       createEmptyInstance: create)
     ..p<$core.double>(1, _omitFieldNames ? '' : 'tyresWear', $pb.PbFieldType.KF)
@@ -122,23 +122,22 @@ class CarDamageData extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  CarDamageData clone() => deepCopy();
+  CarDamage clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  CarDamageData copyWith(void Function(CarDamageData) updates) =>
-      super.copyWith((message) => updates(message as CarDamageData))
-          as CarDamageData;
+  CarDamage copyWith(void Function(CarDamage) updates) =>
+      super.copyWith((message) => updates(message as CarDamage)) as CarDamage;
 
   @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static CarDamageData create() => CarDamageData._();
+  static CarDamage create() => CarDamage._();
   @$core.override
-  CarDamageData createEmptyInstance() => create();
+  CarDamage createEmptyInstance() => create();
   @$core.pragma('dart2js:noInline')
-  static CarDamageData getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<CarDamageData>(create);
-  static CarDamageData? _defaultInstance;
+  static CarDamage getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CarDamage>(create);
+  static CarDamage? _defaultInstance;
 
   @$pb.TagNumber(1)
   $pb.PbList<$core.double> get tyresWear => $_getList(0);
