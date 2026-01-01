@@ -1,28 +1,27 @@
 import 'package:flutter_ics_homescreen/data/data_providers/setup/initialize_vehicle.dart';
 
 import 'export.dart';
-import 'package:window_manager/window_manager.dart';
 import 'data/data_providers/setup/initialize_settings.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
-    await windowManager.ensureInitialized();
+  // if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
+  //   await windowManager.ensureInitialized();
 
-    WindowOptions windowOptions = const WindowOptions(
-      size: Size(540, 960), // Half of 1080x1920
-      center: true,
-      backgroundColor: Colors.transparent,
-      skipTaskbar: false,
-      titleBarStyle: TitleBarStyle.normal,
-    );
+  //   WindowOptions windowOptions = const WindowOptions(
+  //     size: Size(540, 960), // Half of 1080x1920
+  //     center: true,
+  //     backgroundColor: Colors.transparent,
+  //     skipTaskbar: false,
+  //     titleBarStyle: TitleBarStyle.normal,
+  //   );
 
-    windowManager.waitUntilReadyToShow(windowOptions, () async {
-      await windowManager.show();
-      await windowManager.focus();
-    });
-  }
+  //   windowManager.waitUntilReadyToShow(windowOptions, () async {
+  //     await windowManager.show();
+  //     await windowManager.focus();
+  //   });
+  // }
 
   // Initialize settings from storage API.
   final container = ProviderContainer();
@@ -33,7 +32,7 @@ void main() async {
     ProviderScope(
       // ignore: deprecated_member_use
       parent: container,
-      child: const ScaledApp(),
+      child: const App(),
     ),
   );
 }
