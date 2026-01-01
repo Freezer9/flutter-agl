@@ -21,6 +21,14 @@ class DasboardPage extends ConsumerWidget {
       }
     });
 
+    ref.listen<Vehicle>(vehicleProvider, (prev, next) {
+      if (prev?.batteryLevel != next.batteryLevel) {
+        ref
+            .read(batteryNotifierProvider.notifier)
+            .checkBatteryLevel(next.batteryLevel);
+      }
+    });
+
     return Stack(
       children: [
         Padding(

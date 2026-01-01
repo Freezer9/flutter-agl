@@ -36,8 +36,8 @@ class VehicleNotifier extends Notifier<Vehicle> {
   void _applyTelemetryToState(proto.CarTelemetry telemetry) {
     state = state.copyWith(
       speed: telemetry.hasSpeed() ? telemetry.speed.toDouble() : state.speed,
-      throttle: telemetry.hasThrottle() ? telemetry.throttle : state.throttle,
-      brake: telemetry.hasBrake() ? telemetry.brake : state.brake,
+      throttle: telemetry.throttle,
+      brake: telemetry.brake,
       gear: telemetry.hasGear() ? telemetry.gear : state.gear,
       revLights: telemetry.hasRevLightsBitValue()
           ? telemetry.revLightsPercent
@@ -74,33 +74,33 @@ class VehicleNotifier extends Notifier<Vehicle> {
           ? telemetry.brakesTemperature[1].toInt()
           : state.rearRightBrakeTemperature,
 
-      frontLeftInnerTemperature: telemetry.tyresSurfaceTemperature.length > 2
-          ? telemetry.tyresSurfaceTemperature[2].toInt()
+      frontLeftInnerTemperature: telemetry.tyresInnerTemperature.length > 2
+          ? telemetry.tyresInnerTemperature[2].toInt()
           : state.frontLeftInnerTemperature,
-      frontRightInnerTemperature: telemetry.tyresSurfaceTemperature.length > 3
-          ? telemetry.tyresSurfaceTemperature[3].toInt()
+      frontRightInnerTemperature: telemetry.tyresInnerTemperature.length > 3
+          ? telemetry.tyresInnerTemperature[3].toInt()
           : state.frontRightInnerTemperature,
-      rearLeftInnerTemperature: telemetry.tyresSurfaceTemperature.isNotEmpty
-          ? telemetry.tyresSurfaceTemperature[0].toInt()
+      rearLeftInnerTemperature: telemetry.tyresInnerTemperature.isNotEmpty
+          ? telemetry.tyresInnerTemperature[0].toInt()
           : state.rearLeftInnerTemperature,
-      rearRightInnerTemperature: telemetry.tyresSurfaceTemperature.length > 1
-          ? telemetry.tyresSurfaceTemperature[1].toInt()
+      rearRightInnerTemperature: telemetry.tyresInnerTemperature.length > 1
+          ? telemetry.tyresInnerTemperature[1].toInt()
           : state.rearRightInnerTemperature,
 
-      frontLeftSurfaceTemperature: telemetry.tyresInnerTemperature.length > 2
-          ? telemetry.tyresInnerTemperature[2].toInt()
+      frontLeftSurfaceTemperature: telemetry.tyresSurfaceTemperature.length > 2
+          ? telemetry.tyresSurfaceTemperature[2].toInt()
           : state.frontLeftSurfaceTemperature,
-      frontRightSurfaceTemperature: telemetry.tyresInnerTemperature.length > 3
-          ? telemetry.tyresInnerTemperature[3].toInt()
+      frontRightSurfaceTemperature: telemetry.tyresSurfaceTemperature.length > 3
+          ? telemetry.tyresSurfaceTemperature[3].toInt()
           : state.frontRightSurfaceTemperature,
-      rearLeftSurfaceTemperature: telemetry.tyresInnerTemperature.isNotEmpty
-          ? telemetry.tyresInnerTemperature[0].toInt()
+      rearLeftSurfaceTemperature: telemetry.tyresSurfaceTemperature.isNotEmpty
+          ? telemetry.tyresSurfaceTemperature[0].toInt()
           : state.rearLeftSurfaceTemperature,
-      rearRightSurfaceTemperature: telemetry.tyresInnerTemperature.length > 1
-          ? telemetry.tyresInnerTemperature[1].toInt()
+      rearRightSurfaceTemperature: telemetry.tyresSurfaceTemperature.length > 1
+          ? telemetry.tyresSurfaceTemperature[1].toInt()
           : state.rearRightSurfaceTemperature,
 
-      drsMode: telemetry.hasDrs() ? telemetry.drs == 1 : state.drsMode,
+      drsMode: telemetry.drs == 1 ? true : false,
     );
   }
 

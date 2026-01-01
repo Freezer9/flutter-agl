@@ -40,7 +40,7 @@ class WheelStatus extends StatelessWidget {
 
     Color colorForInner(int v) {
       if (v < 100) return Colors.greenAccent;
-      if (v < 120) return Colors.orangeAccent;
+      if (v < 130) return Colors.orangeAccent;
       return Colors.redAccent;
     }
 

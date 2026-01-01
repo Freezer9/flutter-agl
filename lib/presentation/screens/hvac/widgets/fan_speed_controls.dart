@@ -1,6 +1,5 @@
 import 'package:flutter_ics_homescreen/export.dart';
 import 'package:gradient_borders/gradient_borders.dart';
-import 'package:rive/rive.dart' as rive;
 
 class FanSpeedControls extends ConsumerStatefulWidget {
   const FanSpeedControls({super.key});
@@ -24,23 +23,16 @@ class FanSpeedControlsState extends ConsumerState<FanSpeedControls>
   late AnimationController animationController;
   double controlProgress = 0.0;
   int selectedFanSpeed = 0;
-  late rive.RiveAnimationController _controller;
+  late AnimationController _rotationController;
   bool isButtonHighlighted = false;
-
-  bool _isPlaying = false;
-
-  /// Tracks if the animation is playing by whether controller is running
-  bool get isPlaying => _controller.isActive;
 
   @override
   void initState() {
     super.initState();
-    _controller = rive.OneShotAnimation(
-      'Fan Spin',
-      autoplay: false,
-      onStop: () => setState(() => _isPlaying = false),
-      onStart: () => setState(() => _isPlaying = true),
-    );
+    _rotationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    )..repeat();
     animationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1),
@@ -56,6 +48,7 @@ class FanSpeedControlsState extends ConsumerState<FanSpeedControls>
 
   @override
   void dispose() {
+    _rotationController.dispose();
     animationController.dispose();
     super.dispose();
   }
@@ -158,12 +151,9 @@ class FanSpeedControlsState extends ConsumerState<FanSpeedControls>
                       if (controlProgress >= 0.80) {
                         controlProgress = 0.0;
                         isMainACSelected = false;
-                        _isPlaying = false;
                         animationController.reverse();
                       } else {
-                        _controller.isActive = true;
                         isMainACSelected = true;
-                        _isPlaying = true;
                         controlProgress += 0.30;
                         animationController.forward();
                       }
@@ -178,7 +168,7 @@ class FanSpeedControlsState extends ConsumerState<FanSpeedControls>
                       width: size,
                       height: size,
                       alignment: Alignment.center,
-                      child: !_isPlaying && controlProgress == 0.0
+                      child: controlProgress == 0.0
                           ? SvgPicture.asset(
                               "assets/ACMainButtonOff.svg",
                               width: iconSize,
@@ -187,12 +177,14 @@ class FanSpeedControlsState extends ConsumerState<FanSpeedControls>
                           : SizedBox(
                               width: iconSize,
                               height: iconSize,
-                              child: rive.RiveAnimation.asset(
-                                  'assets/new_file.riv',
-                                  controllers: [_controller],
-                                  onInit: (_) => setState(() {
-                                        _controller.isActive = true;
-                                      }))))),
+                              child: RotationTransition(
+                                turns: _rotationController,
+                                child: SvgPicture.asset(
+                                  "assets/ACMainButtonOff.svg",
+                                  width: iconSize,
+                                  height: iconSize,
+                                ),
+                              )))),
             ),
           ),
         ))
