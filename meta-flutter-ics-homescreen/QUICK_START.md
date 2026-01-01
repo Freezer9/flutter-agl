@@ -59,6 +59,9 @@ SRC_URI:remove = "git://gerrit.automotivelinux.org/gerrit/apps/flutter-ics-homes
 
 ```bash
 cd ~/agl/build
+
+source agl-init-build-env
+
 # Clean and rebuild flutter-ics-homescreen
 bitbake -c cleansstate flutter-ics-homescreen
 bitbake flutter-ics-homescreen
