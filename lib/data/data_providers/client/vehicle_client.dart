@@ -5,11 +5,11 @@ import 'package:protos/vehicle_api.dart';
 class VehicleClient {
   final Ref ref;
   ClientChannel? _channel;
-  StreamSubscription? _subscription;
+  ResponseStream<VehicleMessage>? _stream;
 
   VehicleClient(this.ref);
 
-  Future<void> subscribe({
+  Future<void> connect({
     String address = 'localhost',
     int port = 20778,
   }) async {
@@ -21,9 +21,9 @@ class VehicleClient {
             const ChannelOptions(credentials: ChannelCredentials.insecure()),
       );
       final client = VehicleServiceClient(_channel!);
-      final stream = client.subscribe(SubscribeRequest());
+      _stream = client.subscribe(SubscribeRequest());
 
-      _subscription = stream.listen(
+      _stream!.listen(
         _handleIncomingData,
         onError: (error) {
           debugPrint('Error in vehicle data stream: $error');
@@ -49,7 +49,7 @@ class VehicleClient {
   }
 
   void dispose() {
-    _subscription?.cancel();
+    _stream = null;
     _channel?.shutdown();
   }
 }
