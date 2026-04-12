@@ -1,8 +1,7 @@
 import 'package:flutter_ics_homescreen/export.dart';
 import 'package:protos/val_api.dart';
 
-import 'package:protos/storage-api.dart' as storage_api;
-import 'initialize_settings.dart';
+import 'package:protos/storage_api.dart' as storage_api;
 
 class UnitsNotifier extends Notifier<Units> {
   @override

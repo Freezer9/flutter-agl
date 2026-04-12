@@ -4,7 +4,6 @@ import 'package:flutter_ics_homescreen/data/data_providers/time_notifier.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/units_notifier.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/users_notifier.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/vehicle_notifier.dart';
-import 'package:flutter_ics_homescreen/data/data_providers/battery_notifier.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/audio_notifier.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/radio_notifier.dart';
 import 'package:flutter_ics_homescreen/data/data_providers/mediaplayer_notifier.dart';
@@ -113,11 +112,6 @@ final mpdClientProvider = Provider((ref) {
 
 final vehicleProvider = NotifierProvider<VehicleNotifier, Vehicle>(
   VehicleNotifier.new,
-);
-
-final batteryNotifierProvider =
-    NotifierProvider<BatteryNotifier, BatteryWarningLevel>(
-  BatteryNotifier.new,
 );
 
 final signalsProvider = StateNotifierProvider<SignalNotifier, Signals>((ref) {

@@ -15,11 +15,6 @@ class VehicleNotifier extends Notifier<Vehicle> {
     state = state.copyWith(speed: newValue);
   }
 
-  void _checkBatteryWarning() {
-    final batteryNotifier = ref.read(batteryNotifierProvider.notifier);
-    batteryNotifier.checkBatteryLevel(state.batteryLevel);
-  }
-
   bool handleSignalUpdate(DataEntry entry) {
     bool handled = true;
     switch (entry.path) {
@@ -46,10 +41,8 @@ class VehicleNotifier extends Notifier<Vehicle> {
       case VSSPath.vehicleBatteryLevel:
         if (entry.value.hasUint32()) {
           state = state.copyWith(batteryLevel: entry.value.uint32);
-          _checkBatteryWarning();
         } else if (entry.value.hasFloat()) {
           state = state.copyWith(batteryLevel: entry.value.float.toInt());
-          _checkBatteryWarning();
         }
       case VSSPath.vehicleEngineSpeed:
         if (entry.value.hasUint32()) {
@@ -279,7 +272,6 @@ class VehicleNotifier extends Notifier<Vehicle> {
           timer.cancel();
         }
         state = state.copyWith(batteryLevel: actualBatteryLevel.toInt());
-        _checkBatteryWarning();
       },
     );
     Timer outsideTemperatureTimer =

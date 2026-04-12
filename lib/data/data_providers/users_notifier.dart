@@ -4,17 +4,17 @@ import 'package:uuid/uuid.dart';
 
 import '../models/user.dart';
 
-import 'package:protos/storage-api.dart' as storage_api;
+import 'package:protos/storage_api.dart' as storage_api;
 import 'initialize_settings.dart';
 
 class UsersNotifier extends Notifier<Users> {
-  @override
   final List<User> _users = [
     const User(id: '1', name: 'Heather'),
     const User(id: '2', name: 'George'),
     const User(id: '3', name: 'Riley'),
   ];
 
+  @override
   Users build() {
     // Initialize default state.
     state = Users.initial();
